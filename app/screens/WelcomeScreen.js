@@ -3,9 +3,7 @@ import { Text, StyleSheet } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { View, Logo, Button } from "../components";
-
-import { useTogglePasswordVisibility } from "../hooks";
-import { auth, Colors, Images } from "../config";
+import { Colors, Images } from "../config";
 
 export const WelcomeScreen = ({ navigation }) => {
   return (
@@ -19,17 +17,23 @@ export const WelcomeScreen = ({ navigation }) => {
             </View>
             {/* Button to navigate to SignupScreen oe LoginScreen to create a new account */}
             <Button
-              style={styles.button}
+              style={styles.buttonSignIn}
               onPress={() => navigation.navigate("Login")}
             >
-              <Text style={styles.buttonText}>Sign In</Text>
+              <Text style={styles.buttonTextSignIn}>Sign In</Text>
             </Button>
             <Button
-              style={styles.button}
+              style={styles.buttonSignUp}
               onPress={() => navigation.navigate("Signup")}
             >
-              <Text style={styles.buttonText}>Sign Up</Text>
+              <Text style={styles.buttonTextSignUp}>Sign Up</Text>
             </Button>
+          </View>
+          {/* App info footer */}
+          <View style={styles.footer}>
+            <Text style={styles.footerText}>
+              Vitual closet App (help assist with your every style needs)
+            </Text>
           </View>
         </KeyboardAwareScrollView>
       </View>
@@ -41,7 +45,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-    paddingHorizontal: 30,
   },
   innerContainer: {
     marginTop: "40%",
@@ -50,8 +53,19 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingBottom: 18,
   },
-
-  button: {
+  footer: {
+    backgroundColor: Colors.white,
+    paddingHorizontal: 12,
+    paddingBottom: 48,
+    alignItems: "center",
+    marginTop: 220,
+  },
+  footerText: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: Colors.purple,
+  },
+  buttonSignIn: {
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
@@ -61,9 +75,27 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 25,
   },
-  buttonText: {
+  buttonSignUp: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 8,
+    marginBottom: 10,
+    backgroundColor: Colors.white,
+    padding: 10,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: Colors.purple,
+  },
+  buttonTextSignIn: {
     fontSize: 20,
     color: Colors.white,
+    fontWeight: "700",
+    textTransform: "uppercase",
+  },
+  buttonTextSignUp: {
+    fontSize: 20,
+    color: Colors.purple,
     fontWeight: "700",
     textTransform: "uppercase",
   },

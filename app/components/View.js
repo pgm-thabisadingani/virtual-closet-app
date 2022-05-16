@@ -7,7 +7,9 @@ export const View = ({ isSafe, style, children }) => {
 
   if (isSafe) {
     return (
-      <NativeView style={{ paddingTop: insets.top, ...style }}>
+      <NativeView
+        style={{ paddingHorizontal: 25, paddingTop: insets.top, ...style }}
+      >
         {children}
       </NativeView>
     );

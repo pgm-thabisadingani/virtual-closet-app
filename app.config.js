@@ -9,7 +9,7 @@ export default {
     platforms: ["ios", "android"],
     version: "0.15.0",
     orientation: "portrait",
-    icon: "./app/assets/flame.png",
+    icon: "./app/assets/Logo.png",
     splash: {
       image: "./app/assets/splash.png",
       resizeMode: "cover",

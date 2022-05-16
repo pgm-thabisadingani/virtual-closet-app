@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { View, TextInput, Logo, Button, FormErrorMessage } from "../components";
+import { View, TextInput, Button, FormErrorMessage, Icon } from "../components";
 
 import { useTogglePasswordVisibility } from "../hooks";
 import { loginValidationSchema } from "../utils";
@@ -27,8 +27,15 @@ export const LoginScreen = ({ navigation }) => {
         <KeyboardAwareScrollView enableOnAndroid={true}>
           {/* LogoContainer: consits app logo and screen title */}
           <View style={styles.logoContainer}>
-            <Logo uri={Images.logo} />
-            <Text style={styles.screenTitle}>Welcome back!</Text>
+            <Icon
+              onPress={() => navigation.navigate("Welcome")}
+              name="chevron-left"
+              size={40}
+              color={Colors.dark}
+              style={styles.Icon}
+            />
+            <Text style={styles.screenTitle}>Welcome</Text>
+            <Text style={styles.screenTitle}>back</Text>
           </View>
           <Formik
             initialValues={{
@@ -48,6 +55,7 @@ export const LoginScreen = ({ navigation }) => {
             }) => (
               <>
                 {/* Input fields */}
+                <Text>Email</Text>
                 <TextInput
                   name="email"
                   placeholder="janedoe@email.com"
@@ -63,9 +71,10 @@ export const LoginScreen = ({ navigation }) => {
                   error={errors.email}
                   visible={touched.email}
                 />
+                <Text>Password</Text>
                 <TextInput
                   name="password"
-                  placeholder="Enter password"
+                  placeholder="*************"
                   autoCapitalize="none"
                   autoCorrect={false}
                   secureTextEntry={passwordVisibility}
@@ -80,38 +89,33 @@ export const LoginScreen = ({ navigation }) => {
                   error={errors.password}
                   visible={touched.password}
                 />
-                {/* Display Screen Error Mesages */}
+                {/* Display Screen Error Messages */}
                 {errorState !== "" ? (
                   <FormErrorMessage error={errorState} visible={true} />
                 ) : null}
                 {/* Login button */}
                 <Button style={styles.button} onPress={handleSubmit}>
-                  <Text style={styles.buttonText}>Login</Text>
+                  <Text style={styles.buttonTextSignIn}>Login</Text>
                 </Button>
               </>
             )}
           </Formik>
           {/* Button to navigate to SignupScreen to create a new account */}
+          <Text style={styles.optionText}>Or</Text>
           <Button
-            style={styles.borderlessButtonContainer}
-            borderless
-            title={"Create a new account?"}
+            style={styles.buttonSignUp}
             onPress={() => navigation.navigate("Signup")}
-          />
+          >
+            <Text style={styles.buttonTextSignUp}>Sign Up</Text>
+          </Button>
+
           <Button
             style={styles.borderlessButtonContainer}
             borderless
-            title={"Forgot Password"}
+            title={"Forgot Password?"}
             onPress={() => navigation.navigate("ForgotPassword")}
           />
         </KeyboardAwareScrollView>
-      </View>
-
-      {/* App info footer */}
-      <View style={styles.footer}>
-        <Text style={styles.footerText}>
-          Expo Firebase Starter App (based on managed workflow)
-        </Text>
       </View>
     </>
   );
@@ -121,45 +125,64 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-    paddingHorizontal: 12,
+    paddingTop: 40,
   },
   logoContainer: {
-    alignItems: "center",
+    alignItems: "flex-start",
+    marginBottom: 80,
   },
   screenTitle: {
-    fontSize: 32,
+    fontSize: 30,
     fontWeight: "700",
-    color: Colors.black,
-    paddingTop: 20,
-  },
-  footer: {
-    backgroundColor: Colors.white,
-    paddingHorizontal: 12,
-    paddingBottom: 48,
-    alignItems: "center",
-  },
-  footerText: {
-    fontSize: 14,
-    fontWeight: "700",
-    color: Colors.purple,
+    color: Colors.dark,
+    paddingTop: 2,
+    justifyContent: "flex-start",
   },
   button: {
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 8,
+    marginTop: 40,
     backgroundColor: Colors.purple,
     padding: 10,
     borderRadius: 25,
   },
-  buttonText: {
+  buttonSignUp: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 8,
+    marginBottom: 10,
+    backgroundColor: Colors.white,
+    padding: 10,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: Colors.purple,
+  },
+  buttonTextSignIn: {
     fontSize: 20,
     color: Colors.white,
     fontWeight: "700",
+    textTransform: "uppercase",
+  },
+  buttonTextSignUp: {
+    fontSize: 20,
+    color: Colors.purple,
+    fontWeight: "700",
+    textTransform: "uppercase",
   },
   borderlessButtonContainer: {
-    marginTop: 16,
-    alignItems: "center",
-    justifyContent: "center",
+    marginTop: 10,
+    alignItems: "flex-end",
+  },
+  Icon: {
+    marginBottom: 10,
+    marginLeft: -10,
+  },
+  optionText: {
+    textAlign: "center",
+    marginTop: 10,
+    marginBottom: 5,
+    fontWeight: "700",
   },
 });

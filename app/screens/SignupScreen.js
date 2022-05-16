@@ -4,7 +4,7 @@ import { Formik } from "formik";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { View, TextInput, Logo, Button, FormErrorMessage } from "../components";
+import { View, TextInput, Button, FormErrorMessage, Icon } from "../components";
 import { Images, Colors, auth } from "../config";
 import { useTogglePasswordVisibility } from "../hooks";
 import { signupValidationSchema } from "../utils";
@@ -34,8 +34,15 @@ export const SignupScreen = ({ navigation }) => {
       <KeyboardAwareScrollView enableOnAndroid={true}>
         {/* LogoContainer: consits app logo and screen title */}
         <View style={styles.logoContainer}>
-          <Logo uri={Images.logo} />
-          <Text style={styles.screenTitle}>Create a new account!</Text>
+          <Icon
+            onPress={() => navigation.navigate("Welcome")}
+            name="chevron-left"
+            size={40}
+            color={Colors.dark}
+            style={styles.Icon}
+          />
+          <Text style={styles.screenTitle}>Create</Text>
+          <Text style={styles.screenTitle}>Account</Text>
         </View>
         {/* Formik Wrapper */}
         <Formik
@@ -57,10 +64,10 @@ export const SignupScreen = ({ navigation }) => {
           }) => (
             <>
               {/* Input fields */}
+              <Text>Email</Text>
               <TextInput
                 name="email"
-                leftIconName="email"
-                placeholder="Enter email"
+                placeholder="janedoe@email.com"
                 autoCapitalize="none"
                 keyboardType="email-address"
                 textContentType="emailAddress"
@@ -70,14 +77,14 @@ export const SignupScreen = ({ navigation }) => {
                 onBlur={handleBlur("email")}
               />
               <FormErrorMessage error={errors.email} visible={touched.email} />
+              <Text>Password</Text>
               <TextInput
                 name="password"
-                leftIconName="key-variant"
-                placeholder="Enter password"
+                placeholder="*************"
                 autoCapitalize="none"
                 autoCorrect={false}
                 secureTextEntry={passwordVisibility}
-                textContentType="newPassword"
+                textContentType="password"
                 rightIcon={rightIcon}
                 handlePasswordVisibility={handlePasswordVisibility}
                 value={values.password}
@@ -88,10 +95,10 @@ export const SignupScreen = ({ navigation }) => {
                 error={errors.password}
                 visible={touched.password}
               />
+              <Text>Confirm Password</Text>
               <TextInput
                 name="confirmPassword"
-                leftIconName="key-variant"
-                placeholder="Enter password"
+                placeholder="*************"
                 autoCapitalize="none"
                 autoCorrect={false}
                 secureTextEntry={confirmPasswordVisibility}
@@ -118,12 +125,13 @@ export const SignupScreen = ({ navigation }) => {
           )}
         </Formik>
         {/* Button to navigate to Login screen */}
+        <Text style={styles.optionText}>Or</Text>
         <Button
-          style={styles.borderlessButtonContainer}
-          borderless
-          title={"Already have an account?"}
+          style={styles.buttonSignIn}
           onPress={() => navigation.navigate("Login")}
-        />
+        >
+          <Text style={styles.buttonTextSignIn}>Sign In</Text>
+        </Button>
       </KeyboardAwareScrollView>
     </View>
   );
@@ -133,34 +141,66 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
-    paddingHorizontal: 12,
+    paddingTop: 40,
   },
   logoContainer: {
     alignItems: "center",
+    alignItems: "flex-start",
+    marginBottom: 40,
   },
   screenTitle: {
-    fontSize: 32,
+    fontSize: 30,
     fontWeight: "700",
-    color: Colors.black,
-    paddingTop: 20,
+    color: Colors.dark,
+    paddingTop: 2,
+    justifyContent: "flex-start",
   },
   button: {
     width: "100%",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 8,
+    marginTop: 40,
     backgroundColor: Colors.purple,
     padding: 10,
     borderRadius: 25,
+  },
+  buttonSignIn: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 8,
+    marginBottom: 10,
+    backgroundColor: Colors.white,
+    padding: 10,
+    borderRadius: 25,
+    borderWidth: 1,
+    borderColor: Colors.purple,
+  },
+  buttonTextSignIn: {
+    fontSize: 20,
+    color: Colors.purple,
+    fontWeight: "700",
+    textTransform: "uppercase",
   },
   buttonText: {
     fontSize: 20,
     color: Colors.white,
     fontWeight: "700",
+    textTransform: "uppercase",
   },
   borderlessButtonContainer: {
     marginTop: 16,
     alignItems: "center",
     justifyContent: "center",
+  },
+  Icon: {
+    marginBottom: 10,
+    marginLeft: -10,
+  },
+  optionText: {
+    textAlign: "center",
+    marginTop: 10,
+    marginBottom: 5,
+    fontWeight: "700",
   },
 });
