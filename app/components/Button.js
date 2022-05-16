@@ -20,6 +20,7 @@ export const Button = ({
     return (
       <Pressable onPress={onPress} style={_style}>
         <Text style={styles.borderlessButtonText}>{title}</Text>
+        {children}
       </Pressable>
     );
   }
