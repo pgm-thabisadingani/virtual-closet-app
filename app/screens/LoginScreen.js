@@ -34,8 +34,8 @@ export const LoginScreen = ({ navigation }) => {
               color={Colors.dark}
               style={styles.Icon}
             />
-            <Text style={styles.screenTitle}>Welcome</Text>
-            <Text style={styles.screenTitle}>back</Text>
+            <Text style={styles.screenTitle}>Welcome,</Text>
+            <Text style={styles.screenTitle}>back.</Text>
           </View>
           <Formik
             initialValues={{
@@ -95,7 +95,7 @@ export const LoginScreen = ({ navigation }) => {
                 ) : null}
                 {/* Login button */}
                 <Button style={styles.button} onPress={handleSubmit}>
-                  <Text style={styles.buttonTextSignIn}>Login</Text>
+                  <Text style={styles.buttonTextSignIn}>Log in</Text>
                 </Button>
               </>
             )}

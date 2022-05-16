@@ -22,7 +22,7 @@ export const SignupScreen = ({ navigation }) => {
   } = useTogglePasswordVisibility();
 
   const handleSignup = async (values) => {
-    const { email, password } = values;
+    const { username, email, password } = values;
 
     createUserWithEmailAndPassword(auth, email, password).catch((error) =>
       setErrorState(error.message)
@@ -47,6 +47,7 @@ export const SignupScreen = ({ navigation }) => {
         {/* Formik Wrapper */}
         <Formik
           initialValues={{
+            username: "",
             email: "",
             password: "",
             confirmPassword: "",
@@ -64,6 +65,19 @@ export const SignupScreen = ({ navigation }) => {
           }) => (
             <>
               {/* Input fields */}
+              <Text>Username</Text>
+              <TextInput
+                name="username"
+                placeholder="janedoe"
+                autoFocus={true}
+                value={values.username}
+                onChangeText={handleChange("username")}
+                onBlur={handleBlur("username")}
+              />
+              <FormErrorMessage
+                error={errors.username}
+                visible={touched.username}
+              />
               <Text>Email</Text>
               <TextInput
                 name="email"
@@ -119,7 +133,7 @@ export const SignupScreen = ({ navigation }) => {
               ) : null}
               {/* Signup button */}
               <Button style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Signup</Text>
+                <Text style={styles.buttonText}>Sign up</Text>
               </Button>
             </>
           )}

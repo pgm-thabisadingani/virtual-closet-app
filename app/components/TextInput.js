@@ -16,21 +16,21 @@ export const TextInput = ({
   return (
     <View
       style={{
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.light,
         borderRadius: 5,
         flexDirection: "row",
         padding: 12,
         marginVertical: 12,
         width,
         borderWidth: 1,
-        borderColor: Colors.mediumGray,
+        borderColor: Colors.light,
       }}
     >
       {leftIconName ? (
         <Icon
           name={leftIconName}
           size={22}
-          color={Colors.mediumGray}
+          color={Colors.lightGray}
           style={{ marginRight: 10 }}
         />
       ) : null}
@@ -39,7 +39,7 @@ export const TextInput = ({
           flex: 1,
           width: "100%",
           fontSize: 18,
-          color: Colors.black,
+          color: Colors.dark,
         }}
         placeholderTextColor={Colors.mediumGray}
         {...otherProps}
@@ -49,7 +49,7 @@ export const TextInput = ({
           <Icon
             name={rightIcon}
             size={22}
-            color={Colors.mediumGray}
+            color={Colors.lightGray}
             style={{ marginRight: 10 }}
           />
         </Button>
