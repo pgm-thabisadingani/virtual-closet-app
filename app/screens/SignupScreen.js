@@ -6,6 +6,7 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view
 
 import { View, TextInput, Button, FormErrorMessage, Icon } from "../components";
 import { Images, Colors, auth } from "../config";
+import { updateProfile } from "firebase/auth";
 import { useTogglePasswordVisibility } from "../hooks";
 import { signupValidationSchema } from "../utils";
 
@@ -24,16 +25,35 @@ export const SignupScreen = ({ navigation }) => {
   const handleSignup = async (values) => {
     const { username, email, password } = values;
 
-    createUserWithEmailAndPassword(auth, email, password).catch((error) =>
-      setErrorState(error.message)
-    );
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        updateProfile(user, {
+          displayName: username,
+          photoURL: "https://api.lorem.space/image/fashion?w=100&h=100",
+        })
+          .then(() => {
+            // Profile updated!
+            // ...
+            console.log("Profile updated!");
+          })
+          .catch((error) => {
+            // An error occurred
+            console.log(error);
+          });
+
+        // ...
+      })
+
+      .catch((error) => setErrorState(error.message));
   };
 
   return (
     <View isSafe style={styles.container}>
       <KeyboardAwareScrollView enableOnAndroid={true}>
-        {/* LogoContainer: consits app logo and screen title */}
-        <View style={styles.logoContainer}>
+        {/* IconContainer: consits app icon back to welcome screen and screen title */}
+        <View style={styles.iconContainer}>
           <Icon
             onPress={() => navigation.navigate("Welcome")}
             name="chevron-left"
@@ -157,7 +177,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     paddingTop: 40,
   },
-  logoContainer: {
+  iconContainer: {
     alignItems: "center",
     alignItems: "flex-start",
     marginBottom: 40,

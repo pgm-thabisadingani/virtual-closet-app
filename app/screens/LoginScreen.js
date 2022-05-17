@@ -25,8 +25,8 @@ export const LoginScreen = ({ navigation }) => {
     <>
       <View isSafe style={styles.container}>
         <KeyboardAwareScrollView enableOnAndroid={true}>
-          {/* LogoContainer: consits app logo and screen title */}
-          <View style={styles.logoContainer}>
+          {/* IconContainer: consits app icon and intro title */}
+          <View style={styles.iconContainer}>
             <Icon
               onPress={() => navigation.navigate("Welcome")}
               name="chevron-left"
@@ -127,7 +127,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     paddingTop: 40,
   },
-  logoContainer: {
+  iconContainer: {
     alignItems: "flex-start",
     marginBottom: 80,
   },
