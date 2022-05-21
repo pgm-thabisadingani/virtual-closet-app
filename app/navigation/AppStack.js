@@ -1,14 +1,56 @@
 import * as React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { HomeScreen } from "../screens";
+import {
+  FeedsScreen,
+  ProfileScreen,
+  ClosetScreen,
+  ChallengesScreen,
+  AddItemScreen,
+} from "../screens";
+import { Colors } from "../config";
 
-const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
-export const AppStack = ({ isOnline }) => {
+export const AppStack = () => {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} isOnline={isOnline} />
-    </Stack.Navigator>
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        headerStyle: {
+          backgroundColor: Colors.purple,
+        },
+        headerTitleStyle: { color: Colors.white },
+        headerTitleAlign: "center",
+        headerTintColor: Colors.white,
+
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+          if (route.name === "Feeds") {
+            iconName = focused ? "home" : "home";
+          } else if (route.name === "Closet") {
+            iconName = focused ? "tshirt-crew" : "tshirt-crew";
+          } else if (route.name === "Create") {
+            iconName = focused ? "at" : "at";
+          } else if (route.name === "Challenges") {
+            iconName = focused ? "text-box-multiple" : "text-box-multiple";
+          } else if (route.name === "Profile") {
+            iconName = focused ? "account" : "account";
+          }
+          // You can return any component that you like here!
+          return (
+            <MaterialCommunityIcons name={iconName} size={size} color={color} />
+          );
+        },
+        tabBarActiveTintColor: Colors.purple,
+        tabBarInactiveTintColor: Colors.lightGray,
+      })}
+    >
+      <Tab.Screen name="Feeds" component={FeedsScreen} />
+      <Tab.Screen name="Closet" component={ClosetScreen} />
+      <Tab.Screen name="Create" component={AddItemScreen} />
+      <Tab.Screen name="Challenges" component={ChallengesScreen} />
+      <Tab.Screen name="Profile" component={ProfileScreen} />
+    </Tab.Navigator>
   );
 };

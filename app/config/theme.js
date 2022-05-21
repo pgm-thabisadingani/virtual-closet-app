@@ -13,3 +13,10 @@ export const Colors = {
   dark: "#252525",
   black: "#222222",
 };
+
+export const FontSizes = {
+  mainTitle: 26,
+  labels: 15,
+  title: 22,
+  body: 15,
+};
