@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     height: 120,
     paddingTop: 55,
     paddingLeft: 10,
-    borderRadius: 8,
+    borderRadius: 10,
     justifyContent: "flex-start",
   },
   contect: {},

@@ -1,14 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Text, StyleSheet } from "react-native";
 import { Formik } from "formik";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { View, TextInput, Button, FormErrorMessage, Icon } from "../components";
-import { Images, Colors, auth } from "../config";
+import { Images, Colors, auth, db } from "../config";
 import { updateProfile } from "firebase/auth";
 import { useTogglePasswordVisibility } from "../hooks";
 import { signupValidationSchema } from "../utils";
+import { addDoc, collection } from "firebase/firestore";
 
 export const SignupScreen = ({ navigation }) => {
   const [errorState, setErrorState] = useState("");
@@ -24,29 +25,34 @@ export const SignupScreen = ({ navigation }) => {
 
   const handleSignup = async (values) => {
     const { username, email, password } = values;
-
-    createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        // Signed in
-        const user = userCredential.user;
-        updateProfile(user, {
-          displayName: username,
-          photoURL: "https://api.lorem.space/image/fashion?w=100&h=100",
-        })
-          .then(() => {
-            // Profile updated!
-            // ...
-            console.log("Profile updated!");
-          })
-          .catch((error) => {
-            // An error occurred
-            console.log(error);
-          });
-
-        // ...
-      })
-
-      .catch((error) => setErrorState(error.message));
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
+    await addDoc(collection(db, "users"), {
+      username: userCredential.user.displayName,
+      picture: userCredential.user.photoURL,
+      email: userCredential.user.email,
+      uid: userCredential.user.uid,
+      firstName: "",
+      lastName: "",
+      age: null,
+      street: "",
+      houseNumber: null,
+      city: "",
+      zipCode: null,
+      online: true,
+      displayName: username,
+      photoURL: "https://api.lorem.space/image/fashion?w=100&h=100",
+    })
+      .then((e) => console.log("RES", { e }))
+      .catch((err) => console.log("Err", { err }));
+    await updateProfile(user, {
+      displayName: username,
+      photoURL: "https://api.lorem.space/image/fashion?w=100&h=100",
+    });
   };
 
   return (

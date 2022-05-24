@@ -1,10 +1,10 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, TouchableHighlight } from "react-native";
 import { Avatar, FeedsTile, View } from "../components";
 
 import { auth, Colors, FontSizes, Images } from "../config";
 
-export const FeedsScreen = () => {
+export const FeedsScreen = ({ navigation }) => {
   // const [isOnline, setIsOnline] = state(false)
   console.log(auth.currentUser);
   console.log(auth.currentUser.photoURL);
@@ -27,24 +27,51 @@ export const FeedsScreen = () => {
         <FeedsTile
           name="plus-circle-outline"
           title="Create"
-          onPress={() => console.log("create")}
+          onPress={() => navigation.navigate("Create")}
           bgColor={Colors.purple}
           txColor={Colors.white}
         />
         <FeedsTile
           name="text-box-multiple"
           title="Challenges"
-          onPress={() => console.log("Challenges")}
+          onPress={() => navigation.navigate("Challenges")}
           bgColor={Colors.white}
           txColor={Colors.purple}
         />
         <FeedsTile
           name="tshirt-crew"
           title="Closet"
-          onPress={() => console.log("Closet")}
+          onPress={() => navigation.navigate("Closet")}
           bgColor={Colors.white}
           txColor={Colors.purple}
         />
+      </View>
+      <View style={styles.challengeListContainer}>
+        <View style={styles.latestChallenge}>
+          <Text
+            style={{
+              fontSize: FontSizes.title,
+              fontWeight: "bold",
+              color: Colors.dark,
+            }}
+          >
+            Latest challenge
+          </Text>
+          <TouchableHighlight
+            activeOpacity={0.6}
+            underlayColor={Colors.light}
+            onPress={() => navigation.navigate("Challenges")}
+          >
+            <Text
+              style={{
+                fontSize: FontSizes.body,
+                color: Colors.purple,
+              }}
+            >
+              View All
+            </Text>
+          </TouchableHighlight>
+        </View>
       </View>
     </View>
   );
@@ -71,6 +98,11 @@ const styles = StyleSheet.create({
   },
   feedsTileContainer: {
     marginVertical: 30,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  latestChallenge: {
+    marginVertical: 20,
     flexDirection: "row",
     justifyContent: "space-between",
   },

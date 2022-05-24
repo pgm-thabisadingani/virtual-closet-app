@@ -7,7 +7,7 @@ import {
   ProfileScreen,
   ClosetScreen,
   ChallengesScreen,
-  AddItemScreen,
+  CreateChallengeScreen,
 } from "../screens";
 import { Colors } from "../config";
 
@@ -48,7 +48,7 @@ export const AppStack = () => {
     >
       <Tab.Screen name="Feeds" component={FeedsScreen} />
       <Tab.Screen name="Closet" component={ClosetScreen} />
-      <Tab.Screen name="Create" component={AddItemScreen} />
+      <Tab.Screen name="Create" component={CreateChallengeScreen} />
       <Tab.Screen name="Challenges" component={ChallengesScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
