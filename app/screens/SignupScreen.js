@@ -25,34 +25,33 @@ export const SignupScreen = ({ navigation }) => {
 
   const handleSignup = async (values) => {
     const { username, email, password } = values;
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
-    await addDoc(collection(db, "users"), {
-      username: userCredential.user.displayName,
-      picture: userCredential.user.photoURL,
-      email: userCredential.user.email,
-      uid: userCredential.user.uid,
-      firstName: "",
-      lastName: "",
-      age: null,
-      street: "",
-      houseNumber: null,
-      city: "",
-      zipCode: null,
-      online: true,
-      displayName: username,
-      photoURL: "https://api.lorem.space/image/fashion?w=100&h=100",
-    })
+    return createUserWithEmailAndPassword(auth, email, password)
+      .then(async (userCredential) => {
+        // Signed in
+        await updateProfile(userCredential.user, {
+          displayName: username,
+          photoURL: "https://api.lorem.space/image/fashion?w=100&h=100",
+          uid: userCredential.user.uid,
+        });
+        await addDoc(collection(db, "users"), {
+          username: username,
+          picture: userCredential.user.photoURL,
+          email: userCredential.user.email,
+          uid: userCredential.user.uid,
+          firstName: "",
+          lastName: "",
+          age: null,
+          street: "",
+          houseNumber: null,
+          city: "",
+          zipCode: null,
+          online: true,
+          displayName: username,
+          photoURL: "https://api.lorem.space/image/fashion?w=100&h=100",
+        });
+      })
       .then((e) => console.log("RES", { e }))
       .catch((err) => console.log("Err", { err }));
-    await updateProfile(user, {
-      displayName: username,
-      photoURL: "https://api.lorem.space/image/fashion?w=100&h=100",
-    });
   };
 
   return (

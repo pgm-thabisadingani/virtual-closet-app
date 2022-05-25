@@ -1,7 +1,9 @@
 import React from "react";
-import { View, StyleSheet, Text } from "react-native";
+import { StyleSheet, Text } from "react-native";
 import { collectionGroup, query, where, getDocs } from "firebase/firestore";
+import { View, Icon } from "../components";
 import { auth } from "../config";
+import { AddImageItem } from "../components";
 
 export const ClosetScreen = (props) => {
   // I will use this for filtering or searching
@@ -11,12 +13,15 @@ export const ClosetScreen = (props) => {
   //     console.log(doc.id, ' => ', doc.data());
   // });
   return (
-    <View style={styles.container}>
+    <View isSafe style={styles.container}>
       <Text>This is a closet screen</Text>
+      <AddImageItem />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    flex: 1,
+  },
 });

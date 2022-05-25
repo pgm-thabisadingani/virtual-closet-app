@@ -11,6 +11,7 @@ import { auth } from "../config";
 export const RootNavigator = () => {
   const { user, setUser } = useContext(AuthenticatedUserContext);
   const [isLoading, setIsLoading] = useState(true);
+  const [isOnline, setIsOnline] = useState(false);
 
   useEffect(() => {
     // onAuthStateChanged returns an unsubscriber
@@ -19,6 +20,7 @@ export const RootNavigator = () => {
       (authenticatedUser) => {
         authenticatedUser ? setUser(authenticatedUser) : setUser(null);
         setIsLoading(false);
+        setIsOnline(true);
       }
     );
 

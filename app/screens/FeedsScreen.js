@@ -20,7 +20,7 @@ export const FeedsScreen = ({ navigation }) => {
         <Avatar
           size={80}
           source={auth.currentUser.photoURL}
-          onPress={() => console.log("Hello")}
+          onPress={() => navigation.navigate("Profile")}
         />
       </View>
       <View style={styles.feedsTileContainer}>

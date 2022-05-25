@@ -7,6 +7,7 @@ import { Icon } from "./Icon";
 import { Button } from "./Button";
 import { FormErrorMessage } from "./FormErrorMessage";
 import { LoadingIndicator } from "./LoadingIndicator";
+import { AddImageItem } from "./AddImageItem";
 
 export {
   View,
@@ -18,4 +19,5 @@ export {
   FormErrorMessage,
   LoadingIndicator,
   Avatar,
+  AddImageItem,
 };
