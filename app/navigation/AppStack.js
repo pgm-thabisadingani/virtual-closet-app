@@ -10,6 +10,8 @@ import {
   CreateChallengeScreen,
 } from "../screens";
 import { Colors } from "../config";
+import { ClosetNavigation } from "./ClosetNavigation";
+import { FeedsNavigation } from "./FeedsNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -46,8 +48,12 @@ export const AppStack = () => {
         tabBarInactiveTintColor: Colors.lightGray,
       })}
     >
-      <Tab.Screen name="Feeds" component={FeedsScreen} />
-      <Tab.Screen name="Closet" component={ClosetScreen} />
+      <Tab.Screen
+        name="Feeds"
+        component={FeedsNavigation}
+        options={{ headerBackVisible: true }}
+      />
+      <Tab.Screen name="Closet" component={ClosetNavigation} />
       <Tab.Screen name="Create" component={CreateChallengeScreen} />
       <Tab.Screen name="Challenges" component={ChallengesScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, View, Button, Image } from "react-native";
 import { Camera, CameraType } from "expo-camera";
-import callGoogleVisionAsync from "../config/helperFunction";
 
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
+import { FontSizes } from "../config";
+import { callGoogleVisionAsync } from "../config/googleVisionHelperFunction";
 
 export const AddImageItem = (props) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -12,7 +13,6 @@ export const AddImageItem = (props) => {
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(CameraType.back);
-  const [text, setText] = useState("Please add an image");
   const [status, setStatus] = useState(null);
 
   // grant permissions
@@ -32,6 +32,7 @@ export const AddImageItem = (props) => {
     if (camera) {
       const data = await camera.takePictureAsync();
       console.log(data);
+      setImage(data.uri);
 
       //convert image to base64 in expo to be read by the google cloud vision Api
       const base64 = await FileSystem.readAsStringAsync(data.uri, {
@@ -39,10 +40,10 @@ export const AddImageItem = (props) => {
       });
 
       if (data) {
-        setImage(data.uri);
         setStatus("Loading...");
         try {
           const result = await callGoogleVisionAsync(base64);
+          console.log(result);
           setStatus(result);
           console.log("WE ARE GOOD TO GO");
         } catch (error) {
@@ -88,6 +89,7 @@ export const AddImageItem = (props) => {
   if (hasCameraPermission === false || hasGalleryPermission === false) {
     return <Text>No access to camera</Text>;
   }
+  console.log(image);
   return (
     <View style={{ flex: 1 }}>
       {!image ? (
@@ -114,9 +116,11 @@ export const AddImageItem = (props) => {
           <Button title="Pick Image From Gallery" onPress={() => pickImage()} />
         </>
       ) : (
-        <View>
-          <Image source={{ uri: image }} style={{ flex: 1 }} />
-          {status && <Text style={styles.text}>{status}</Text>}
+        <View style={styles.imageArea}>
+          {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
+          {status && (
+            <Text style={{ fontSize: FontSizes.mainTitle }}>{status} </Text>
+          )}
         </View>
       )}
     </View>
@@ -132,5 +136,8 @@ const styles = StyleSheet.create({
   fixedRatio: {
     flex: 1,
     aspectRatio: 1,
+  },
+  imageArea: {
+    flex: 1,
   },
 });

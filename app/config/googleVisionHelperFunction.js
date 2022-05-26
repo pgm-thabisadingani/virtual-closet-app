@@ -1,5 +1,6 @@
 import Constants from "expo-constants";
-const API_KEY = Constants.manifest.extra.apiKeyGoogleVision; //put your key here.
+//const API_KEY = Constants.manifest.extra.apiKeyGoogleVision;
+const API_KEY = "AIzaSyBfDVZqQznKVm8cHWCGleVgArkkt-_JU4o"; //put your key here.
 
 //this endpoint will tell Google to use the Vision API. Also, we are passing in our key.
 
@@ -25,8 +26,7 @@ function generateBody(image) {
 
   return body;
 }
-
-async function callGoogleVisionAsync(image) {
+export const callGoogleVisionAsync = async (image) => {
   const body = generateBody(image); //pass in our image for the payload
 
   const response = await fetch(API_URL, {
@@ -46,7 +46,5 @@ async function callGoogleVisionAsync(image) {
   console.log("GOOGLE VISION I AM HERE");
 
   console.log(result);
-  return result.response[0].labelAnnotations[0].description;
-}
-
-export default callGoogleVisionAsync;
+  return result.responses[0].labelAnnotations[0].description;
+};

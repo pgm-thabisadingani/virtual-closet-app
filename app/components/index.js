@@ -1,3 +1,4 @@
+import { AppButton } from "./AppButton";
 import { Avatar } from "./Avatar";
 import { TextInput } from "./TextInput";
 import { View } from "./View";
@@ -19,5 +20,6 @@ export {
   FormErrorMessage,
   LoadingIndicator,
   Avatar,
+  AppButton,
   AddImageItem,
 };

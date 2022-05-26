@@ -5,8 +5,10 @@ import { ClosetScreen } from "./ClosetScreen";
 import { WelcomeScreen } from "./WelcomeScreen";
 import { ProfileScreen } from "./ProfileScreen";
 import { ChallengesScreen } from "./ChallengesScreen";
+import { ChallengeDetailsScreen } from "./ChallengeDetailsScreen";
 import { CreateChallengeScreen } from "./CreateChallengeScreen";
-import { AddItemScreen } from "./AddItemScreen";
+import { AddClothingItemScreen } from "./AddClothingItemScreen";
+import { EditClothingItemScreen } from "./EditClothingItemScreen";
 import { ForgotPasswordScreen } from "./ForgotPasswordScreen";
 
 export {
@@ -19,5 +21,7 @@ export {
   ProfileScreen,
   ChallengesScreen,
   CreateChallengeScreen,
-  AddItemScreen,
+  ChallengeDetailsScreen,
+  AddClothingItemScreen,
+  EditClothingItemScreen,
 };
