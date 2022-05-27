@@ -4,13 +4,19 @@ import { Colors } from "../../config";
 import { Icon } from "../Icon";
 import { View } from "../View";
 
-export const CategoryListItem = ({ name, onPress, title, color }) => {
+export const CategoryListItem = ({
+  name,
+  onPress,
+  title,
+  color,
+  size = 25,
+}) => {
   return (
     <>
       <View style={styles.container}>
         <Icon
           name={name}
-          size={25}
+          size={size}
           color={color}
           style={styles.icon}
           onPress={onPress}

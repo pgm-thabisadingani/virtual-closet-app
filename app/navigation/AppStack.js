@@ -33,7 +33,7 @@ export const AppStack = () => {
           } else if (route.name === "Closet") {
             iconName = focused ? "tshirt-crew" : "tshirt-crew";
           } else if (route.name === "Create") {
-            iconName = focused ? "at" : "at";
+            iconName = focused ? "plus-circle" : "plus-circle";
           } else if (route.name === "Challenges") {
             iconName = focused ? "text-box-multiple" : "text-box-multiple";
           } else if (route.name === "Profile") {

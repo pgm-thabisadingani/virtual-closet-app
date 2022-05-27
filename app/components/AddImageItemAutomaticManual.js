@@ -7,7 +7,7 @@ import * as FileSystem from "expo-file-system";
 import { FontSizes } from "../config";
 import { callGoogleVisionAsync } from "../config/googleVisionHelperFunction";
 
-export const AddImageItem = (props) => {
+export const AddImageItemAutomatic = (props) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [camera, setCamera] = useState(null);
@@ -33,26 +33,6 @@ export const AddImageItem = (props) => {
       const data = await camera.takePictureAsync();
       console.log(data);
       setImage(data.uri);
-
-      //convert image to base64 in expo to be read by the google cloud vision Api
-      const base64 = await FileSystem.readAsStringAsync(data.uri, {
-        encoding: "base64",
-      });
-
-      if (data) {
-        setStatus("Loading...");
-        try {
-          const result = await callGoogleVisionAsync(base64);
-          console.log(result);
-          setStatus(result);
-          console.log("WE ARE GOOD TO GO");
-        } catch (error) {
-          setStatus(`Error: ${error.message}`);
-        }
-      } else {
-        setImage(null);
-        setStatus(null);
-      }
     }
   };
 
@@ -63,23 +43,13 @@ export const AddImageItem = (props) => {
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
-      base64: true,
     });
 
     console.log(result);
 
     if (!result.cancelled) {
       setImage(result.uri);
-      console.log("I AM HERE NOW");
       setStatus("Loading...");
-      try {
-        const resultImage = await callGoogleVisionAsync(result.base64);
-        console.log("LOOK WHO'S BACK FROM GOOGLE VISION");
-        setStatus(resultImage);
-        console.log("WE ARE GOOD TO GO");
-      } catch (e) {
-        console.log(e);
-      }
     }
   };
 

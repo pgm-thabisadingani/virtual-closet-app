@@ -6,14 +6,14 @@ import { ChallengesListItem } from "../components/list";
 import { auth, Colors, FontSizes, Images } from "../config";
 import { ChallengeDetailsScreen } from "./ChallengeDetailsScreen";
 
-const DATA = [
+export const DATA = [
   {
     id: 1,
     title: "Job Interview",
     creator: "Blue",
     img: "https://api.lorem.space/image/fashion?w=100&h=100",
     date: "30 May",
-    discriminator: " wanna look good ",
+    discription: " wanna look good ",
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const DATA = [
     creator: "Maze",
     img: "https://api.lorem.space/image/fashion?w=100&h=100",
     date: "29 May",
-    discriminator: " wanna look good ",
+    discription: " wanna look good ",
   },
   {
     id: 3,
@@ -29,20 +29,21 @@ const DATA = [
     creator: "Jane",
     img: "https://api.lorem.space/image/fashion?w=100&h=100",
     date: "28 May",
-    discriminator: " wanna look good ",
+    discription: " wanna look good ",
   },
 ];
 
 export const FeedsScreen = ({ navigation }) => {
   const [item, setItem] = useState(0);
+
   // console.log(auth.currentUser);
   // console.log(auth.currentUser.photoURL);
   // console.log(auth.currentUser.displayName);
   const userName = auth.currentUser.displayName;
 
   // selects an item randomly
-  const randomListItem = (ITEMS) => {
-    const randomItem = ITEMS[Math.floor(Math.random() * ITEMS.length)];
+  const randomListItem = (DATA) => {
+    const randomItem = DATA[Math.floor(Math.random() * DATA.length)];
     setItem(randomItem);
   };
 
@@ -94,20 +95,31 @@ export const FeedsScreen = ({ navigation }) => {
             Top Challenge
           </Text>
         </View>
-
-        <ChallengesListItem
-          title={item.title}
-          source={item.img}
-          creator={item.creator}
-          onPress={() =>
-            navigation.navigate("ChallengeDetails", item.id, item.title)
-          }
-          feeds
-        />
+        {item ? (
+          <ChallengesListItem
+            title={item.title}
+            source={item.img}
+            creator={item.creator}
+            onPress={() =>
+              navigation.navigate("ChallengeDetails", item.id, item.title)
+            }
+            feeds
+          />
+        ) : (
+          <ChallengesListItem
+            title={DATA[0].title}
+            source={DATA[0].img}
+            creator={DATA[0].creator}
+            onPress={() =>
+              navigation.navigate("ChallengeDetails", DATA[0].id, DATA[0].title)
+            }
+            feeds
+          />
+        )}
 
         <View style={styles.buttons}>
           <AppButton
-            buttonWidth={100}
+            buttonWidth={150}
             size={20}
             textColor={Colors.white}
             title="NAH"
@@ -115,7 +127,7 @@ export const FeedsScreen = ({ navigation }) => {
             color={Colors.red}
           />
           <AppButton
-            buttonWidth={100}
+            buttonWidth={150}
             size={20}
             textColor={Colors.white}
             title="YAY"
