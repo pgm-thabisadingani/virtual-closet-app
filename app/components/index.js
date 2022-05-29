@@ -9,6 +9,8 @@ import { Button } from "./Button";
 import { FormErrorMessage } from "./FormErrorMessage";
 import { LoadingIndicator } from "./LoadingIndicator";
 import { AddImageItemAutomatic } from "./AddImageItemAutomatic";
+import { CategoryPickerItem } from "./CategoryPickerItem";
+import { AppFormPicker } from "./AppFormPicker";
 
 export {
   View,
@@ -22,4 +24,6 @@ export {
   Avatar,
   AppButton,
   AddImageItemAutomatic,
+  CategoryPickerItem,
+  AppFormPicker,
 };

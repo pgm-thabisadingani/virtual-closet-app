@@ -20,3 +20,7 @@ export const passwordResetSchema = Yup.object().shape({
     .label("Email")
     .email("Enter a valid email"),
 });
+
+export const clothigItemSchema = Yup.object().shape({
+  category: Yup.object().required().nullable().label("Category"),
+});

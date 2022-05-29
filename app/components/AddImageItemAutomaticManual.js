@@ -88,9 +88,6 @@ export const AddImageItemAutomatic = (props) => {
       ) : (
         <View style={styles.imageArea}>
           {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
-          {status && (
-            <Text style={{ fontSize: FontSizes.mainTitle }}>{status} </Text>
-          )}
         </View>
       )}
     </View>

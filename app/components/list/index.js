@@ -1,4 +1,5 @@
 import { ChallengesListItem } from "./ChallengesListItem";
 import { CategoryListItem } from "./CategoryListItem";
+import { ClothingItems } from "./ClothingItems";
 
-export { ChallengesListItem, CategoryListItem };
+export { ChallengesListItem, CategoryListItem, ClothingItems };

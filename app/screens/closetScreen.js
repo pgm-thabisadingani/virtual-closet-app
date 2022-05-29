@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, FlatList } from "react-native";
+import { v4 as uuid } from "uuid";
+import "react-native-get-random-values";
 import {
   collection,
   query,
@@ -12,10 +14,14 @@ import {
 import { View, Icon, AppButton } from "../components";
 import { auth, Colors, database, db } from "../config";
 import { AddImageItem } from "../components";
-import { CategoryListItem, ChallengesListItem } from "../components/list";
+import {
+  CategoryListItem,
+  ChallengesListItem,
+  ClothingItems,
+} from "../components/list";
 
 export const ClosetScreen = ({ navigation }) => {
-  const [closet, setCloset] = useState();
+  const [closet, setCloset] = useState({});
   const userUid = auth.currentUser.uid;
 
   //getting closet where the the closet
@@ -32,7 +38,7 @@ export const ClosetScreen = ({ navigation }) => {
     });
   };
 
-  // Keep track wit the changes in data
+  // Keep track with changes in data add or delete. Clean up!
   useEffect(() => {
     const unsubscribe = setClosetAsync();
     return () => unsubscribe;
@@ -42,53 +48,34 @@ export const ClosetScreen = ({ navigation }) => {
   const createCloset = () => {
     addDoc(collection(db, "closets"), {
       closetOwerUid: userUid,
+      closetUId: uuid(),
     }).catch((err) => console.error(err));
   };
 
-  console.log(closet);
-
   return (
     <View isSafe style={styles.container}>
-      {closet ? (
+      {closet.results ? (
         <View>
           <View style={styles.categories}>
-            {
-              <CategoryListItem
-                name="plus-circle"
-                size={60}
-                onPress={() => navigation.navigate("AddClothing")}
-                title="Add item"
-                color={Colors.lightGray}
-              />
-            }
-            <View>
-              <CategoryListItem
-                name="pound"
-                onPress=""
-                title="Tops"
-                color={Colors.gray}
-              />
-              <CategoryListItem
-                name="pound"
-                onPress=""
-                title="Bottom"
-                color={Colors.gray}
-              />
-              <CategoryListItem
-                name="pound"
-                onPress=""
-                title="Shoes"
-                color={Colors.gray}
-              />
-              <CategoryListItem
-                name="pound"
-                onPress=""
-                title="Dress"
-                color={Colors.gray}
-              />
-            </View>
+            {closet.results.closetOwerUid === userUid ? (
+              <View>
+                <Icon
+                  name="plus-circle"
+                  size={60}
+                  onPress={() =>
+                    navigation.navigate("AddClothing", closet.results.closetUId)
+                  }
+                  color={Colors.lightGray}
+                />
+                <Text>Add Item</Text>
+              </View>
+            ) : (
+              <Text></Text>
+            )}
+            <CategoryListItem userUid={userUid} />
           </View>
           <Text>This is the closet of {auth.currentUser.displayName}</Text>
+          <ClothingItems />
         </View>
       ) : (
         <View style={styles.createCloset}>

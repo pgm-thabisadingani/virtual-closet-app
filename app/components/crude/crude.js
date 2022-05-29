@@ -91,3 +91,12 @@ async function updateDocument({ id, values }) {
       console.error("Error writing document: ", error);
     });
 }
+
+// I will use this for filtering or searching
+// const museums = query(collectionGroup(db, 'clothing'), where('type', '==', 'museum'));
+// const querySnapshot = await getDocs(museums);
+// querySnapshot.forEach((doc) => {
+//     console.log(doc.id, ' => ', doc.data());
+// });
+
+// Fetch all the gategories
