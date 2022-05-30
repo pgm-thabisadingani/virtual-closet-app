@@ -10,17 +10,18 @@ import {
 import { Camera, CameraType } from "expo-camera";
 
 import * as ImagePicker from "expo-image-picker";
-import * as FileSystem from "expo-file-system";
 import { Colors, FontSizes } from "../config";
-import { callGoogleVisionAsync } from "../config/googleVisionHelperFunction";
-import { AppButton } from "./AppButton";
+import { AppButton, Icon, ImageStorage } from "../components";
 
-export const AddImageManualy = () => {
+export const SaveItemImageScreen = ({ navigation, route }) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(CameraType.back);
+
+  // Closet and User id
+  const closetID = route.params;
 
   // grant permissions
   useEffect(() => {
@@ -39,25 +40,39 @@ export const AddImageManualy = () => {
     if (camera) {
       const data = await camera.takePictureAsync();
       console.log(data);
-      setImage(data.uri);
+
+      // setImage(data.uri);
+      if (data) {
+        // set a loading status here
+        try {
+          console.log(data.uri);
+          const result = await ImageStorage(data.uri);
+          console.log(result);
+          setImage(result);
+          console.log("WE ARE GOOD TO GO");
+        } catch (error) {
+          console.log(error);
+        }
+      }
     }
   };
 
   // Pick a pic
   const pickImage = async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 0.5,
-      });
-
-      console.log(result);
-
-      if (!result.cancelled) setImage(result.uri);
-    } catch (error) {
-      console.log("Error reading an image", error);
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 0.5,
+    });
+    console.log(result);
+    if (!result.cancelled) {
+      try {
+        const resultImage = await ImageStorage(result.uri);
+        setImage(resultImage);
+      } catch (error) {
+        console.log("Error reading an image", error);
+      }
     }
   };
 
@@ -70,6 +85,14 @@ export const AddImageManualy = () => {
   console.log(image);
   return (
     <View style={{ flex: 1 }}>
+      <View style={{ alignItems: "flex-end" }}>
+        <Icon
+          name="window-close"
+          size={30}
+          color={Colors.mediumGray}
+          onPress={() => navigation.popToTop()}
+        />
+      </View>
       {!image ? (
         <>
           <View style={styles.cameraContainer}>
@@ -98,12 +121,22 @@ export const AddImageManualy = () => {
         </>
       ) : (
         <View>
-          <TouchableWithoutFeedback onPress={handlePress}>
-            <View style={styles.container}>
-              {image && <Image source={{ uri: image }} style={styles.image} />}
-            </View>
-          </TouchableWithoutFeedback>
-          <AppButton title="Take Picture" onPress={() => takePicture()} />
+          <View style={styles.container}>
+            {image && <Image source={{ uri: image }} style={styles.image} />}
+          </View>
+          <View>
+            <AppButton
+              title="Save "
+              textColor={Colors.white}
+              color={Colors.purple}
+              onPress={() =>
+                navigation.navigate("AddClothing", {
+                  closetId: closetID,
+                  imageUrl: image,
+                })
+              }
+            />
+          </View>
         </View>
       )}
     </View>
@@ -123,12 +156,11 @@ const styles = StyleSheet.create({
   container: {
     alignItems: "center",
     backgroundColor: Colors.lightGray,
-    borderRadius: 15,
-    height: 100,
+
     justifyContent: "center",
     marginVertical: 10,
     overflow: "hidden",
-    width: 100,
+    height: "80%",
   },
   image: {
     height: "100%",

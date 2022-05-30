@@ -7,6 +7,8 @@ import {
   AddClothingItemScreen,
   ClosetScreen,
   EditClothingItemScreen,
+  SaveImageGoogleVisionScreen,
+  SaveItemImageScreen,
 } from "../screens";
 
 const Stack = createStackNavigator();
@@ -18,6 +20,16 @@ export const ClosetNavigation = (props) => {
       options={{ headerBackVisible: true }}
     >
       <Stack.Screen name="ClosetHome" component={ClosetScreen} />
+      <Stack.Screen
+        name="SaveItemImage"
+        component={SaveItemImageScreen}
+        options={{ title: "Add Image", headerBackVisible: true }}
+      />
+      <Stack.Screen
+        name="SaveItemGooleAi"
+        component={SaveImageGoogleVisionScreen}
+        options={{ title: "Add Image", headerBackVisible: true }}
+      />
       <Stack.Screen
         name="AddClothing"
         component={AddClothingItemScreen}

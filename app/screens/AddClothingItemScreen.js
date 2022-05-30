@@ -26,8 +26,12 @@ import { Formik } from "formik";
 
 export const AddClothingItemScreen = ({ navigation, route }) => {
   const [category, setCategory] = useState([]);
-  const closetID = route.params;
+  const items = route.params;
   const userUid = auth.currentUser.uid;
+
+  const closetId = items.closetId;
+  const imageUri = items.imageUrl;
+  console.log(items);
 
   /*get all the categories*/
   const getCategoriesAsync = async () => {
@@ -46,12 +50,14 @@ export const AddClothingItemScreen = ({ navigation, route }) => {
   const handleAddItem = async (values) => {
     addDoc(collection(db, "clothing"), {
       closetOwerUid: userUid,
-      closetUid: closetID,
+      closetUid: closetId,
       item: values.category,
     })
-      .then(navigation.goBack())
+      .then(navigation.popToTop())
       .catch((err) => console.error(err));
   };
+
+  // navigation.PopToTop takes to back to the first screen
 
   return (
     <View isSafe style={styles.container}>
@@ -71,17 +77,9 @@ export const AddClothingItemScreen = ({ navigation, route }) => {
           validationSchema={clothigItemSchema}
           onSubmit={(values) => handleAddItem(values)}
         >
-          {({
-            values,
-            touched,
-            errors,
-            handleChange,
-            handleSubmit,
-            handleBlur,
-          }) => (
+          {({ handleSubmit }) => (
             <>
               {/* Input fields */}
-              <FormErrorMessage error={errors.image} visible={touched.image} />
               <AppFormPicker
                 items={category}
                 name="category"

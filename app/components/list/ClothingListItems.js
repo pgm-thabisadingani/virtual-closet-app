@@ -1,19 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, FlatList, View } from "react-native";
 import "react-native-get-random-values";
-import {
-  collection,
-  query,
-  where,
-  getDocs,
-  getFirestore,
-  onSnapshot,
-  addDoc,
-  collectionGroup,
-} from "firebase/firestore";
+import { collection, query, where, onSnapshot } from "firebase/firestore";
 
 import { auth, Colors, database, db } from "../../config";
-import { ClothingListItem } from "./ClothingListItem";
+import { ClothingItem } from "../ClothingItem";
 
 // I will use this for filtering or searching
 // const museums = query(collectionGroup(db, 'clothing'), where('type', '==', 'museum'));
@@ -22,7 +13,7 @@ import { ClothingListItem } from "./ClothingListItem";
 //     console.log(doc.id, ' => ', doc.data());
 // });
 
-export const ClothingItems = () => {
+export const ClothingListItems = () => {
   const [items, setItems] = useState([]);
   const userUid = auth.currentUser.uid;
 
@@ -58,7 +49,7 @@ export const ClothingItems = () => {
             numColumns={3}
             renderItem={({ item }) => (
               <View style={styles.itemContainer}>
-                <ClothingListItem items={item} />
+                <ClothingItem items={item} />
               </View>
             )}
           />

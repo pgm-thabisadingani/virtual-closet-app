@@ -11,6 +11,7 @@ import { LoadingIndicator } from "./LoadingIndicator";
 import { AddImageItemAutomatic } from "./AddImageItemAutomatic";
 import { CategoryPickerItem } from "./CategoryPickerItem";
 import { AppFormPicker } from "./AppFormPicker";
+import { ImageStorage } from "./ImageStorage";
 
 export {
   View,
@@ -26,4 +27,5 @@ export {
   AddImageItemAutomatic,
   CategoryPickerItem,
   AppFormPicker,
+  ImageStorage,
 };

@@ -10,6 +10,8 @@ import { CreateChallengeScreen } from "./CreateChallengeScreen";
 import { AddClothingItemScreen } from "./AddClothingItemScreen";
 import { EditClothingItemScreen } from "./EditClothingItemScreen";
 import { ForgotPasswordScreen } from "./ForgotPasswordScreen";
+import { SaveItemImageScreen } from "./SaveItemImageScreen";
+import { SaveImageGoogleVisionScreen } from "./SaveImageGoogleVisionScreen ";
 
 export {
   ClosetScreen,
@@ -24,4 +26,6 @@ export {
   ChallengeDetailsScreen,
   AddClothingItemScreen,
   EditClothingItemScreen,
+  SaveItemImageScreen,
+  SaveImageGoogleVisionScreen,
 };

@@ -1,26 +1,20 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Image,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, Text, View, Button, Image } from "react-native";
 import { Camera, CameraType } from "expo-camera";
 
 import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { Colors, FontSizes } from "../config";
 import { callGoogleVisionAsync } from "../config/googleVisionHelperFunction";
-import { AppButton } from "./AppButton";
+import { Icon } from "../components";
 
-export const AddImageManualy = () => {
+export const SaveImageGoogleVisionScreen = ({ navigation }) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [camera, setCamera] = useState(null);
   const [image, setImage] = useState(null);
   const [type, setType] = useState(CameraType.back);
+  const [status, setStatus] = useState(null);
 
   // grant permissions
   useEffect(() => {
@@ -34,30 +28,59 @@ export const AddImageManualy = () => {
     })();
   }, []);
 
-  // take a pic
+  // take a pic please work
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync();
       console.log(data);
       setImage(data.uri);
+
+      //convert image to base64 in expo to be read by the google cloud vision Api
+      const base64 = await FileSystem.readAsStringAsync(data.uri, {
+        encoding: "base64",
+      });
+
+      if (data) {
+        setStatus("Loading...");
+        try {
+          const result = await callGoogleVisionAsync(base64);
+          console.log(result);
+          setStatus(result);
+          console.log("WE ARE GOOD TO GO");
+        } catch (error) {
+          setStatus(`Error: ${error.message}`);
+        }
+      } else {
+        setImage(null);
+        setStatus(null);
+      }
     }
   };
 
   // Pick a pic
   const pickImage = async () => {
-    try {
-      let result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
-        allowsEditing: true,
-        aspect: [1, 1],
-        quality: 0.5,
-      });
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+      base64: true,
+    });
 
-      console.log(result);
+    console.log(result);
 
-      if (!result.cancelled) setImage(result.uri);
-    } catch (error) {
-      console.log("Error reading an image", error);
+    if (!result.cancelled) {
+      setImage(result.uri);
+      console.log("I AM HERE NOW");
+      setStatus("Loading...");
+      try {
+        const resultImage = await callGoogleVisionAsync(result.base64);
+        console.log("LOOK WHO'S BACK FROM GOOGLE VISION");
+        setStatus(resultImage);
+        console.log("YES, WE ARE GOOD TO GO");
+      } catch (e) {
+        console.log(e);
+      }
     }
   };
 
@@ -70,6 +93,14 @@ export const AddImageManualy = () => {
   console.log(image);
   return (
     <View style={{ flex: 1 }}>
+      <View style={{ alignItems: "flex-end" }}>
+        <Icon
+          name="window-close"
+          size={30}
+          color={Colors.mediumGray}
+          onPress={() => navigation.popToTop()}
+        />
+      </View>
       {!image ? (
         <>
           <View style={styles.cameraContainer}>
@@ -80,7 +111,7 @@ export const AddImageManualy = () => {
               ratio={"1:1"}
             />
           </View>
-          <AppButton
+          <Button
             title="Flip Image"
             onPress={() => {
               setType(
@@ -89,21 +120,16 @@ export const AddImageManualy = () => {
                   : Camera.Constants.Type.back
               );
             }}
-          ></AppButton>
-          <AppButton title="Take Picture" onPress={() => takePicture()} />
-          <AppButton
-            title="Pick Image From Gallery"
-            onPress={() => pickImage()}
-          />
+          ></Button>
+          <Button title="Take Picture" onPress={() => takePicture()} />
+          <Button title="Pick Image From Gallery" onPress={() => pickImage()} />
         </>
       ) : (
-        <View>
-          <TouchableWithoutFeedback onPress={handlePress}>
-            <View style={styles.container}>
-              {image && <Image source={{ uri: image }} style={styles.image} />}
-            </View>
-          </TouchableWithoutFeedback>
-          <AppButton title="Take Picture" onPress={() => takePicture()} />
+        <View style={styles.imageArea}>
+          {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
+          {status && (
+            <Text style={{ fontSize: FontSizes.mainTitle }}>{status} </Text>
+          )}
         </View>
       )}
     </View>
@@ -120,18 +146,7 @@ const styles = StyleSheet.create({
     flex: 1,
     aspectRatio: 1,
   },
-  container: {
-    alignItems: "center",
-    backgroundColor: Colors.lightGray,
-    borderRadius: 15,
-    height: 100,
-    justifyContent: "center",
-    marginVertical: 10,
-    overflow: "hidden",
-    width: 100,
-  },
-  image: {
-    height: "100%",
-    width: "100%",
+  imageArea: {
+    flex: 1,
   },
 });

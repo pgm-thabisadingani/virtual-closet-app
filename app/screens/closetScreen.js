@@ -14,17 +14,14 @@ import {
 import { View, Icon, AppButton } from "../components";
 import { auth, Colors, database, db } from "../config";
 import { AddImageItem } from "../components";
-import {
-  CategoryListItem,
-  ChallengesListItem,
-  ClothingItems,
-} from "../components/list";
+import { CategoryListItem, ClothingListItems } from "../components/list";
 
 export const ClosetScreen = ({ navigation }) => {
   const [closet, setCloset] = useState({});
+  const [category, setCategory] = useState("");
   const userUid = auth.currentUser.uid;
 
-  //getting closet where the the closet
+  /*getting closet where the the closet*/
   const setClosetAsync = async () => {
     const q = query(
       collection(db, "closets"),
@@ -38,7 +35,10 @@ export const ClosetScreen = ({ navigation }) => {
     });
   };
 
-  // Keep track with changes in data add or delete. Clean up!
+  /*filter base on categories*/
+
+  /*Keep track with changes in data add or delete. Clean up!*/
+
   useEffect(() => {
     const unsubscribe = setClosetAsync();
     return () => unsubscribe;
@@ -58,16 +58,37 @@ export const ClosetScreen = ({ navigation }) => {
         <View>
           <View style={styles.categories}>
             {closet.results.closetOwerUid === userUid ? (
-              <View>
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <View style={{ alignItems: "center" }}>
+                  <Icon
+                    name="plus-circle"
+                    size={100}
+                    onPress={() =>
+                      navigation.navigate(
+                        "SaveItemImage",
+                        closet.results.closetUId
+                      )
+                    }
+                    color={Colors.lightGray}
+                  />
+                  <Text>Add Item</Text>
+                </View>
                 <Icon
                   name="plus-circle"
-                  size={60}
+                  size={100}
                   onPress={() =>
-                    navigation.navigate("AddClothing", closet.results.closetUId)
+                    navigation.navigate(
+                      "SaveItemGooleAi",
+                      closet.results.closetUId
+                    )
                   }
-                  color={Colors.lightGray}
+                  color={Colors.lightPurple}
                 />
-                <Text>Add Item</Text>
               </View>
             ) : (
               <Text></Text>
@@ -75,7 +96,7 @@ export const ClosetScreen = ({ navigation }) => {
             <CategoryListItem userUid={userUid} />
           </View>
           <Text>This is the closet of {auth.currentUser.displayName}</Text>
-          <ClothingItems />
+          <ClothingListItems />
         </View>
       ) : (
         <View style={styles.createCloset}>

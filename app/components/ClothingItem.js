@@ -1,8 +1,8 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { Colors } from "../../config";
+import { Colors } from "../config";
 
-export const ClothingListItem = ({ items }) => {
+export const ClothingItem = ({ items }) => {
   return (
     <View style={styles.container}>
       <Text>{items.item.title}</Text>
