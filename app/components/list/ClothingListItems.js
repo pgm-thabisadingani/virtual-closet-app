@@ -38,14 +38,13 @@ export const ClothingListItems = () => {
     return () => unsubscribe;
   }, []);
 
-  console.log(items);
   return (
     <View style={styles.container}>
-      {items ? (
+      {items.length > 0 ? (
         <>
           <FlatList
             data={items}
-            keyExtractor={(item) => item.item.id} // returns a number which you have to conver to string
+            keyExtractor={(item) => item.id} // returns a number which you have to conver to string
             numColumns={3}
             renderItem={({ item }) => (
               <View style={styles.itemContainer}>
@@ -64,13 +63,13 @@ export const ClothingListItems = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    justifyContent: "center",
-  },
+  container: {},
   itemContainer: {
     flex: 1,
   },
   containerEmpty: {
     flex: 1,
+    backgroundColor: Colors.purple,
+    height: 40,
   },
 });

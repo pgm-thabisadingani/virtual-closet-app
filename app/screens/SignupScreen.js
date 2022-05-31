@@ -49,6 +49,9 @@ export const SignupScreen = ({ navigation }) => {
           displayName: username,
           photoURL: "https://api.lorem.space/image/fashion?w=100&h=100",
         });
+        await addDoc(collection(db, "closets"), {
+          closetOwerUid: userCredential.user.uid,
+        });
       })
       .then((e) => console.log("RES", { e }))
       .catch((err) => console.log("Err", { err }));

@@ -17,7 +17,7 @@ import { AddImageItem } from "../components";
 import { CategoryListItem, ClothingListItems } from "../components/list";
 
 export const ClosetScreen = ({ navigation }) => {
-  const [closet, setCloset] = useState({});
+  const [closet, setCloset] = useState("");
   const [category, setCategory] = useState("");
   const userUid = auth.currentUser.uid;
 
@@ -45,71 +45,59 @@ export const ClosetScreen = ({ navigation }) => {
   }, []);
 
   //creating a closet
-  const createCloset = () => {
-    addDoc(collection(db, "closets"), {
-      closetOwerUid: userUid,
-      closetUId: uuid(),
-    }).catch((err) => console.error(err));
-  };
+  // const createCloset = () => {
+  //   addDoc(collection(db, "closets"), {
+  //     closetOwerUid: userUid,
+  //closet.results.closetOwerUid === userUid;
+  //   }).catch((err) => console.error(err));
+  // };
 
+  console.log(closet);
   return (
     <View isSafe style={styles.container}>
-      {closet.results ? (
-        <View>
-          <View style={styles.categories}>
-            {closet.results.closetOwerUid === userUid ? (
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <View style={{ alignItems: "center" }}>
-                  <Icon
-                    name="plus-circle"
-                    size={100}
-                    onPress={() =>
-                      navigation.navigate(
-                        "SaveItemImage",
-                        closet.results.closetUId
-                      )
-                    }
-                    color={Colors.lightGray}
-                  />
-                  <Text>Add Item</Text>
-                </View>
+      <View>
+        <View style={styles.categories}>
+          {userUid === userUid ? (
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}
+            >
+              <View style={{ alignItems: "center" }}>
                 <Icon
                   name="plus-circle"
                   size={100}
                   onPress={() =>
                     navigation.navigate(
-                      "SaveItemGooleAi",
-                      closet.results.closetUId
+                      "SaveItemImage",
+                      closet.results.closetOwerUid
                     )
                   }
-                  color={Colors.lightPurple}
+                  color={Colors.lightGray}
                 />
+                <Text>Add Item</Text>
               </View>
-            ) : (
-              <Text></Text>
-            )}
-            <CategoryListItem userUid={userUid} />
-          </View>
-          <Text>This is the closet of {auth.currentUser.displayName}</Text>
-          <ClothingListItems />
+              <Icon
+                name="plus-circle"
+                size={100}
+                onPress={() =>
+                  navigation.navigate(
+                    "SaveItemGooleAi",
+                    closet.results.closetOwerUid
+                  )
+                }
+                color={Colors.lightPurple}
+              />
+            </View>
+          ) : (
+            <Text></Text>
+          )}
+          <CategoryListItem userUid={userUid} />
         </View>
-      ) : (
-        <View style={styles.createCloset}>
-          <Text>Let's start by creating a closet </Text>
-          <AppButton
-            color={Colors.lightPurple}
-            textColor={Colors.white}
-            buttonWidth={200}
-            title="Create Closet"
-            onPress={createCloset}
-          />
-        </View>
-      )}
+        <Text>This is the closet of {auth.currentUser.displayName}</Text>
+        <ClothingListItems />
+      </View>
     </View>
   );
 };

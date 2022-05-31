@@ -21,7 +21,9 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
   const [type, setType] = useState(CameraType.back);
 
   // Closet and User id
-  const closetID = route.params;
+  const closetOwerUid = route.params;
+
+  console.log(closetOwerUid);
 
   // grant permissions
   useEffect(() => {
@@ -131,7 +133,6 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
               color={Colors.purple}
               onPress={() =>
                 navigation.navigate("AddClothing", {
-                  closetId: closetID,
                   imageUrl: image,
                 })
               }
