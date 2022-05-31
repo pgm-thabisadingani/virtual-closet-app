@@ -73,7 +73,7 @@ const styles = StyleSheet.create({
 
     elevation: 8,
 
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.white,
     marginVertical: 20,
     borderRadius: 10,
     padding: 15,

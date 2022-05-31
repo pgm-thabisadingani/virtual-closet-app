@@ -11,9 +11,10 @@ import {
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { Colors } from "../config";
+import { Colors, FontSizes } from "../config";
 import { View } from "./View";
 import { PickerItem } from "./PickerItem";
+import { Icon } from "./Icon";
 
 export const AppPicker = ({
   title,
@@ -30,7 +31,7 @@ export const AppPicker = ({
     <>
       <Pressable onPress={() => setModalVisible(true)}>
         <View style={[styles.container, { width }]}>
-          <Text>{title}</Text>
+          <Text style={{ fontSize: FontSizes.body }}>{title}</Text>
           {selectedItem ? (
             <Text style={styles.text}>{selectedItem.title}</Text>
           ) : (
@@ -38,14 +39,22 @@ export const AppPicker = ({
           )}
           <MaterialCommunityIcons
             name="chevron-down"
-            size={20}
-            color={Colors.lightGray}
+            size={30}
+            color={Colors.white}
           />
         </View>
       </Pressable>
       <Modal visible={modalVisible} animationType="slide">
         <View>
-          <Button title="Close" onPress={() => setModalVisible(false)} />
+          <View style={{ alignItems: "flex-end", paddingVertical: 20 }}>
+            <Icon
+              name="window-close"
+              size={30}
+              style={{ marginRight: 10 }}
+              color={Colors.mediumGray}
+              onPress={() => setModalVisible(false)}
+            />
+          </View>
           <FlatList
             data={items}
             keyExtractor={(item) => item.id.toString()} // returns a number which you have to conver to string
@@ -71,22 +80,23 @@ export default AppPicker;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: Colors.light,
-    borderRadius: 25,
+    backgroundColor: Colors.lightGray,
     flexDirection: "row",
     padding: 15,
-    marginVertical: 10,
+    marginVertical: 5,
     flex: 1,
   },
   icon: {
     marginRight: 10,
   },
   placeholder: {
-    color: Colors.lightPurple,
+    color: Colors.white,
     flex: 1,
+    fontSize: 20,
   },
   text: {
     flex: 1,
-    color: Colors.lightPurple,
+    color: Colors.white,
+    fontSize: 20,
   },
 });

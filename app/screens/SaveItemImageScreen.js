@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  Image,
-  TouchableWithoutFeedback,
-} from "react-native";
+import { StyleSheet, Text, View, Button, Image } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import { Camera, CameraType } from "expo-camera";
 
 import * as ImagePicker from "expo-image-picker";
 import { Colors, FontSizes } from "../config";
 import { AppButton, Icon, ImageStorage } from "../components";
+import { AddClothingItem } from "../components/closet";
 
 export const SaveItemImageScreen = ({ navigation, route }) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -123,24 +119,12 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
           />
         </>
       ) : (
-        <View>
-          <View style={styles.container}>
+        <KeyboardAwareScrollView enableOnAndroid={true}>
+          <View style={styles.containerPreview}>
             {image && <Image source={{ uri: image }} style={styles.image} />}
           </View>
-          <View>
-            <AppButton
-              title="Save "
-              textColor={Colors.white}
-              color={Colors.purple}
-              onPress={() =>
-                navigation.navigate("AddClothing", {
-                  imageUrl: image,
-                  closetUid: closetUid,
-                })
-              }
-            />
-          </View>
-        </View>
+          <AddClothingItem closetUid={closetUid} imageUri={image} />
+        </KeyboardAwareScrollView>
       )}
     </View>
   );
@@ -156,14 +140,8 @@ const styles = StyleSheet.create({
     flex: 1,
     aspectRatio: 1,
   },
-  container: {
-    alignItems: "center",
-    backgroundColor: Colors.lightGray,
-
-    justifyContent: "center",
-    marginVertical: 10,
-    overflow: "hidden",
-    height: "80%",
+  containerPreview: {
+    height: 400,
   },
   image: {
     height: "100%",

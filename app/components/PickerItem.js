@@ -1,5 +1,6 @@
 import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
+import { Colors } from "../config";
 
 export const PickerItem = ({ item, onPress }) => {
   return (

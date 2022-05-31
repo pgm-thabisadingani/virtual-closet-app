@@ -43,14 +43,6 @@ export const ClosetScreen = ({ navigation }) => {
     return () => unsubscribe;
   }, []);
 
-  //creating a closet
-  // const createCloset = () => {
-  //   addDoc(collection(db, "closets"), {
-  //     closetOwerUid: userUid,
-  //closet.results.closetOwerUid === userUid;
-  //   }).catch((err) => console.error(err));
-  // };
-
   console.log(closet);
   return (
     <View isSafe style={styles.container}>

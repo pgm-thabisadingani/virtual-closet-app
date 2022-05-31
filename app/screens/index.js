@@ -7,7 +7,7 @@ import { ProfileScreen } from "./ProfileScreen";
 import { ChallengesScreen } from "./ChallengesScreen";
 import { ChallengeDetailsScreen } from "./ChallengeDetailsScreen";
 import { CreateChallengeScreen } from "./CreateChallengeScreen";
-import { AddClothingItemScreen } from "./AddClothingItemScreen";
+
 import { EditClothingItemScreen } from "./EditClothingItemScreen";
 import { ForgotPasswordScreen } from "./ForgotPasswordScreen";
 import { SaveItemImageScreen } from "./SaveItemImageScreen";
@@ -24,7 +24,6 @@ export {
   ChallengesScreen,
   CreateChallengeScreen,
   ChallengeDetailsScreen,
-  AddClothingItemScreen,
   EditClothingItemScreen,
   SaveItemImageScreen,
   SaveImageGoogleVisionScreen,
