@@ -21,7 +21,8 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
   const [type, setType] = useState(CameraType.back);
 
   // Closet and User id
-  const closetOwerUid = route.params;
+  const closetOwerUid = route.params.closetOwerId;
+  const closetUid = route.params.closetId;
 
   console.log(closetOwerUid);
 
@@ -134,6 +135,7 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
               onPress={() =>
                 navigation.navigate("AddClothing", {
                   imageUrl: image,
+                  closetUid: closetUid,
                 })
               }
             />

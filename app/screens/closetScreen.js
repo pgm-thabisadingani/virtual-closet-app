@@ -27,11 +27,10 @@ export const ClosetScreen = ({ navigation }) => {
       collection(db, "closets"),
       where("closetOwerUid", "==", userUid)
     );
-    onSnapshot(q, (snapshot) => {
-      if (snapshot.docs.length) {
-        const results = snapshot.docs[0].data();
-        setCloset((i) => ({ ...i, results }));
-      }
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setCloset({ ...doc.data(), id: doc.id });
     });
   };
 
@@ -57,7 +56,7 @@ export const ClosetScreen = ({ navigation }) => {
     <View isSafe style={styles.container}>
       <View>
         <View style={styles.categories}>
-          {userUid === userUid ? (
+          {closet.closetOwerUid === userUid ? (
             <View
               style={{
                 flexDirection: "row",
@@ -69,10 +68,10 @@ export const ClosetScreen = ({ navigation }) => {
                   name="plus-circle"
                   size={100}
                   onPress={() =>
-                    navigation.navigate(
-                      "SaveItemImage",
-                      closet.results.closetOwerUid
-                    )
+                    navigation.navigate("SaveItemImage", {
+                      closetOwerId: closet.closetOwerUid,
+                      closetId: closet.id,
+                    })
                   }
                   color={Colors.lightGray}
                 />
@@ -82,10 +81,10 @@ export const ClosetScreen = ({ navigation }) => {
                 name="plus-circle"
                 size={100}
                 onPress={() =>
-                  navigation.navigate(
-                    "SaveItemGooleAi",
-                    closet.results.closetOwerUid
-                  )
+                  navigation.navigate("SaveItemGooleAi", {
+                    closetOwerId: closet.closetOwerUid,
+                    closetId: closet.id,
+                  })
                 }
                 color={Colors.lightPurple}
               />

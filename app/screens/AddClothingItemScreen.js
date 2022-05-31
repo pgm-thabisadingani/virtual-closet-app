@@ -26,6 +26,7 @@ import { Formik } from "formik";
 export const AddClothingItemScreen = ({ navigation, route }) => {
   const [category, setCategory] = useState([]);
   const imageUri = route.params.imageUrl;
+  const closetUid = route.params.closetUid;
   const userUid = auth.currentUser.uid;
 
   /*get all the categories*/
@@ -44,8 +45,8 @@ export const AddClothingItemScreen = ({ navigation, route }) => {
   /*creating a clothing Item */
   const handleAddItem = async (values) => {
     addDoc(collection(db, "clothing"), {
-      itemUid: values.itemUid,
       closetOwerUid: values.closetOwerUid,
+      closetUid: values.closetUid,
       imageUri: values.imageUri,
       item: values.category,
     })
@@ -74,6 +75,7 @@ export const AddClothingItemScreen = ({ navigation, route }) => {
         <Formik
           initialValues={{
             closetOwerUid: userUid,
+            closetUid: closetUid,
             imageUri: imageUri,
             category: null,
           }}

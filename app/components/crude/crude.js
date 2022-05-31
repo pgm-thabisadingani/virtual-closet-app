@@ -39,6 +39,37 @@ useEffect(() => {
   return () => unsubscribe;
 }, []);
 
+// better version of setCloset
+/*getting closet where the the closet*/
+
+const setClotAsync = async () => {
+  const q = query(
+    collection(db, "closets"),
+    where("closetOwerUid", "==", userUid)
+  );
+
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    setCloset({ ...doc.data(), id: doc.id });
+  });
+};
+
+//getting items where closetceator Uid == userUid
+const setMoreAsync = async () => {
+  const q = query(
+    collection(db, "clothing"),
+    where("closetOwerUid", "==", userUid)
+  );
+
+  onSnapshot(q, (snapshot) => {
+    let results = [];
+    snapshot.forEach((doc) => {
+      results.push({ ...doc.data(), id: doc.id });
+    });
+    setItems(results);
+  });
+};
+
 //ADDING Categories
 const handleClick = ({ values }) => {
   addDoc(collection(db, "shopping-lists"), {

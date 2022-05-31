@@ -23,10 +23,11 @@ export const ClothingListItems = () => {
       collection(db, "clothing"),
       where("closetOwerUid", "==", userUid)
     );
+
     onSnapshot(q, (snapshot) => {
       let results = [];
       snapshot.forEach((doc) => {
-        results.push(doc.data());
+        results.push({ ...doc.data(), id: doc.id });
       });
       setItems(results);
     });
@@ -37,6 +38,8 @@ export const ClothingListItems = () => {
     const unsubscribe = setClosetAsync();
     return () => unsubscribe;
   }, []);
+
+  console.log(items);
 
   return (
     <View style={styles.container}>
