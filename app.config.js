@@ -10,6 +10,7 @@ export default {
     version: "0.15.0",
     orientation: "portrait",
     icon: "./app/assets/Logo.png",
+    userInterfaceStyle: "automatic",
     splash: {
       image: "./app/assets/splash.png",
       resizeMode: "cover",

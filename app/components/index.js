@@ -8,10 +8,10 @@ import { Icon } from "./Icon";
 import { Button } from "./Button";
 import { FormErrorMessage } from "./FormErrorMessage";
 import { LoadingIndicator } from "./LoadingIndicator";
-import { AddImageItemAutomatic } from "./AddImageItemAutomatic";
 import { CategoryPickerItem } from "./CategoryPickerItem";
-import { AppFormPicker } from "./AppFormPicker";
-import { ImageStorage } from "./ImageStorage";
+import { DatePickerField } from "./DatePickerField";
+import { LocationPicker } from "./LocationPicker";
+import { TextAreaFormField } from "./TextAreaFormField";
 
 export {
   View,
@@ -24,8 +24,8 @@ export {
   LoadingIndicator,
   Avatar,
   AppButton,
-  AddImageItemAutomatic,
   CategoryPickerItem,
-  AppFormPicker,
-  ImageStorage,
+  DatePickerField,
+  LocationPicker,
+  TextAreaFormField,
 };

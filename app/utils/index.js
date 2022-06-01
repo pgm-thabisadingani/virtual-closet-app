@@ -21,6 +21,11 @@ export const passwordResetSchema = Yup.object().shape({
     .email("Enter a valid email"),
 });
 
-export const clothigItemSchema = Yup.object().shape({
+export const clothingItemSchema = Yup.object().shape({
   category: Yup.object().required().nullable().label("Category"),
+});
+export const challengeSchema = Yup.object().shape({
+  eventTitle: Yup.string().required().label("Event title"),
+  eventDate: Yup.date().required().nullable().label("Event Date"),
+  Description: Yup.string().label("Description"),
 });

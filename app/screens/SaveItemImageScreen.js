@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, View, Button, Image } from "react-native";
+import { StyleSheet, Text, View, Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { Camera, CameraType } from "expo-camera";
 
 import * as ImagePicker from "expo-image-picker";
 import { Colors, FontSizes } from "../config";
-import { AppButton, Icon, ImageStorage } from "../components";
+import { AppButton, Icon } from "../components";
 import { AddClothingItem } from "../components/closet";
+import { ImageStorage } from "../hooks";
 
 export const SaveItemImageScreen = ({ navigation, route }) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);

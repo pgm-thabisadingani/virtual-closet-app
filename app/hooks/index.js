@@ -1,3 +1,4 @@
-import { useTogglePasswordVisibility } from './useTogglePasswordVisibility';
+import { useTogglePasswordVisibility } from "./useTogglePasswordVisibility";
+import { ImageStorage } from "./ImageStorage";
 
-export { useTogglePasswordVisibility };
+export { useTogglePasswordVisibility, ImageStorage };

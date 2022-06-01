@@ -48,7 +48,7 @@ export const ClothingListItems = () => {
           <FlatList
             data={items}
             keyExtractor={(item) => item.id} // returns a number which you have to conver to string
-            numColumns={3}
+            numColumns={2}
             renderItem={({ item }) => (
               <View style={styles.itemContainer}>
                 <ClothingItem items={item} />
@@ -73,6 +73,5 @@ const styles = StyleSheet.create({
   containerEmpty: {
     flex: 1,
     backgroundColor: Colors.purple,
-    height: 40,
   },
 });

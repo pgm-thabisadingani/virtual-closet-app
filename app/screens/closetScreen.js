@@ -37,7 +37,6 @@ export const ClosetScreen = ({ navigation }) => {
   /*filter base on categories*/
 
   /*Keep track with changes in data add or delete. Clean up!*/
-
   useEffect(() => {
     const unsubscribe = setClosetAsync();
     return () => unsubscribe;
@@ -86,7 +85,6 @@ export const ClosetScreen = ({ navigation }) => {
           )}
           <CategoryListItem userUid={userUid} />
         </View>
-        <Text>This is the closet of {auth.currentUser.displayName}</Text>
         <ClothingListItems />
       </View>
     </View>

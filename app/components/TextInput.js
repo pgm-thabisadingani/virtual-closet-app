@@ -41,7 +41,7 @@ export const TextInput = ({
           fontSize: 18,
           color: Colors.dark,
         }}
-        placeholderTextColor={Colors.mediumGray}
+        placeholderTextColor={Colors.lightGray}
         {...otherProps}
       />
       {rightIcon ? (

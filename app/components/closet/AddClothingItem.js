@@ -9,7 +9,7 @@ import { collection, query, addDoc, onSnapshot } from "firebase/firestore";
 import { auth, Colors, db } from "../../config";
 
 import { Formik } from "formik";
-import { clothigItemSchema } from "../../utils";
+import { clothingItemSchema } from "../../utils";
 import { AppFormPicker } from "../AppFormPicker";
 import { AppButton } from "../AppButton";
 import { CategoryPickerItem } from "../CategoryPickerItem";
@@ -59,7 +59,7 @@ export const AddClothingItem = ({ closetUid, imageUri }) => {
           imageUri: imageUri,
           category: null,
         }}
-        validationSchema={clothigItemSchema}
+        validationSchema={clothingItemSchema}
         onSubmit={(values) => handleAddItem(values)}
       >
         {({ handleSubmit }) => (
