@@ -5,6 +5,7 @@ import { View } from "./View";
 import { Logo } from "./Logo";
 import { FeedsTile } from "./FeedsTile";
 import { Icon } from "./Icon";
+import { Error } from "./Error";
 import { Button } from "./Button";
 import { FormErrorMessage } from "./FormErrorMessage";
 import { LoadingIndicator } from "./LoadingIndicator";
@@ -14,6 +15,7 @@ import { LocationPicker } from "./LocationPicker";
 import { TextAreaFormField } from "./TextAreaFormField";
 
 export {
+  Error,
   View,
   TextInput,
   Logo,

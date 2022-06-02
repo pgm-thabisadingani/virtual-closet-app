@@ -2,16 +2,11 @@ import * as React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import {
-  FeedsScreen,
-  ProfileScreen,
-  ClosetScreen,
-  ChallengesScreen,
-  CreateChallengeScreen,
-} from "../screens";
+import { ProfileScreen, CreateChallengeScreen } from "../screens";
 import { Colors } from "../config";
 import { ClosetNavigation } from "./ClosetNavigation";
 import { FeedsNavigation } from "./FeedsNavigation";
+import { ChallengeNavigation } from "./ChallengeNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -55,7 +50,7 @@ export const AppStack = () => {
       />
       <Tab.Screen name="Closet" component={ClosetNavigation} />
       <Tab.Screen name="Create" component={CreateChallengeScreen} />
-      <Tab.Screen name="Challenges" component={ChallengesScreen} />
+      <Tab.Screen name="Challenges" component={ChallengeNavigation} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>
   );

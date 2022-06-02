@@ -15,8 +15,8 @@ export const LocationPicker = ({ name }) => {
         placeholder="Search location"
         onPress={(data, details = null) => {
           // 'details' is provided when fetchDetails = true
-          console.log(data.description);
-          setFieldValue(name, data.description);
+          console.log(data.structured_formatting.main_text);
+          setFieldValue(name, data.structured_formatting.main_text);
         }}
         query={{
           key: GOOGLE_PLACES_API_KEY,

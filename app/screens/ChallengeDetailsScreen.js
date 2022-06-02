@@ -7,7 +7,7 @@ export const ChallengeDetailsScreen = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <Text>Weather</Text>
-      <ChallengeDetails city="Brussels" />
+      <ChallengeDetails city="New%20Orleans" />
     </View>
   );
 };

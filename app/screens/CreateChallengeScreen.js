@@ -2,12 +2,10 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, Image, ScrollView } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
-import { collection, query, addDoc, onSnapshot } from "firebase/firestore";
+import { collection, query, addDoc, getDocs, where } from "firebase/firestore";
 
-import { Formik } from "formik";
-
+import { Formik, useFormikContext } from "formik";
 import { auth, Colors, db } from "../config";
-
 import { challengeSchema } from "../utils";
 
 import {
@@ -21,14 +19,34 @@ import {
 } from "../components";
 
 export const CreateChallengeScreen = () => {
+  const [closet, setCloset] = useState("");
   const userUid = auth.currentUser.uid;
   const userName = auth.currentUser.displayName;
   const userAvatar = auth.currentUser.photoURL;
   const navigation = useNavigation();
 
+  /*getting closet where the the closet*/
+  const setClosetAsync = async () => {
+    const q = query(
+      collection(db, "closets"),
+      where("closetOwerUid", "==", userUid)
+    );
+
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setCloset({ ...doc.data(), id: doc.id });
+    });
+  };
+
+  useEffect(() => {
+    const unsubscribe = setClosetAsync();
+    return () => unsubscribe;
+  }, []);
+
   /*creating a clothing Item */
   const handleAddItem = async (values) => {
     addDoc(collection(db, "challenges"), {
+      closetUid: closet.id,
       creatorUid: userUid,
       creatorUserName: userName,
       creatorAvator: userAvatar,
@@ -37,7 +55,7 @@ export const CreateChallengeScreen = () => {
       eventDate: values.eventDate,
       discription: values.discription,
     })
-      .then(navigation.popToTop())
+      .then(navigation.navigate("Challenges"))
       .catch((err) => console.error(err));
   };
   return (
@@ -51,7 +69,10 @@ export const CreateChallengeScreen = () => {
           eventLocation: null,
         }}
         validationSchema={challengeSchema}
-        onSubmit={(values) => handleAddItem(values)}
+        onSubmit={(values, { resetForm }) => {
+          handleAddItem(values);
+          resetForm({ values: " " });
+        }}
       >
         {({
           values,
