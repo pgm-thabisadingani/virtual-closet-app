@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, Image } from "react-native";
+import { StyleSheet, Text, Image, ScrollView } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
 import { collection, query, addDoc, onSnapshot } from "firebase/firestore";
@@ -12,7 +12,7 @@ import { challengeSchema } from "../utils";
 
 import {
   AppButton,
-  DatePickerField,
+  AppDatePicker,
   FormErrorMessage,
   LocationPicker,
   TextAreaFormField,
@@ -33,6 +33,7 @@ export const CreateChallengeScreen = () => {
       creatorUserName: userName,
       creatorAvator: userAvatar,
       eventTitle: values.eventTitle,
+      eventLocation: values.eventLocation,
       eventDate: values.eventDate,
       discription: values.discription,
     })
@@ -40,38 +41,49 @@ export const CreateChallengeScreen = () => {
       .catch((err) => console.error(err));
   };
   return (
-    <View isSafe style={styles.container}>
-      <KeyboardAwareScrollView enableOnAndroid={true}>
-        {/* Formik Wrapper */}
-        <Formik
-          initialValues={{
-            eventTitle: "",
-            discription: "",
-            eventDate: null,
-          }}
-          validationSchema={challengeSchema}
-          // onSubmit={(values) => handleAddItem(values)}
-          onSubmit={(values, { setSubmitting }) => {
-            setTimeout(() => {
-              alert(JSON.stringify(values, null, 2));
-              setSubmitting(false);
-            }, 500);
-          }}
-        >
-          {({
-            values,
-            touched,
-            errors,
-            handleChange,
-            handleSubmit,
-            handleBlur,
-          }) => (
-            <>
+    <View isSafe style={styles.container} listMode="SCROLLVIEW">
+      {/* Formik Wrapper */}
+      <Formik
+        initialValues={{
+          eventTitle: "",
+          discription: "",
+          eventDate: null,
+          eventLocation: null,
+        }}
+        validationSchema={challengeSchema}
+        onSubmit={(values) => handleAddItem(values)}
+      >
+        {({
+          values,
+          touched,
+          errors,
+          handleChange,
+          handleSubmit,
+          handleBlur,
+        }) => (
+          <>
+            <View
+              style={{
+                flex: 1,
+                width: "100%",
+                position: "absolute",
+                zIndex: 100,
+                right: 25,
+                top: 25,
+              }}
+            >
+              <LocationPicker name="eventLocation" autoFocus={true} />
+            </View>
+            <ScrollView
+              listMode="SCROLLVIEW"
+              style={{ flex: 1, marginTop: 115 }}
+            >
+              <Text>Pick a date</Text>
+              <AppDatePicker name="eventDate" />
               <Text>Event Title</Text>
               <TextInput
                 name="eventTitle"
                 placeholder="Funeral"
-                autoFocus={true}
                 value={values.eventTitle}
                 onChangeText={handleChange("eventTitle")}
                 onBlur={handleBlur("eventTitle")}
@@ -80,16 +92,12 @@ export const CreateChallengeScreen = () => {
                 error={errors.eventTitle}
                 visible={touched.eventTitle}
               />
-
-              <DatePickerField name="eventDate" />
-
-              <Text>Event Discription</Text>
+              <Text style={{ marginTop: 20 }}>Event Discription</Text>
               <TextAreaFormField
                 multiline
                 numberOfLines={10}
                 name="discription"
                 placeholder="Start writing ..."
-                autoFocus={true}
                 value={values.username}
                 onChangeText={handleChange("discription")}
                 onBlur={handleBlur("discription")}
@@ -106,10 +114,10 @@ export const CreateChallengeScreen = () => {
                 onPress={handleSubmit}
                 color={Colors.purple}
               />
-            </>
-          )}
-        </Formik>
-      </KeyboardAwareScrollView>
+            </ScrollView>
+          </>
+        )}
+      </Formik>
     </View>
   );
 };

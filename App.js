@@ -12,6 +12,9 @@ LogBox.ignoreLogs([
 LogBox.ignoreLogs([
   "AsyncStorage has been extracted from react-native core and will be removed in a future release. It can now be installed and imported from '@react-native-async-storage/async-storage' instead of 'react-native'. See https://github.com/react-native-async-storage/async-storage",
 ]);
+LogBox.ignoreLogs([
+  "VirtualizedLists should never be nested inside plain ScrollViews with the same orientation because it can break windowing and other functionality - use another VirtualizedList-backed container instead.",
+]);
 
 const App = () => {
   return (

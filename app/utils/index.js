@@ -27,5 +27,5 @@ export const clothingItemSchema = Yup.object().shape({
 export const challengeSchema = Yup.object().shape({
   eventTitle: Yup.string().required().label("Event title"),
   eventDate: Yup.date().required().nullable().label("Event Date"),
-  Description: Yup.string().label("Description"),
+  Description: Yup.string().max(50, "Too Long!").label("Description"),
 });

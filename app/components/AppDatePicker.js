@@ -5,7 +5,7 @@ import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Colors, FontSizes } from "../config";
 import { FormErrorMessage } from "./FormErrorMessage";
 
-export const DatePickerField = ({ name }) => {
+export const AppDatePicker = ({ name }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [eventDate, setEventDate] = useState(new Date());
 
@@ -18,7 +18,7 @@ export const DatePickerField = ({ name }) => {
   };
 
   const handleConfirm = (date) => {
-    console.log("A date has have been set: ", date);
+    console.log("A date has been set: ", date);
     setEventDate(date);
     setFieldValue(name, date);
     hideDatePicker();

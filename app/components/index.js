@@ -9,7 +9,7 @@ import { Button } from "./Button";
 import { FormErrorMessage } from "./FormErrorMessage";
 import { LoadingIndicator } from "./LoadingIndicator";
 import { CategoryPickerItem } from "./CategoryPickerItem";
-import { DatePickerField } from "./DatePickerField";
+import { AppDatePicker } from "./AppDatePicker";
 import { LocationPicker } from "./LocationPicker";
 import { TextAreaFormField } from "./TextAreaFormField";
 
@@ -25,7 +25,7 @@ export {
   Avatar,
   AppButton,
   CategoryPickerItem,
-  DatePickerField,
+  AppDatePicker,
   LocationPicker,
   TextAreaFormField,
 };

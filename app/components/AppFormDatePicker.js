@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet } from "react-native";
 import { useFormikContext } from "formik";
 import { FormErrorMessage } from "./FormErrorMessage";
-import { AppPicker } from "./AppPicker";
+import { DatePickerField } from "./DatePickerField";
 
 export const AppFormDatePicke = ({
   items,
@@ -16,7 +16,7 @@ export const AppFormDatePicke = ({
 
   return (
     <>
-      <AppPicker
+      <DatePickerField
         items={items}
         numberOfColumns={numberOfColumns}
         onSelectItem={(item) => setFieldValue(name, item)}

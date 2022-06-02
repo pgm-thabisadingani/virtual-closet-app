@@ -19,7 +19,7 @@ export const TextAreaFormField = ({
         backgroundColor: Colors.light,
         borderRadius: 5,
         width,
-        flex: 1,
+
         marginVertical: 12,
         padding: 12,
         borderWidth: 1,
@@ -28,7 +28,7 @@ export const TextAreaFormField = ({
     >
       <NativeTextArea
         style={{
-          flex: 1,
+          height: 110,
           width: "100%",
           fontSize: 18,
           color: Colors.dark,
