@@ -1,4 +1,5 @@
 import { useTogglePasswordVisibility } from "./useTogglePasswordVisibility";
 import { ImageStorage } from "./ImageStorage";
+import { useFetch } from "./useFetch";
 
-export { useTogglePasswordVisibility, ImageStorage };
+export { useTogglePasswordVisibility, ImageStorage, useFetch };

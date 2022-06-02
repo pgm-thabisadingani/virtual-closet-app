@@ -6,7 +6,6 @@ export const ChallengesScreen = (props) => {
   return (
     <View style={styles.container}>
       <Text>This is a Challenges screen</Text>
-      <DatePickerField name="date" />
     </View>
   );
 };
