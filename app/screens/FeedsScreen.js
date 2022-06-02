@@ -8,7 +8,8 @@ import {
   LocationPicker,
   View,
 } from "../components";
-import { ChallengesList } from "../components/challenges";
+import { ChallengesListFeeds } from "../components/challenges";
+
 import { ChallengesListItem } from "../components/list";
 
 import { auth, Colors, FontSizes, Images } from "../config";
@@ -51,7 +52,7 @@ export const FeedsScreen = ({ navigation }) => {
           txColor={Colors.purple}
         />
       </View>
-      <ChallengesList />
+      <ChallengesListFeeds />
     </View>
   );
 };

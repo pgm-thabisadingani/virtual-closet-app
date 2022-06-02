@@ -6,7 +6,6 @@ export const useFetch = ({ city = "Ghent" }) => {
   const [dataUri, setDataUri] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-  console.log("this is a city " + city);
 
   const getArticlesFromApi = () => {
     return fetch(
@@ -27,7 +26,7 @@ export const useFetch = ({ city = "Ghent" }) => {
     return () => unsubscribe;
   }, []);
 
-  console.log(dataUri);
+  // console.log(dataUri);
 
   return [dataUri, isLoading, error];
 };

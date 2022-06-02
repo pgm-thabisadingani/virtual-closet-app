@@ -6,7 +6,13 @@ import { LoadingIndicator } from "../LoadingIndicator";
 
 export const ChallengeDetails = ({ city }) => {
   const [data, isLoading, error] = useFetch({ city: city });
-  console.log(data.name);
+
+  // <Text>{Math.round(data.main.temp_max - 273)}</Text>
+  // const convertTemp = (temp) => {
+  //   return Math.round(temp - 273);
+  // };
+  // <Text>{data.weather[0].main}</Text>
+
   return (
     <>
       {error ? (
@@ -15,9 +21,8 @@ export const ChallengeDetails = ({ city }) => {
         <LoadingIndicator />
       ) : (
         <View style={styles.container}>
-          <Text>{data.name}</Text>
-          <Text>{Math.round(data.main.temp - 273)}</Text>
-          <Text>{data.weather[0].main}</Text>
+          <Text></Text>
+          <Text></Text>
         </View>
       )}
     </>
@@ -27,5 +32,3 @@ export const ChallengeDetails = ({ city }) => {
 const styles = StyleSheet.create({
   container: {},
 });
-
-export default ChallengeDetails;

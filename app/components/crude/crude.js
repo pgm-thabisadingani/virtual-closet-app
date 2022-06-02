@@ -40,6 +40,24 @@ useEffect(() => {
 }, []);
 
 // better version of setCloset
+
+/*getting challenges by doc ID */
+const getChallengeAsync = async () => {
+  const q = await getDoc(doc(db, "challenges", challengeUid));
+
+  if (q.exists()) {
+    console.log("Document data:", q.data());
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+  }
+};
+
+useEffect(() => {
+  const unsubscribe = getChallengeAsync();
+  return () => unsubscribe;
+}, []);
+
 /*getting closet where the the closet*/
 
 const setClotAsync = async () => {

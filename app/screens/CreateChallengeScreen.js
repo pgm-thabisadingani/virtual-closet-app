@@ -26,7 +26,7 @@ export const CreateChallengeScreen = () => {
   const navigation = useNavigation();
 
   /*getting closet where the the closet*/
-  const setClosetAsync = async () => {
+  const getClosetAsync = async () => {
     const q = query(
       collection(db, "closets"),
       where("closetOwerUid", "==", userUid)
@@ -39,7 +39,7 @@ export const CreateChallengeScreen = () => {
   };
 
   useEffect(() => {
-    const unsubscribe = setClosetAsync();
+    const unsubscribe = getClosetAsync();
     return () => unsubscribe;
   }, []);
 

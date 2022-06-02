@@ -22,7 +22,7 @@ export const ClosetScreen = ({ navigation }) => {
   const userUid = auth.currentUser.uid;
 
   /*getting closet where the the closet*/
-  const setClosetAsync = async () => {
+  const getClosetAsync = async () => {
     const q = query(
       collection(db, "closets"),
       where("closetOwerUid", "==", userUid)
@@ -38,7 +38,7 @@ export const ClosetScreen = ({ navigation }) => {
 
   /*Keep track with changes in data add or delete. Clean up!*/
   useEffect(() => {
-    const unsubscribe = setClosetAsync();
+    const unsubscribe = getClosetAsync();
     return () => unsubscribe;
   }, []);
 

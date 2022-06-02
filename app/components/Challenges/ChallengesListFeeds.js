@@ -9,7 +9,7 @@ import { collection, onSnapshot, query } from "firebase/firestore";
 import { LoadingIndicator } from "../LoadingIndicator";
 import { Error } from "../Error";
 
-export const ChallengesList = () => {
+export const ChallengesListFeeds = () => {
   const [item, setItem] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
@@ -100,7 +100,9 @@ export const ChallengesList = () => {
             size={20}
             textColor={Colors.white}
             title="YAY"
-            onPress={() => navigation.navigate("ChallengeDetails", item.id)}
+            onPress={() =>
+              navigation.navigate("ChallengeDetails", challenges[0].id)
+            }
             color={Colors.green}
           />
         </View>
