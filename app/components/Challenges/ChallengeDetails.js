@@ -4,10 +4,9 @@ import { useFetch } from "../../hooks";
 import { Error } from "../Error";
 import { LoadingIndicator } from "../LoadingIndicator";
 
-export const ChallengeDetails = (props) => {
-  const [data, isLoading, error] = useFetch({ city: props.city });
+export const ChallengeDetails = ({ city }) => {
+  const [data, isLoading, error] = useFetch({ city: city });
   console.log(data.name);
-
   return (
     <>
       {error ? (
@@ -17,6 +16,8 @@ export const ChallengeDetails = (props) => {
       ) : (
         <View style={styles.container}>
           <Text>{data.name}</Text>
+          <Text>{Math.round(data.main.temp - 273)}</Text>
+          <Text>{data.weather[0].main}</Text>
         </View>
       )}
     </>

@@ -1,10 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, Text } from "react-native";
 import { ChallengesListItem } from "./ChallengesListItem";
-import { Colors, FontSizes } from "../../config";
+import { Colors, db, FontSizes } from "../../config";
 import { View } from "../View";
 import { AppButton } from "../AppButton";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { LoadingIndicator } from "../LoadingIndicator";
+import { Error } from "../Error";
 
 export const DATA = [
   {
@@ -35,15 +38,45 @@ export const DATA = [
 
 export const ChallengesList = () => {
   const [item, setItem] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const [challenges, setChallenges] = useState([0]); //first item of the array
   const navigation = useNavigation();
 
   // selects an item randomly
-  const randomListItem = (DATA) => {
-    const randomItem = DATA[Math.floor(Math.random() * DATA.length)];
+  const randomListItem = (challenges) => {
+    const randomItem =
+      challenges[Math.floor(Math.random() * challenges.length)];
     setItem(randomItem);
   };
 
-  return (
+  // get all the Challenges from database
+
+  const setClosetAsync = async () => {
+    setIsLoading(true);
+    try {
+      const q = query(collection(db, "challenges"));
+      onSnapshot(q, (snapshot) => {
+        setChallenges(
+          snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        );
+        setIsLoading(false);
+      });
+    } catch (error) {
+      setIsError(error);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = setClosetAsync();
+    return () => unsubscribe;
+  }, []);
+
+  return isLoading ? (
+    <LoadingIndicator />
+  ) : isError ? (
+    <Error />
+  ) : (
     <View style={styles.container}>
       <View style={styles.challengeListContainer}>
         <View style={styles.latestChallenge}>
@@ -60,21 +93,21 @@ export const ChallengesList = () => {
         </View>
         {item ? (
           <ChallengesListItem
-            title={item.title}
-            source={item.img}
-            creator={item.creator}
+            title={item.eventTitle}
+            source={item.creatorAvator}
+            creator={item.creatorUserName}
             onPress={() =>
-              navigation.navigate("ChallengeDetails", item.id, item.title)
+              navigation.navigate("ChallengeDetails", item.id, item.eventTitle)
             }
             feeds
           />
         ) : (
           <ChallengesListItem
-            title={DATA[0].title}
-            source={DATA[0].img}
-            creator={DATA[0].creator}
+            title={challenges[0].eventTitle}
+            source={challenges[0].creatorAvator}
+            creator={challenges[0].creatorUserName}
             onPress={() =>
-              navigation.navigate("ChallengeDetails", DATA[0].id, DATA[0].title)
+              navigation.navigate("ChallengeDetails", challenges[0].id)
             }
             feeds
           />
@@ -86,7 +119,7 @@ export const ChallengesList = () => {
             size={20}
             textColor={Colors.white}
             title="NAH"
-            onPress={() => randomListItem(DATA)}
+            onPress={() => randomListItem(challenges)}
             color={Colors.red}
           />
           <AppButton
@@ -94,9 +127,7 @@ export const ChallengesList = () => {
             size={20}
             textColor={Colors.white}
             title="YAY"
-            onPress={() =>
-              navigation.navigate("ChallengeDetails", item.id, item.title)
-            }
+            onPress={() => navigation.navigate("ChallengeDetails", item.id)}
             color={Colors.green}
           />
         </View>
