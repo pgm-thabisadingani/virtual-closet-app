@@ -53,7 +53,7 @@ export const ClothingItem = ({ navigation, items }) => {
 
   // handle Delete
   const handleDelete = () => {
-    Alert.alert("Delete", "Are you sure you want to delete this image?", [
+    Alert.alert("Delete", "Are you sure you want to delete this item?", [
       { text: "Yes", onPress: () => asyncDeleteItem(items.id) },
       { text: "No" },
     ]);
@@ -63,7 +63,7 @@ export const ClothingItem = ({ navigation, items }) => {
     <>
       {userUid === closetOwerUid ? (
         <View>
-          <Pressable style={styles.container} onPress={handleDelete}>
+          <Pressable style={styles.container} onLongPress={handleDelete}>
             <ImageBackground
               source={{ uri: imageUri }}
               resizeMode="cover"
@@ -91,10 +91,12 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    borderColor: Colors.purple,
+    borderColor: Colors.lightGray,
+    borderRadius: 15,
+    overflow: "hidden",
     borderWidth: 1,
-    height: 160,
-    width: 105,
+    height: 200,
+    width: 160,
     marginBottom: 20,
   },
   image: {

@@ -1,11 +1,115 @@
-import React from "react";
-import { View, StyleSheet, Text } from "react-native";
-import { DatePickerField } from "../components";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, Text, FlatList } from "react-native";
+import { Error, Icon, LoadingIndicator, View } from "../components";
+import { ChallengesListItem } from "../components/challenges";
+import { auth, Colors, db, FontSizes } from "../config";
 
-export const ChallengesScreen = (props) => {
-  return <View style={styles.container}></View>;
+export const ChallengesScreen = ({ navigation }) => {
+  const [challenges, setChallenges] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const userUid = auth.currentUser.uid;
+
+  const setChallengesAsync = async () => {
+    setIsLoading(true);
+    try {
+      const q = query(
+        collection(db, "challenges"),
+        where("creatorUid", "==", userUid)
+      );
+      const querySnapshot = await getDocs(q);
+      const data = [];
+      querySnapshot.forEach((doc) => {
+        data.push({ ...doc.data(), id: doc.id });
+      });
+      setChallenges(data);
+      setIsLoading(false);
+    } catch (error) {
+      setIsError(error);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = setChallengesAsync();
+    return () => unsubscribe;
+  }, []);
+  console.log(challenges);
+
+  return isLoading ? (
+    <LoadingIndicator />
+  ) : isError ? (
+    <Error />
+  ) : (
+    <View isSafe style={styles.container}>
+      <View style={styles.challengeListContainer}></View>
+      <View style={styles.container}>
+        {challenges.length !== null ? (
+          <>
+            <View style={styles.latestChallenge}>
+              <Text
+                style={{
+                  fontSize: FontSizes.title,
+                  fontWeight: "bold",
+                  color: Colors.dark,
+                  marginBottom: -15,
+                }}
+              >
+                Your recent Challenges
+              </Text>
+            </View>
+            <View
+              style={{
+                alignItems: "center",
+                position: "absolute",
+                bottom: 20,
+                right: 0,
+                zIndex: 100,
+              }}
+            >
+              <Icon
+                name="plus-circle"
+                size={100}
+                onPress={() => navigation.navigate("Create")}
+                color={Colors.lightPurple}
+              />
+            </View>
+            <FlatList
+              data={challenges}
+              keyExtractor={(item) => item.id} // returns a number which you have to conver to string
+              renderItem={({ item }) => (
+                <View style={styles.itemContainer}>
+                  <ChallengesListItem
+                    title={item.eventTitle}
+                    source={item.creatorAvator}
+                    creator={item.creatorUserName}
+                    onPress={() =>
+                      navigation.navigate(
+                        "ChallengeDetails",
+                        item.id,
+                        item.eventTitle
+                      )
+                    }
+                  />
+                </View>
+              )}
+            />
+          </>
+        ) : (
+          <View style={styles.containerEmpty}>
+            <Text>You dont have any challeneges create a challenge</Text>
+          </View>
+        )}
+      </View>
+    </View>
+  );
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: { flex: 1 },
+  latestChallenge: {
+    marginVertical: 20,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
 });

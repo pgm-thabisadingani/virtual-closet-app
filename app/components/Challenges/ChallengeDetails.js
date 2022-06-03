@@ -13,19 +13,15 @@ export const ChallengeDetails = ({ city }) => {
   // };
   // <Text>{data.weather[0].main}</Text>
 
-  return (
-    <>
-      {error ? (
-        <Error>{error}</Error>
-      ) : isLoading || !data ? (
-        <LoadingIndicator />
-      ) : (
-        <View style={styles.container}>
-          <Text></Text>
-          <Text></Text>
-        </View>
-      )}
-    </>
+  return error ? (
+    <Error>{error}</Error>
+  ) : isLoading || !data ? (
+    <LoadingIndicator />
+  ) : (
+    <View style={styles.container}>
+      <Text></Text>
+      <Text></Text>
+    </View>
   );
 };
 

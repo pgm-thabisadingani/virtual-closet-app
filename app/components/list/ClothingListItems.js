@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, FlatList, View } from "react-native";
+import { StyleSheet, Text, FlatList, View, ScrollView } from "react-native";
 import "react-native-get-random-values";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { auth, Colors, database, db } from "../../config";
 import { ClothingItem } from "../ClothingItem";
@@ -42,8 +43,8 @@ export const ClothingListItems = () => {
   console.log(items);
 
   return (
-    <View style={styles.container}>
-      {items.length > 0 ? (
+    <ScrollView style={styles.container}>
+      {items.length !== null ? (
         <>
           <FlatList
             data={items}
@@ -61,7 +62,7 @@ export const ClothingListItems = () => {
           <Text>Now let's add some items to the closet</Text>
         </View>
       )}
-    </View>
+    </ScrollView>
   );
 };
 
@@ -69,6 +70,8 @@ const styles = StyleSheet.create({
   container: {},
   itemContainer: {
     flex: 1,
+
+    justifyContent: "center",
   },
   containerEmpty: {
     flex: 1,

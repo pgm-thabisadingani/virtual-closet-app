@@ -1,7 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, FlatList } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  FlatList,
+  ImageBackground,
+  ScrollView,
+} from "react-native";
 import { v4 as uuid } from "uuid";
 import "react-native-get-random-values";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+
 import {
   collection,
   query,
@@ -45,46 +53,47 @@ export const ClosetScreen = ({ navigation }) => {
   console.log(closet);
   return (
     <View isSafe style={styles.container}>
-      <View>
-        <View style={styles.categories}>
-          {closet.closetOwerUid === userUid ? (
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-              }}
-            >
-              <View style={{ alignItems: "center" }}>
-                <Icon
-                  name="plus-circle"
-                  size={100}
-                  onPress={() =>
-                    navigation.navigate("SaveItemImage", {
-                      closetOwerId: closet.closetOwerUid,
-                      closetId: closet.id,
-                    })
-                  }
-                  color={Colors.lightGray}
-                />
-                <Text>Add Item</Text>
-              </View>
+      <View style={styles.categories}>
+        {closet.closetOwerUid === userUid ? (
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+            }}
+          >
+            <View style={{ alignItems: "center" }}>
               <Icon
                 name="plus-circle"
                 size={100}
                 onPress={() =>
-                  navigation.navigate("SaveItemGooleAi", {
+                  navigation.navigate("SaveItemImage", {
                     closetOwerId: closet.closetOwerUid,
                     closetId: closet.id,
                   })
                 }
-                color={Colors.lightPurple}
+                color={Colors.lightGray}
               />
+              <Text>Add Item</Text>
             </View>
-          ) : (
-            <Text></Text>
-          )}
-          <CategoryListItem userUid={userUid} />
-        </View>
+            <Icon
+              name="plus-circle"
+              size={100}
+              onPress={() =>
+                navigation.navigate("SaveItemGooleAi", {
+                  closetOwerId: closet.closetOwerUid,
+                  closetId: closet.id,
+                })
+              }
+              color={Colors.lightPurple}
+            />
+          </View>
+        ) : (
+          <Text></Text>
+        )}
+
+        <CategoryListItem userUid={userUid} />
+      </View>
+      <View style={styles.clothigList}>
         <ClothingListItems />
       </View>
     </View>
@@ -102,5 +111,8 @@ const styles = StyleSheet.create({
     paddingVertical: "70%",
     justifyContent: "center",
     alignItems: "center",
+  },
+  clothigList: {
+    marginRight: -20,
   },
 });

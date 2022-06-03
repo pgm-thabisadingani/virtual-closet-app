@@ -7,6 +7,7 @@ import { Colors } from "../config";
 import { ClosetNavigation } from "./ClosetNavigation";
 import { FeedsNavigation } from "./FeedsNavigation";
 import { ChallengeNavigation } from "./ChallengeNavigation";
+import { NewChallengeButton } from "./NewChallengeButton";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,6 +17,12 @@ export const AppStack = () => {
       screenOptions={({ route }) => ({
         headerStyle: {
           backgroundColor: Colors.purple,
+        },
+        tabBarStyle: {
+          height: 60,
+        },
+        tabBarItemStyle: {
+          margin: 5,
         },
         headerTitleStyle: { color: Colors.white },
         headerTitleAlign: "center",
@@ -49,7 +56,22 @@ export const AppStack = () => {
         options={{ headerBackVisible: true }}
       />
       <Tab.Screen name="Closet" component={ClosetNavigation} />
-      <Tab.Screen name="Create" component={CreateChallengeScreen} />
+      <Tab.Screen
+        name="Create"
+        component={CreateChallengeScreen}
+        options={({ navigation }) => ({
+          tabBarButton: () => (
+            <NewChallengeButton onPress={() => navigation.navigate("Create")} />
+          ),
+          tabBarIcon: ({ color, size }) => (
+            <MaterialCommunityIcons
+              name="plus-circle"
+              color={color}
+              size={size}
+            />
+          ),
+        })}
+      />
       <Tab.Screen name="Challenges" component={ChallengeNavigation} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
     </Tab.Navigator>

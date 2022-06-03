@@ -11,7 +11,9 @@ import { challengeSchema } from "../utils";
 import {
   AppButton,
   AppDatePicker,
+  Error,
   FormErrorMessage,
+  LoadingIndicator,
   LocationPicker,
   TextAreaFormField,
   TextInput,
@@ -23,19 +25,27 @@ export const CreateChallengeScreen = () => {
   const userUid = auth.currentUser.uid;
   const userName = auth.currentUser.displayName;
   const userAvatar = auth.currentUser.photoURL;
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const navigation = useNavigation();
 
   /*getting closet where the the closet*/
   const getClosetAsync = async () => {
-    const q = query(
-      collection(db, "closets"),
-      where("closetOwerUid", "==", userUid)
-    );
+    setIsLoading(true);
+    try {
+      const q = query(
+        collection(db, "closets"),
+        where("closetOwerUid", "==", userUid)
+      );
 
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      setCloset({ ...doc.data(), id: doc.id });
-    });
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setCloset({ ...doc.data(), id: doc.id });
+        setIsLoading(false);
+      });
+    } catch (error) {
+      setIsError(error.message);
+    }
   };
 
   useEffect(() => {
@@ -45,6 +55,7 @@ export const CreateChallengeScreen = () => {
 
   /*creating a clothing Item */
   const handleAddItem = async (values) => {
+    setIsLoading(true);
     addDoc(collection(db, "challenges"), {
       closetUid: closet.id,
       creatorUid: userUid,
@@ -55,10 +66,14 @@ export const CreateChallengeScreen = () => {
       eventDate: values.eventDate,
       discription: values.discription,
     })
-      .then(navigation.navigate("Challenges"))
-      .catch((err) => console.error(err));
+      .then(navigation.navigate("Challenges"), setIsLoading(false))
+      .catch((err) => setIsError(err.message), setIsLoading(false));
   };
-  return (
+  return isError ? (
+    <Error>{isError}</Error>
+  ) : isLoading || !closet ? (
+    <LoadingIndicator />
+  ) : (
     <View isSafe style={styles.container} listMode="SCROLLVIEW">
       {/* Formik Wrapper */}
       <Formik

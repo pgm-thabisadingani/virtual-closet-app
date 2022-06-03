@@ -25,7 +25,7 @@ export const ChallengesListFeeds = () => {
 
   // get all the Challenges from database
 
-  const setClosetAsync = async () => {
+  const setChallengesAsync = async () => {
     setIsLoading(true);
     try {
       const q = query(collection(db, "challenges"));
@@ -36,12 +36,12 @@ export const ChallengesListFeeds = () => {
         setIsLoading(false);
       });
     } catch (error) {
-      setIsError(error);
+      setIsError(error.message);
     }
   };
 
   useEffect(() => {
-    const unsubscribe = setClosetAsync();
+    const unsubscribe = setChallengesAsync();
     return () => unsubscribe;
   }, []);
 
