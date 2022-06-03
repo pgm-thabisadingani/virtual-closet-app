@@ -5,6 +5,7 @@ import {
   FlatList,
   ImageBackground,
   ScrollView,
+  View as RNView,
 } from "react-native";
 import { v4 as uuid } from "uuid";
 import "react-native-get-random-values";
@@ -56,21 +57,21 @@ export const ClosetScreen = ({ navigation }) => {
     <View isSafe style={styles.container}>
       <View style={styles.categories}>
         {closet.closetOwerUid === userUid && (
-          <View style={{ alignItems: "center" }}>
+          <RNView style={{ alignItems: "center", width: 100 }}>
             <Icon
               name="plus-circle"
-              size={100}
+              size={80}
               onPress={() => setShow(true)}
               color={Colors.lightGray}
             />
             <Text>Add Item</Text>
-          </View>
+          </RNView>
         )}
         <CategoryListItem userUid={userUid} />
       </View>
-      <View style={styles.clothigList}>
+      <RNView style={styles.clothigList}>
         <ClothingListItems />
-      </View>
+      </RNView>
       {show ? (
         <View style={styles.addImageContainer}>
           <View style={styles.addButtonWrapper}>
@@ -142,11 +143,6 @@ const styles = StyleSheet.create({
   },
   listContainer: {
     flex: 1,
-  },
-  createCloset: {
-    paddingVertical: "70%",
-    justifyContent: "center",
-    alignItems: "center",
   },
   clothigList: {
     marginRight: -20,
