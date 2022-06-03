@@ -1,14 +1,15 @@
 import { doc, getDoc } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
-import { Error, LoadingIndicator, View } from "../components";
+import { Error, Icon, LoadingIndicator, View } from "../components";
 import { ChallengeDetails } from "../components/challenges";
-import { db } from "../config";
+import { Colors, db } from "../config";
 
 export const ChallengeDetailsScreen = ({ route, navigation }) => {
   const [challenge, setChallenge] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
+  const [show, setShow] = useState(false);
   const challengeUid = route.params;
 
   /*getting challenges by doc id */
@@ -22,9 +23,11 @@ export const ChallengeDetailsScreen = ({ route, navigation }) => {
       // doc.data() will be undefined in this case
       console.log("No such document!");
       setIsError(true);
-      setIsLoading(true);
+      setIsLoading(false);
     }
   };
+
+  const handleShowAdd = () => {};
 
   useEffect(() => {
     const unsubscribe = getChallengeAsync();
@@ -54,6 +57,40 @@ export const ChallengeDetailsScreen = ({ route, navigation }) => {
     <View isSafe style={styles.container}>
       <Text>Challenge details</Text>
       <Text>{challengeUid}</Text>
+      <View style={{ alignItems: "flex-end" }}>
+        <Icon
+          name="window-close"
+          size={30}
+          color={Colors.mediumGray}
+          onPress={() => setShow(true)}
+        />
+      </View>
+      {show ? (
+        <View
+          style={{
+            backgroundColor: " rgba(0, 0, 0, 0.7)",
+            height: "100%",
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            opacity: 0.4,
+          }}
+        >
+          <View style={{ alignItems: "flex-end" }}>
+            <Icon
+              name="window-close"
+              size={30}
+              color={Colors.mediumGray}
+              onPress={() => setShow(false)}
+            />
+          </View>
+          <View>
+            <Text style={{ fontSize: 30, color: Colors.white, opacity: 1 }}>
+              Show me
+            </Text>
+          </View>
+        </View>
+      ) : null}
     </View>
   );
 };

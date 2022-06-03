@@ -20,13 +20,14 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { View, Icon, AppButton } from "../components";
-import { auth, Colors, database, db } from "../config";
+import { auth, Colors, database, db, FontSizes } from "../config";
 import { AddImageItem } from "../components";
 import { CategoryListItem, ClothingListItems } from "../components/list";
 
 export const ClosetScreen = ({ navigation }) => {
   const [closet, setCloset] = useState("");
   const [category, setCategory] = useState("");
+  const [show, setShow] = useState(false);
   const userUid = auth.currentUser.uid;
 
   /*getting closet where the the closet*/
@@ -54,48 +55,83 @@ export const ClosetScreen = ({ navigation }) => {
   return (
     <View isSafe style={styles.container}>
       <View style={styles.categories}>
-        {closet.closetOwerUid === userUid ? (
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-            }}
-          >
-            <View style={{ alignItems: "center" }}>
-              <Icon
-                name="plus-circle"
-                size={100}
-                onPress={() =>
-                  navigation.navigate("SaveItemImage", {
-                    closetOwerId: closet.closetOwerUid,
-                    closetId: closet.id,
-                  })
-                }
-                color={Colors.lightGray}
-              />
-              <Text>Add Item</Text>
-            </View>
+        {closet.closetOwerUid === userUid && (
+          <View style={{ alignItems: "center" }}>
             <Icon
               name="plus-circle"
               size={100}
-              onPress={() =>
-                navigation.navigate("SaveItemGooleAi", {
-                  closetOwerId: closet.closetOwerUid,
-                  closetId: closet.id,
-                })
-              }
-              color={Colors.lightPurple}
+              onPress={() => setShow(true)}
+              color={Colors.lightGray}
             />
+            <Text>Add Item</Text>
           </View>
-        ) : (
-          <Text></Text>
         )}
-
         <CategoryListItem userUid={userUid} />
       </View>
       <View style={styles.clothigList}>
         <ClothingListItems />
       </View>
+      {show ? (
+        <View style={styles.addImageContainer}>
+          <View style={styles.addButtonWrapper}>
+            <View style={{ alignItems: "flex-end", padding: 20 }}>
+              <Icon
+                name="window-close"
+                size={30}
+                color={Colors.mediumGray}
+                onPress={() => setShow(false)}
+              />
+            </View>
+            <View style={styles.options}>
+              <View style={styles.icon}>
+                <Icon
+                  name="plus-circle"
+                  size={100}
+                  onPress={() =>
+                    navigation.navigate(
+                      "SaveItemImage",
+                      {
+                        closetOwerId: closet.closetOwerUid,
+                        closetId: closet.id,
+                      },
+                      setShow(false)
+                    )
+                  }
+                  color={Colors.lightPurple}
+                />
+                <Text
+                  style={{
+                    fontSize: FontSizes.body,
+                    color: Colors.lightPurple,
+                  }}
+                >
+                  Manual
+                </Text>
+              </View>
+              <View style={styles.icon}>
+                <Icon
+                  name="plus-circle"
+                  size={100}
+                  onPress={() =>
+                    navigation.navigate(
+                      "SaveItemGooleAi",
+                      {
+                        closetOwerId: closet.closetOwerUid,
+                        closetId: closet.id,
+                      },
+                      setShow(false)
+                    )
+                  }
+                  color={Colors.lightGray}
+                />
+                <Text style={{ fontSize: FontSizes.body, color: Colors.gray }}>
+                  Google Ai
+                </Text>
+              </View>
+            </View>
+          </View>
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -114,5 +150,33 @@ const styles = StyleSheet.create({
   },
   clothigList: {
     marginRight: -20,
+  },
+  addImageContainer: {
+    position: "absolute",
+    backgroundColor: " rgba(0, 0, 0, 0.8)",
+    height: "110%",
+    width: "115%",
+    justifyContent: "center",
+    alignItems: "center",
+    marginRight: -20,
+    padding: 0,
+  },
+  addButtonWrapper: {
+    height: 320,
+    width: 320,
+    backgroundColor: Colors.white,
+    borderRadius: 15,
+  },
+  options: {
+    flexDirection: "row",
+    flex: 1,
+    justifyContent: "space-between",
+    marginTop: 10,
+  },
+  icon: {
+    marginTop: 50,
+    padding: 20,
+    alignItems: "center",
+    fontSize: 18,
   },
 });
