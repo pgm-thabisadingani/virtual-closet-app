@@ -18,7 +18,6 @@ export const ChallengeDetailsScreen = ({ route }) => {
   const [challenge, setChallenge] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [date, setDate] = useState("");
   const navigation = useNavigation();
   const challengeUid = route.params;
   const userUid = auth.currentUser.uid;

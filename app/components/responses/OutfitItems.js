@@ -16,8 +16,6 @@ import { Colors, db } from "../../config";
 import { AppCloseWindow } from "../AppCloseWindow";
 import { LoadingIndicator } from "../LoadingIndicator";
 import { Error } from "../Error";
-
-import { Card, Checkbox, Title, Paragraph, Avatar } from "react-native-paper";
 import { Icon } from "../Icon";
 
 export const OutfitItems = ({ name, closetUid }) => {
@@ -141,9 +139,9 @@ const styles = StyleSheet.create({
   container: {
     borderRadius: 15,
     borderColor: Colors.light,
-    padding: 10,
+    padding: 2,
     borderWidth: 1,
-    marginTop: 20,
+    marginTop: 15,
     marginBottom: 20,
   },
 });

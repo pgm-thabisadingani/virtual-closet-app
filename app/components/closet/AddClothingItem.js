@@ -18,6 +18,7 @@ import { View } from "../View";
 export const AddClothingItem = ({ closetUid, imageUri }) => {
   const [category, setCategory] = useState([]);
   const userUid = auth.currentUser.uid;
+  const navigation = useNavigation();
 
   /*get all the categories*/
   const getCategoriesAsync = async () => {

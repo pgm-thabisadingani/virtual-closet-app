@@ -40,14 +40,15 @@ export const CreateResponseScreen = ({ route }) => {
     setIsLoading(true);
     console.log(values);
     await addDoc(collection(db, "responses"), {
+      responderUid: userUid,
+      responderUserName: userName,
+      responderAvatar: userAvatar,
+      challengeUid: route.params.challengeUid,
       closetUid: route.params.closetUid,
       creatorUid: route.params.creatorUid,
       eventTitle: route.params.eventTitle,
       discription: values.discription,
-      responderAvatar: userAvatar,
-      responderUserName: userName,
-      responderUid: userUid,
-      challengeUid: route.params.challengeUid,
+      chothingItems: values.chothingItems,
       createdAt: serverTimestamp(),
     })
       .then(navigation.popToTop(), setIsLoading(true))
