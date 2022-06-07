@@ -6,7 +6,7 @@ import { Camera, CameraType } from "expo-camera";
 
 import * as ImagePicker from "expo-image-picker";
 import { Colors, FontSizes } from "../config";
-import { AppButton, Icon } from "../components";
+import { AppButton, AppCloseWindow, Icon } from "../components";
 import { AddClothingItem } from "../components/closet";
 import { ImageStorage } from "../hooks";
 
@@ -85,14 +85,7 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
   console.log(image);
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ alignItems: "flex-end" }}>
-        <Icon
-          name="window-close"
-          size={30}
-          color={Colors.mediumGray}
-          onPress={() => navigation.popToTop()}
-        />
-      </View>
+      <AppCloseWindow onPress={() => navigation.popToTop()} paddingSize={10} />
       {!image ? (
         <>
           <View style={styles.cameraContainer}>

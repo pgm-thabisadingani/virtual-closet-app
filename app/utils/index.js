@@ -29,3 +29,6 @@ export const challengeSchema = Yup.object().shape({
   eventDate: Yup.date().required().nullable().label("Event Date"),
   Description: Yup.string().max(50, "Too Long!").label("Description"),
 });
+export const responseSchema = Yup.object().shape({
+  Description: Yup.string().max(50, "Too Long!").label("Description"),
+});

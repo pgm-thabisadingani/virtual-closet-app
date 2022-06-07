@@ -1,31 +1,62 @@
-import React, { useState } from "react";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
+import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableHighlight } from "react-native";
 import {
   AppButton,
   Avatar,
   Button,
+  Error,
   FeedsTile,
+  LoadingIndicator,
   LocationPicker,
   View,
 } from "../components";
 import { ChallengesListFeeds } from "../components/challenges";
-
-import { ChallengesListItem } from "../components/list";
-
-import { auth, Colors, FontSizes, Images } from "../config";
+import { auth, Colors, db, FontSizes, Images } from "../config";
 
 export const FeedsScreen = ({ navigation }) => {
-  const userName = auth.currentUser.displayName;
-  return (
+  const [user, setUser] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
+  const userUid = auth.currentUser.uid;
+
+  /*getting user where === userUid*/
+  const getUserAsync = async () => {
+    setIsLoading(true);
+    try {
+      const q = query(collection(db, "users"), where("uid", "==", userUid));
+      onSnapshot(q, (snapshot) => {
+        snapshot.forEach((doc) => {
+          setUser({ ...doc.data(), id: doc.id });
+        });
+        setIsLoading(false);
+      });
+    } catch (error) {
+      setIsError(error.message);
+    }
+  };
+
+  /*Keep track with changes in data add or delete. Clean up!*/
+  useEffect(() => {
+    const unsubscribe = getUserAsync();
+    return () => unsubscribe;
+  }, []);
+
+  console.log(user);
+  return isError ? (
+    <Error>{isError}</Error>
+  ) : isLoading || !user ? (
+    <LoadingIndicator />
+  ) : (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
         <View>
-          <Text style={styles.welcomeText}>Welcome, {userName}.</Text>
-          <Text style={styles.introText}>Create or join a challenge.</Text>
+          <Text style={styles.welcomeText}>Welcome, {user.username}.</Text>
+          <Text style={styles.introText}>Create or accept a challenge.</Text>
         </View>
         <Avatar
           size={80}
-          source={auth.currentUser.photoURL}
+          source={user.photoURL}
           onPress={() => navigation.navigate("Profile")}
         />
       </View>

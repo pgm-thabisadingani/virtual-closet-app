@@ -2,7 +2,15 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, Image, ScrollView } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
-import { collection, query, addDoc, getDocs, where } from "firebase/firestore";
+import {
+  collection,
+  query,
+  addDoc,
+  getDocs,
+  where,
+  onSnapshot,
+  serverTimestamp,
+} from "firebase/firestore";
 
 import { Formik, useFormikContext } from "formik";
 import { auth, Colors, db } from "../config";
@@ -14,7 +22,7 @@ import {
   Error,
   FormErrorMessage,
   LoadingIndicator,
-  LocationPicker,
+  AppLocationPicker,
   TextAreaFormField,
   TextInput,
   View,
@@ -38,9 +46,10 @@ export const CreateChallengeScreen = () => {
         where("closetOwerUid", "==", userUid)
       );
 
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setCloset({ ...doc.data(), id: doc.id });
+      onSnapshot(q, (snapshot) => {
+        snapshot.forEach((doc) => {
+          setCloset({ ...doc.data(), id: doc.id });
+        });
         setIsLoading(false);
       });
     } catch (error) {
@@ -53,22 +62,28 @@ export const CreateChallengeScreen = () => {
     return () => unsubscribe;
   }, []);
 
-  /*creating a clothing Item */
-  const handleAddItem = async (values) => {
+  /*creating a challenge */
+  const handleAddChallenge = async (values) => {
+    let newDate = values.eventDate.toLocaleDateString();
+    let endDate = Date.parse(newDate);
+    // let endlocation = await values.eventLocation.replace(" ", "%20");
+    console.log(endDate);
     setIsLoading(true);
-    addDoc(collection(db, "challenges"), {
+    await addDoc(collection(db, "challenges"), {
       closetUid: closet.id,
       creatorUid: userUid,
       creatorUserName: userName,
       creatorAvator: userAvatar,
       eventTitle: values.eventTitle,
       eventLocation: values.eventLocation,
-      eventDate: values.eventDate,
+      eventDate: endDate,
       discription: values.discription,
+      createdAt: serverTimestamp(),
     })
-      .then(navigation.navigate("Challenges"), setIsLoading(false))
-      .catch((err) => setIsError(err.message), setIsLoading(false));
+      .then(navigation.navigate("Challenges"), setIsLoading(true))
+      .catch((err) => setIsError(err.message));
   };
+
   return isError ? (
     <Error>{isError}</Error>
   ) : isLoading || !closet ? (
@@ -85,7 +100,7 @@ export const CreateChallengeScreen = () => {
         }}
         validationSchema={challengeSchema}
         onSubmit={(values, { resetForm }) => {
-          handleAddItem(values);
+          handleAddChallenge(values);
           resetForm({ values: " " });
         }}
       >
@@ -108,7 +123,7 @@ export const CreateChallengeScreen = () => {
                 top: 25,
               }}
             >
-              <LocationPicker name="eventLocation" autoFocus={true} />
+              <AppLocationPicker name="eventLocation" autoFocus={true} />
             </View>
             <ScrollView
               listMode="SCROLLVIEW"
@@ -134,7 +149,7 @@ export const CreateChallengeScreen = () => {
                 numberOfLines={10}
                 name="discription"
                 placeholder="Start writing ..."
-                value={values.username}
+                value={values.discription}
                 onChangeText={handleChange("discription")}
                 onBlur={handleBlur("discription")}
               />

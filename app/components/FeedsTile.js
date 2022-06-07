@@ -24,7 +24,7 @@ export const FeedsTile = ({
           style={{
             color: txColor,
             paddingTop: 5,
-            fontSize: FontSizes.body,
+            fontSize: FontSizes.smallText,
           }}
         >
           {title}

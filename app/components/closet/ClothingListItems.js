@@ -5,7 +5,10 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { auth, Colors, database, db } from "../../config";
-import { ClothingItem } from "../ClothingItem";
+
+import { LoadingIndicator } from "../LoadingIndicator";
+import { Error } from "../Error";
+import { ClothingItem } from "./ClothingItem";
 
 // I will use this for filtering or searching
 // const museums = query(collectionGroup(db, 'clothing'), where('type', '==', 'museum'));
@@ -17,33 +20,44 @@ import { ClothingItem } from "../ClothingItem";
 export const ClothingListItems = () => {
   const [items, setItems] = useState([]);
   const userUid = auth.currentUser.uid;
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   //getting items where closetceator Uid == userUid
-  const setClosetAsync = async () => {
-    const q = query(
-      collection(db, "clothing"),
-      where("closetOwerUid", "==", userUid)
-    );
-
-    onSnapshot(q, (snapshot) => {
-      let results = [];
-      snapshot.forEach((doc) => {
-        results.push({ ...doc.data(), id: doc.id });
+  const getClosetAsync = async () => {
+    setIsLoading(true);
+    try {
+      const q = query(
+        collection(db, "clothing"),
+        where("closetOwerUid", "==", userUid)
+      );
+      onSnapshot(q, (snapshot) => {
+        let results = [];
+        snapshot.forEach((doc) => {
+          results.push({ ...doc.data(), id: doc.id });
+        });
+        setItems(results);
+        setIsLoading(false);
       });
-      setItems(results);
-    });
+    } catch (error) {
+      setIsError(error.message);
+    }
   };
 
   // Keep track with changes in data add or delete. Clean up!
   useEffect(() => {
-    const unsubscribe = setClosetAsync();
+    const unsubscribe = getClosetAsync();
     return () => unsubscribe;
   }, []);
 
   console.log(items);
 
-  return (
-    <ScrollView style={styles.container}>
+  return isError ? (
+    <Error>{isError}</Error>
+  ) : isLoading || !items ? (
+    <LoadingIndicator />
+  ) : (
+    <View style={styles.container}>
       {items.length !== null ? (
         <>
           <FlatList
@@ -62,7 +76,7 @@ export const ClothingListItems = () => {
           <Text>Now let's add some items to the closet</Text>
         </View>
       )}
-    </ScrollView>
+    </View>
   );
 };
 

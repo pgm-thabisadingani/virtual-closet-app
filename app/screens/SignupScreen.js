@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Text, StyleSheet } from "react-native";
+import { Text, StyleSheet, Pressable } from "react-native";
 import { Formik } from "formik";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { View, TextInput, Button, FormErrorMessage, Icon } from "../components";
+import {
+  View,
+  TextInput,
+  Button,
+  FormErrorMessage,
+  Icon,
+  AppButton,
+} from "../components";
 import { Images, Colors, auth, db } from "../config";
 import { updateProfile } from "firebase/auth";
 import { useTogglePasswordVisibility } from "../hooks";
@@ -63,7 +70,7 @@ export const SignupScreen = ({ navigation }) => {
         {/* IconContainer: consits app icon back to welcome screen and screen title */}
         <View style={styles.iconContainer}>
           <Icon
-            onPress={() => navigation.navigate("Welcome")}
+            onPress={() => navigation.navigate("Login")}
             name="chevron-left"
             size={40}
             color={Colors.dark}
@@ -160,20 +167,23 @@ export const SignupScreen = ({ navigation }) => {
                 <FormErrorMessage error={errorState} visible={true} />
               ) : null}
               {/* Signup button */}
-              <Button style={styles.button} onPress={handleSubmit}>
-                <Text style={styles.buttonText}>Sign up</Text>
-              </Button>
+              <AppButton
+                size={20}
+                textColor={Colors.white}
+                title="Sign up"
+                onPress={handleSubmit}
+                color={Colors.purple}
+              />
             </>
           )}
         </Formik>
         {/* Button to navigate to Login screen */}
-        <Text style={styles.optionText}>Or</Text>
         <Button
-          style={styles.buttonSignIn}
+          style={styles.borderlessButtonContainer}
+          borderless
+          title={"Already have an account?"}
           onPress={() => navigation.navigate("Login")}
-        >
-          <Text style={styles.buttonTextSignIn}>Sign In</Text>
-        </Button>
+        />
       </KeyboardAwareScrollView>
     </View>
   );
@@ -197,52 +207,12 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     justifyContent: "flex-start",
   },
-  button: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
-    backgroundColor: Colors.purple,
-    padding: 10,
-    borderRadius: 25,
-  },
-  buttonSignIn: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 8,
-    marginBottom: 10,
-    backgroundColor: Colors.white,
-    padding: 10,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: Colors.purple,
-  },
-  buttonTextSignIn: {
-    fontSize: 20,
-    color: Colors.purple,
-    fontWeight: "700",
-    textTransform: "uppercase",
-  },
-  buttonText: {
-    fontSize: 20,
-    color: Colors.white,
-    fontWeight: "700",
-    textTransform: "uppercase",
-  },
   borderlessButtonContainer: {
-    marginTop: 16,
-    alignItems: "center",
-    justifyContent: "center",
+    marginTop: 10,
+    alignItems: "flex-end",
   },
   Icon: {
     marginBottom: 10,
     marginLeft: -10,
-  },
-  optionText: {
-    textAlign: "center",
-    marginTop: 10,
-    marginBottom: 5,
-    fontWeight: "700",
   },
 });

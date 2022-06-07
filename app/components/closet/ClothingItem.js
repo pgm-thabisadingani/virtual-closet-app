@@ -1,5 +1,6 @@
 import { collection, deleteDoc, doc, where } from "firebase/firestore";
 import React from "react";
+import { useNavigation } from "@react-navigation/native";
 import {
   View,
   StyleSheet,
@@ -9,11 +10,13 @@ import {
   Pressable,
   Alert,
 } from "react-native";
-import { auth, Colors, db } from "../config";
+import { auth, Colors, db } from "../../config";
 
-export const ClothingItem = ({ navigation, items }) => {
+export const ClothingItem = ({ items }) => {
+  const navigation = useNavigation();
   // console.log(items);
   const imageUri = items.imageUri;
+
   const closetOwerUid = items.closetOwerUid;
   const userUid = auth.currentUser.uid;
 
@@ -45,10 +48,7 @@ export const ClothingItem = ({ navigation, items }) => {
 
   // handle Select
   const handleSelect = () => {
-    Alert.alert("Selected", "Are you sure you want to selete this image?", [
-      { text: "Yes", onPress: () => console.log("select me" + items.id) },
-      { text: "No" },
-    ]);
+    navigation.navigate("CreateResponse");
   };
 
   // handle Delete
@@ -61,27 +61,15 @@ export const ClothingItem = ({ navigation, items }) => {
 
   return (
     <>
-      {userUid === closetOwerUid ? (
-        <View>
-          <Pressable style={styles.container} onLongPress={handleDelete}>
-            <ImageBackground
-              source={{ uri: imageUri }}
-              resizeMode="cover"
-              style={styles.image}
-            ></ImageBackground>
-          </Pressable>
-        </View>
-      ) : (
-        <View>
-          <Pressable style={styles.container} onPress={handleSelect}>
-            <ImageBackground
-              source={{ uri: imageUri }}
-              resizeMode="cover"
-              style={styles.image}
-            ></ImageBackground>
-          </Pressable>
-        </View>
-      )}
+      <View>
+        <Pressable style={styles.container} onLongPress={handleDelete}>
+          <ImageBackground
+            source={{ uri: imageUri }}
+            resizeMode="cover"
+            style={styles.image}
+          ></ImageBackground>
+        </Pressable>
+      </View>
     </>
   );
 };
@@ -98,6 +86,15 @@ const styles = StyleSheet.create({
     height: 200,
     width: 160,
     marginBottom: 20,
+
+    shadowColor: Colors.dark,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
   },
   image: {
     height: "100%",

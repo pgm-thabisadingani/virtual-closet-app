@@ -4,7 +4,14 @@ import { Formik } from "formik";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
-import { View, TextInput, Button, FormErrorMessage, Icon } from "../components";
+import {
+  View,
+  TextInput,
+  Button,
+  FormErrorMessage,
+  Icon,
+  AppButton,
+} from "../components";
 
 import { useTogglePasswordVisibility } from "../hooks";
 import { loginValidationSchema } from "../utils";
@@ -28,7 +35,7 @@ export const LoginScreen = ({ navigation }) => {
           {/* IconContainer: consits app icon and intro title */}
           <View style={styles.iconContainer}>
             <Icon
-              onPress={() => navigation.navigate("Welcome")}
+              onPress={() => navigation.navigate("Signup")}
               name="chevron-left"
               size={40}
               color={Colors.dark}
@@ -94,21 +101,23 @@ export const LoginScreen = ({ navigation }) => {
                   <FormErrorMessage error={errorState} visible={true} />
                 ) : null}
                 {/* Login button */}
-                <Button style={styles.button} onPress={handleSubmit}>
-                  <Text style={styles.buttonTextSignIn}>Log in</Text>
-                </Button>
+                <AppButton
+                  size={20}
+                  textColor={Colors.white}
+                  title="Log in"
+                  onPress={handleSubmit}
+                  color={Colors.purple}
+                />
               </>
             )}
           </Formik>
-          {/* Button to navigate to SignupScreen to create a new account */}
-          <Text style={styles.optionText}>Or</Text>
+          {/* Button to navigate to Sign in screen */}
           <Button
-            style={styles.buttonSignUp}
+            style={styles.borderlessButtonContainer}
+            borderless
+            title={"Don't have an account?"}
             onPress={() => navigation.navigate("Signup")}
-          >
-            <Text style={styles.buttonTextSignUp}>Sign Up</Text>
-          </Button>
-
+          />
           <Button
             style={styles.borderlessButtonContainer}
             borderless
@@ -138,39 +147,6 @@ const styles = StyleSheet.create({
     paddingTop: 2,
     justifyContent: "flex-start",
   },
-  button: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 40,
-    backgroundColor: Colors.purple,
-    padding: 10,
-    borderRadius: 25,
-  },
-  buttonSignUp: {
-    width: "100%",
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 8,
-    marginBottom: 10,
-    backgroundColor: Colors.white,
-    padding: 10,
-    borderRadius: 25,
-    borderWidth: 1,
-    borderColor: Colors.purple,
-  },
-  buttonTextSignIn: {
-    fontSize: 20,
-    color: Colors.white,
-    fontWeight: "700",
-    textTransform: "uppercase",
-  },
-  buttonTextSignUp: {
-    fontSize: 20,
-    color: Colors.purple,
-    fontWeight: "700",
-    textTransform: "uppercase",
-  },
   borderlessButtonContainer: {
     marginTop: 10,
     alignItems: "flex-end",
@@ -178,11 +154,5 @@ const styles = StyleSheet.create({
   Icon: {
     marginBottom: 10,
     marginLeft: -10,
-  },
-  optionText: {
-    textAlign: "center",
-    marginTop: 10,
-    marginBottom: 5,
-    fontWeight: "700",
   },
 });

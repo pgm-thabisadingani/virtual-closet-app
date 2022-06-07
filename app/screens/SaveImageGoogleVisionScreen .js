@@ -6,7 +6,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as FileSystem from "expo-file-system";
 import { Colors, FontSizes } from "../config";
 import { callGoogleVisionAsync } from "../config/googleVisionHelperFunction";
-import { Icon } from "../components";
+import { AppCloseWindow, Icon } from "../components";
 
 export const SaveImageGoogleVisionScreen = ({ navigation }) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -93,14 +93,7 @@ export const SaveImageGoogleVisionScreen = ({ navigation }) => {
   console.log(image);
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ alignItems: "flex-end" }}>
-        <Icon
-          name="window-close"
-          size={30}
-          color={Colors.mediumGray}
-          onPress={() => navigation.popToTop()}
-        />
-      </View>
+      <AppCloseWindow onPress={() => navigation.popToTop()} paddingSize={10} />
       {!image ? (
         <>
           <View style={styles.cameraContainer}>

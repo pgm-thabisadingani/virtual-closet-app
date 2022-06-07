@@ -15,6 +15,7 @@ import { Colors, FontSizes } from "../config";
 import { View } from "./View";
 import { PickerItem } from "./PickerItem";
 import { Icon } from "./Icon";
+import { AppCloseWindow } from "./AppCloseWindow";
 
 export const AppPicker = ({
   title,
@@ -46,15 +47,10 @@ export const AppPicker = ({
       </Pressable>
       <Modal visible={modalVisible} animationType="slide">
         <View>
-          <View style={{ alignItems: "flex-end", paddingVertical: 20 }}>
-            <Icon
-              name="window-close"
-              size={30}
-              style={{ marginRight: 10 }}
-              color={Colors.mediumGray}
-              onPress={() => setModalVisible(false)}
-            />
-          </View>
+          <AppCloseWindow
+            onPress={() => setModalVisible(false)}
+            paddingSize={20}
+          />
           <FlatList
             data={items}
             keyExtractor={(item) => item.id.toString()} // returns a number which you have to conver to string

@@ -2,7 +2,12 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import { StyleSheet } from "react-native";
 import { View } from "../components";
-import { ChallengeDetailsScreen, FeedsScreen } from "../screens";
+import {
+  ChallengeDetailsScreen,
+  CreateResponseScreen,
+  FeedsScreen,
+  ResponseScreen,
+} from "../screens";
 
 const Stack = createStackNavigator();
 
@@ -16,6 +21,8 @@ export const FeedsNavigation = (props) => {
         name="ChallengeDetails"
         component={ChallengeDetailsScreen}
       />
+      <Stack.Screen name="CreateResponse" component={CreateResponseScreen} />
+      <Stack.Screen name="Response" component={ResponseScreen} />
     </Stack.Navigator>
   );
 };

@@ -8,10 +8,11 @@ import { Icon } from "./Icon";
 import { Error } from "./Error";
 import { Button } from "./Button";
 import { FormErrorMessage } from "./FormErrorMessage";
+import { AppCloseWindow } from "./AppCloseWindow";
 import { LoadingIndicator } from "./LoadingIndicator";
 import { CategoryPickerItem } from "./CategoryPickerItem";
 import { AppDatePicker } from "./AppDatePicker";
-import { LocationPicker } from "./LocationPicker";
+import { AppLocationPicker } from "./AppLocationPicker";
 import { TextAreaFormField } from "./TextAreaFormField";
 
 export {
@@ -28,6 +29,7 @@ export {
   AppButton,
   CategoryPickerItem,
   AppDatePicker,
-  LocationPicker,
+  AppLocationPicker,
   TextAreaFormField,
+  AppCloseWindow,
 };

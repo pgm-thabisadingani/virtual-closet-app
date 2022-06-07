@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, Text } from "react-native";
 import { auth, Colors, Images } from "../config";
 import { deleteUser, signOut } from "firebase/auth";
-import { Button, View } from "../components";
+import { AppButton, Button, View } from "../components";
 
 export const ProfileScreen = (props) => {
   const handleLogout = () => {
@@ -26,15 +26,21 @@ export const ProfileScreen = (props) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Button style={styles.buttonLogOut} onPress={handleLogout}>
-        <Text style={styles.buttonText}>Sign Out</Text>
-      </Button>
-      <Button style={styles.button} onPress={handleDeleteProfile}>
-        <Text style={styles.buttonText}>Delete profile</Text>
-      </Button>
-
-      <Text>This is a profile screen</Text>
+    <View isSafe style={styles.container}>
+      <AppButton
+        size={20}
+        textColor={Colors.white}
+        title="Sign Out"
+        onPress={handleLogout}
+        color={Colors.purple}
+      />
+      <AppButton
+        size={20}
+        textColor={Colors.white}
+        title="Delete profile"
+        onPress={handleDeleteProfile}
+        color={Colors.lightGray}
+      />
     </View>
   );
 };

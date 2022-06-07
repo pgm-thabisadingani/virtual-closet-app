@@ -4,6 +4,7 @@ import { Button, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Colors, FontSizes } from "../config";
 import { FormErrorMessage } from "./FormErrorMessage";
+import { Icon } from "./Icon";
 
 export const AppDatePicker = ({ name }) => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
@@ -23,12 +24,20 @@ export const AppDatePicker = ({ name }) => {
     setFieldValue(name, date);
     hideDatePicker();
   };
+
   const { errors, setFieldValue, touched } = useFormikContext();
   return (
     <SafeAreaView style={styles.container}>
       <View>
         <View style={styles.viewContainer}>
-          <Button title="Pick a date" onPress={showDatePicker} />
+          <View style={styles.calendarIcon}>
+            <Icon
+              name="calendar-month"
+              size={30}
+              color={Colors.lightGray}
+              onPress={showDatePicker}
+            />
+          </View>
           <Text style={styles.datePreview}>{eventDate.toDateString()}</Text>
         </View>
         <DateTimePickerModal
@@ -71,11 +80,18 @@ const styles = StyleSheet.create({
     display: "flex",
   },
   datePreview: {
-    width: "70%",
+    width: "75%",
     backgroundColor: Colors.light,
+    color: Colors.lightGray,
     paddingHorizontal: 10,
     paddingVertical: 15,
     fontSize: FontSizes.body,
     borderRadius: 5,
+  },
+  calendarIcon: {
+    backgroundColor: Colors.light,
+    width: "20%",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

@@ -1,4 +1,10 @@
-import { collection, getDocs, query, where } from "firebase/firestore";
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  where,
+} from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, FlatList } from "react-native";
 import { Error, Icon, LoadingIndicator, View } from "../components";
@@ -11,27 +17,28 @@ export const ChallengesScreen = ({ navigation }) => {
   const [isError, setIsError] = useState(false);
   const userUid = auth.currentUser.uid;
 
-  const setChallengesAsync = async () => {
+  const getChallengesAsync = async () => {
     setIsLoading(true);
     try {
       const q = query(
         collection(db, "challenges"),
         where("creatorUid", "==", userUid)
       );
-      const querySnapshot = await getDocs(q);
-      const data = [];
-      querySnapshot.forEach((doc) => {
-        data.push({ ...doc.data(), id: doc.id });
+      onSnapshot(q, (snapshot) => {
+        const data = [];
+        snapshot.forEach((doc) => {
+          data.push({ ...doc.data(), id: doc.id });
+        });
+        setChallenges(data);
+        setIsLoading(false);
       });
-      setChallenges(data);
-      setIsLoading(false);
     } catch (error) {
-      setIsError(error);
+      setIsError(error.message);
     }
   };
 
   useEffect(() => {
-    const unsubscribe = setChallengesAsync();
+    const unsubscribe = getChallengesAsync();
     return () => unsubscribe;
   }, []);
   console.log(challenges);
@@ -58,20 +65,13 @@ export const ChallengesScreen = ({ navigation }) => {
                 Your recent Challenges
               </Text>
             </View>
-            <View
-              style={{
-                alignItems: "center",
-                position: "absolute",
-                bottom: 20,
-                right: 0,
-                zIndex: 100,
-              }}
-            >
+            <View style={styles.createIconWrapper}>
               <Icon
                 name="plus-circle"
                 size={100}
                 onPress={() => navigation.navigate("Create")}
                 color={Colors.lightPurple}
+                style={styles.createIcon}
               />
             </View>
             <FlatList
@@ -108,8 +108,25 @@ export const ChallengesScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: { flex: 1 },
   latestChallenge: {
-    marginVertical: 20,
+    marginBottom: 20,
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  createIconWrapper: {
+    alignItems: "center",
+    position: "absolute",
+    bottom: 20,
+    right: 0,
+    zIndex: 100,
+  },
+  createIcon: {
+    shadowColor: Colors.dark,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
   },
 });

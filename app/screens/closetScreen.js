@@ -15,33 +15,47 @@ import {
   collection,
   query,
   where,
-  getDocs,
   getFirestore,
   onSnapshot,
   addDoc,
 } from "firebase/firestore";
-import { View, Icon, AppButton } from "../components";
-import { auth, Colors, database, db, FontSizes } from "../config";
-import { AddImageItem } from "../components";
-import { CategoryListItem, ClothingListItems } from "../components/list";
+import {
+  View,
+  Icon,
+  AppButton,
+  AppCloseWindow,
+  LoadingIndicator,
+  Error,
+} from "../components";
+import { auth, Colors, db, FontSizes } from "../config";
+import { CategoryListItem } from "../components/categoryList";
+import { ClothingListItems } from "../components/closet";
 
 export const ClosetScreen = ({ navigation }) => {
   const [closet, setCloset] = useState("");
   const [category, setCategory] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [isError, setIsError] = useState(false);
   const [show, setShow] = useState(false);
   const userUid = auth.currentUser.uid;
 
   /*getting closet where the the closet*/
   const getClosetAsync = async () => {
-    const q = query(
-      collection(db, "closets"),
-      where("closetOwerUid", "==", userUid)
-    );
-
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      setCloset({ ...doc.data(), id: doc.id });
-    });
+    setIsLoading(true);
+    try {
+      const q = query(
+        collection(db, "closets"),
+        where("closetOwerUid", "==", userUid)
+      );
+      onSnapshot(q, (snapshot) => {
+        snapshot.forEach((doc) => {
+          setCloset({ ...doc.data(), id: doc.id });
+        });
+        setIsLoading(false);
+      });
+    } catch (error) {
+      setIsError(error.message);
+    }
   };
 
   /*filter base on categories*/
@@ -53,11 +67,15 @@ export const ClosetScreen = ({ navigation }) => {
   }, []);
 
   console.log(closet);
-  return (
+  return isLoading ? (
+    <LoadingIndicator />
+  ) : isError ? (
+    <Error />
+  ) : (
     <View isSafe style={styles.container}>
       <View style={styles.categories}>
         {closet.closetOwerUid === userUid && (
-          <RNView style={{ alignItems: "center", width: 100 }}>
+          <View style={{ alignItems: "center", width: 100 }}>
             <Icon
               name="plus-circle"
               size={80}
@@ -65,7 +83,7 @@ export const ClosetScreen = ({ navigation }) => {
               color={Colors.lightGray}
             />
             <Text>Add Item</Text>
-          </RNView>
+          </View>
         )}
         <CategoryListItem userUid={userUid} />
       </View>
@@ -75,14 +93,7 @@ export const ClosetScreen = ({ navigation }) => {
       {show ? (
         <View style={styles.addImageContainer}>
           <View style={styles.addButtonWrapper}>
-            <View style={{ alignItems: "flex-end", padding: 20 }}>
-              <Icon
-                name="window-close"
-                size={30}
-                color={Colors.mediumGray}
-                onPress={() => setShow(false)}
-              />
-            </View>
+            <AppCloseWindow onPress={() => setShow(false)} paddingSize={20} />
             <View style={styles.options}>
               <View style={styles.icon}>
                 <Icon
@@ -156,6 +167,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginRight: -20,
     padding: 0,
+    zIndex: 100,
   },
   addButtonWrapper: {
     height: 320,

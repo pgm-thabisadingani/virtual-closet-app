@@ -5,6 +5,7 @@ import { View } from "../components";
 import { getHeaderTitle } from "@react-navigation/elements";
 import {
   ClosetScreen,
+  CreateResponseScreen,
   EditClothingItemScreen,
   SaveImageGoogleVisionScreen,
   SaveItemImageScreen,
@@ -30,6 +31,7 @@ export const ClosetNavigation = (props) => {
         options={{ title: "Add Image", headerBackVisible: true }}
       />
       <Stack.Screen name="EditClothing" component={EditClothingItemScreen} />
+      <Stack.Screen name="CreateResponse" component={CreateResponseScreen} />
     </Stack.Navigator>
   );
 };

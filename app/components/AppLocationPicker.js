@@ -7,12 +7,12 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import { Colors } from "../config";
 const GOOGLE_PLACES_API_KEY = "AIzaSyBfDVZqQznKVm8cHWCGleVgArkkt - _JU4o";
 
-export const LocationPicker = ({ name }) => {
+export const AppLocationPicker = ({ name }) => {
   const { errors, setFieldValue, touched } = useFormikContext();
   return (
-    <View style={styles.container} listMode="SCROLLVIEW">
+    <View style={styles.container}>
       <GooglePlacesAutocomplete
-        placeholder="Search location"
+        placeholder="Search City"
         onPress={(data, details = null) => {
           // 'details' is provided when fetchDetails = true
           console.log(data.structured_formatting.main_text);

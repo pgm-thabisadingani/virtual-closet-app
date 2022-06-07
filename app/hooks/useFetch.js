@@ -7,12 +7,13 @@ export const useFetch = ({ city = "Ghent" }) => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const getArticlesFromApi = () => {
-    return fetch(
+  const getArticlesFromApi = async () => {
+    return await fetch(
       `https://api.openweathermap.org/data/2.5/weather?q=${city}&mode=json&appid=${API_KEY}`
     )
       .then((response) => response.json())
       .then((json) => {
+        console.log(json);
         setDataUri(json);
       })
       .catch((error) => {

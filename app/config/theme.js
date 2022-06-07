@@ -6,6 +6,7 @@ export const Colors = {
   green: "#4ECF96",
   white: "#ffffff",
   light: "#F2F2F2",
+  midLight: "#e0e0e0",
   lightGray: "#A8A8A8",
   mediumGray: "#6e6869",
   gray: "#777777",
@@ -18,5 +19,7 @@ export const FontSizes = {
   mainTitle: 26,
   labels: 15,
   title: 22,
-  body: 15,
+  subTitle: 20,
+  body: 18,
+  smallText: 15,
 };
