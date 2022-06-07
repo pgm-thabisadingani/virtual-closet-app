@@ -12,6 +12,7 @@ import { collection, onSnapshot, query, where } from "firebase/firestore";
 import {
   AppCloseWindow,
   Avatar,
+  EmptyView,
   Error,
   LoadingIndicator,
   View,
@@ -65,7 +66,10 @@ export const ResponseScreen = ({ navigation, route }) => {
   return isLoading ? (
     <LoadingIndicator />
   ) : isError || !items.length ? (
-    <Error />
+    <>
+      <Error />
+      <EmptyView title="responses" back />
+    </>
   ) : (
     <View isSafe style={styles.container}>
       <AppCloseWindow onPress={() => navigation.goBack()} paddingSize={0} />
@@ -163,5 +167,14 @@ const styles = StyleSheet.create({
     color: Colors.gray,
     fontSize: FontSizes.body,
     paddingRight: 42,
+  },
+  containerEmpty: {
+    flex: 1,
+  },
+  emptyText: {
+    flex: 1,
+    marginTop: 200,
+    alignSelf: "center",
+    fontSize: FontSizes.subTitle,
   },
 });

@@ -9,6 +9,7 @@ import { auth, Colors, database, db } from "../../config";
 import { LoadingIndicator } from "../LoadingIndicator";
 import { Error } from "../Error";
 import { ClothingItem } from "./ClothingItem";
+import { EmptyView } from "../EmptyView";
 
 // I will use this for filtering or searching
 // const museums = query(collectionGroup(db, 'clothing'), where('type', '==', 'museum'));
@@ -52,30 +53,27 @@ export const ClothingListItems = () => {
 
   console.log(items);
 
-  return isError ? (
-    <Error>{isError}</Error>
-  ) : isLoading || !items ? (
+  return isLoading ? (
     <LoadingIndicator />
+  ) : isError || !items.length ? (
+    <>
+      <Error />
+      <EmptyView title="closet" />
+    </>
   ) : (
     <View style={styles.container}>
-      {items.length !== null ? (
-        <>
-          <FlatList
-            data={items}
-            keyExtractor={(item) => item.id} // returns a number which you have to conver to string
-            numColumns={2}
-            renderItem={({ item }) => (
-              <View style={styles.itemContainer}>
-                <ClothingItem items={item} />
-              </View>
-            )}
-          />
-        </>
-      ) : (
-        <View style={styles.containerEmpty}>
-          <Text>Now let's add some items to the closet</Text>
-        </View>
-      )}
+      <>
+        <FlatList
+          data={items}
+          keyExtractor={(item) => item.id} // returns a number which you have to conver to string
+          numColumns={2}
+          renderItem={({ item }) => (
+            <View style={styles.itemContainer}>
+              <ClothingItem items={item} />
+            </View>
+          )}
+        />
+      </>
     </View>
   );
 };

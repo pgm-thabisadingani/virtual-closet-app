@@ -47,7 +47,7 @@ export const ChallengesList = () => {
 
   return isLoading ? (
     <LoadingIndicator />
-  ) : isError ? (
+  ) : isError || !item ? (
     <Error />
   ) : (
     <View style={styles.container}>

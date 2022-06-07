@@ -7,7 +7,7 @@ import {
 } from "firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { StyleSheet, Text, FlatList } from "react-native";
-import { Error, Icon, LoadingIndicator, View } from "../components";
+import { EmptyView, Error, Icon, LoadingIndicator, View } from "../components";
 import { ChallengesListItem } from "../components/challenges";
 import { auth, Colors, db, FontSizes } from "../config";
 
@@ -45,61 +45,67 @@ export const ChallengesScreen = ({ navigation }) => {
 
   return isLoading ? (
     <LoadingIndicator />
-  ) : isError ? (
-    <Error />
+  ) : isError || !challenges.length ? (
+    <>
+      <Error />
+      <View style={{ marginTop: 200 }}>
+        <EmptyView title="Challenges" />
+      </View>
+      <View style={styles.createIconWrapper}>
+        <Icon
+          name="plus-circle"
+          size={100}
+          onPress={() => navigation.navigate("Create")}
+          color={Colors.lightPurple}
+          style={styles.createIcon}
+        />
+      </View>
+    </>
   ) : (
     <View isSafe style={styles.container}>
       <View style={styles.challengeListContainer}></View>
       <View style={styles.container}>
-        {challenges.length !== null ? (
-          <>
-            <View style={styles.latestChallenge}>
-              <Text
-                style={{
-                  fontSize: FontSizes.title,
-                  fontWeight: "bold",
-                  color: Colors.dark,
-                  marginBottom: -15,
-                }}
-              >
-                Your recent Challenges
-              </Text>
-            </View>
-            <View style={styles.createIconWrapper}>
-              <Icon
-                name="plus-circle"
-                size={100}
-                onPress={() => navigation.navigate("Create")}
-                color={Colors.lightPurple}
-                style={styles.createIcon}
+        <View style={styles.latestChallenge}>
+          <Text
+            style={{
+              fontSize: FontSizes.title,
+              fontWeight: "bold",
+              color: Colors.dark,
+              marginBottom: -15,
+            }}
+          >
+            Your recent Challenges
+          </Text>
+        </View>
+        <View style={styles.createIconWrapper}>
+          <Icon
+            name="plus-circle"
+            size={100}
+            onPress={() => navigation.navigate("Create")}
+            color={Colors.lightPurple}
+            style={styles.createIcon}
+          />
+        </View>
+        <FlatList
+          data={challenges}
+          keyExtractor={(item) => item.id} // returns a number which you have to conver to string
+          renderItem={({ item }) => (
+            <View style={styles.itemContainer}>
+              <ChallengesListItem
+                title={item.eventTitle}
+                source={item.creatorAvator}
+                creator={item.creatorUserName}
+                onPress={() =>
+                  navigation.navigate(
+                    "ChallengeDetails",
+                    item.id,
+                    item.eventTitle
+                  )
+                }
               />
             </View>
-            <FlatList
-              data={challenges}
-              keyExtractor={(item) => item.id} // returns a number which you have to conver to string
-              renderItem={({ item }) => (
-                <View style={styles.itemContainer}>
-                  <ChallengesListItem
-                    title={item.eventTitle}
-                    source={item.creatorAvator}
-                    creator={item.creatorUserName}
-                    onPress={() =>
-                      navigation.navigate(
-                        "ChallengeDetails",
-                        item.id,
-                        item.eventTitle
-                      )
-                    }
-                  />
-                </View>
-              )}
-            />
-          </>
-        ) : (
-          <View style={styles.containerEmpty}>
-            <Text>You dont have any challeneges create a challenge</Text>
-          </View>
-        )}
+          )}
+        />
       </View>
     </View>
   );
