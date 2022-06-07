@@ -52,6 +52,7 @@ export const AppStack = () => {
     >
       <Tab.Screen
         name="Feeds"
+        initialRouteName="Feeds"
         component={FeedsNavigation}
         options={{ headerBackVisible: true }}
       />

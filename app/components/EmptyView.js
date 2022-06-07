@@ -3,8 +3,10 @@ import { StyleSheet, Text } from "react-native";
 import { FontSizes } from "../config";
 import { AppCloseWindow } from "./AppCloseWindow";
 import { View } from "./View";
+import { useNavigation } from "@react-navigation/native";
 
 export const EmptyView = ({ title, back }) => {
+  const navigation = useNavigation();
   return (
     <>
       {back ? (
