@@ -4,7 +4,7 @@ import { View, StyleSheet } from "react-native";
 import { storage } from "../config/firebase";
 import { auth } from "../config";
 
-export const ImageStorage = async (uri) => {
+export const ImageStorage = async ({ uri, path }) => {
   const blob = await new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
@@ -21,7 +21,7 @@ export const ImageStorage = async (uri) => {
 
   const fileRef = ref(
     storage,
-    `clothing/${auth.currentUser.uid}/${Math.random().toString(36)}.jpg`
+    `${path}/${auth.currentUser.uid}/${Math.random().toString(36)}.jpg`
   );
   const result = await uploadBytesResumable(fileRef, blob);
 

@@ -1,26 +1,37 @@
 import React from "react";
 import { StyleSheet, Text } from "react-native";
-import { FontSizes } from "../config";
+import { Colors, FontSizes } from "../config";
 import { AppCloseWindow } from "./AppCloseWindow";
 import { View } from "./View";
 import { useNavigation } from "@react-navigation/native";
+import { Icon } from "./Icon";
 
-export const EmptyView = ({ title, back }) => {
+export const EmptyView = ({ message, back, marginSize = 0 }) => {
   const navigation = useNavigation();
   return (
     <>
       {back ? (
         <View isSafe style={styles.containerBack}>
           <AppCloseWindow onPress={() => navigation.goBack()} paddingSize={0} />
-          <Text style={styles.emptyTextBack}>
-            It looks like your {title} is empty.
-          </Text>
+          <View style={[styles.emptyWrapper, { marginTop: marginSize }]}>
+            <Text style={styles.emptyTextBack}>{message}</Text>
+            <Icon
+              name="archive-remove-outline"
+              size={100}
+              color={Colors.lightGray}
+            />
+          </View>
         </View>
       ) : (
         <View isSafe style={styles.container}>
-          <Text style={styles.emptyText}>
-            It looks like your {title} is empty.
-          </Text>
+          <View style={[styles.emptyWrapper, { marginTop: marginSize }]}>
+            <Text style={styles.emptyTextBack}>{message}</Text>
+            <Icon
+              name="archive-remove-outline"
+              size={100}
+              color={Colors.lightGray}
+            />
+          </View>
         </View>
       )}
     </>
@@ -30,13 +41,14 @@ export const EmptyView = ({ title, back }) => {
 const styles = StyleSheet.create({
   container: {},
   containerBack: { flex: 1 },
-  emptyTextBack: {
-    marginTop: 200,
-    alignSelf: "center",
-    fontSize: FontSizes.subTitle,
+  emptyWrapper: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
   },
-  emptyText: {
+  emptyTextBack: {
     alignSelf: "center",
     fontSize: FontSizes.subTitle,
+    color: Colors.lightGray,
   },
 });

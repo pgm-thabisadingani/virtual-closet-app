@@ -58,7 +58,7 @@ export const ClothingListItems = () => {
   ) : isError || !items.length ? (
     <>
       <Error />
-      <EmptyView title="closet" />
+      <EmptyView message="Your closet is empty, add items." marginSize={65} />
     </>
   ) : (
     <View style={styles.container}>

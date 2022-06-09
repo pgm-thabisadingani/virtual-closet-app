@@ -91,63 +91,63 @@ export const ClosetScreen = ({ navigation }) => {
         <RNView style={styles.clothigList}>
           <ClothingListItems />
         </RNView>
-        {show ? (
-          <View style={styles.addImageContainer}>
-            <View style={styles.addButtonWrapper}>
-              <AppCloseWindow onPress={() => setShow(false)} paddingSize={20} />
-              <View style={styles.options}>
-                <View style={styles.icon}>
-                  <Icon
-                    name="plus-circle"
-                    size={100}
-                    onPress={() =>
-                      navigation.navigate(
-                        "SaveItemImage",
-                        {
-                          closetOwerId: closet.closetOwerUid,
-                          closetId: closet.id,
-                        },
-                        setShow(false)
-                      )
-                    }
-                    color={Colors.lightPurple}
-                  />
-                  <Text
-                    style={{
-                      fontSize: FontSizes.body,
-                      color: Colors.lightPurple,
-                    }}
-                  >
-                    Manual
-                  </Text>
-                </View>
-                <View style={styles.icon}>
-                  <Icon
-                    name="plus-circle"
-                    size={100}
-                    onPress={() =>
-                      navigation.navigate(
-                        "SaveItemGooleAi",
-                        {
-                          closetOwerId: closet.closetOwerUid,
-                          closetId: closet.id,
-                        },
-                        setShow(false)
-                      )
-                    }
-                    color={Colors.lightGray}
-                  />
-                  <Text
-                    style={{ fontSize: FontSizes.body, color: Colors.gray }}
-                  >
-                    Google Ai
-                  </Text>
-                </View>
+      </KeyboardAwareScrollView>
+      {show ? (
+        <View style={styles.addImageContainer}>
+          <View style={styles.addButtonWrapper}>
+            <AppCloseWindow onPress={() => setShow(false)} paddingSize={20} />
+            <View style={styles.options}>
+              <View style={styles.icon}>
+                <Icon
+                  name="plus-circle"
+                  size={100}
+                  onPress={() =>
+                    navigation.navigate(
+                      "SaveItemImage",
+                      {
+                        closetOwerId: closet.closetOwerUid,
+                        closetId: closet.id,
+                        goingTo: "clothing",
+                      },
+                      setShow(false)
+                    )
+                  }
+                  color={Colors.lightPurple}
+                />
+                <Text
+                  style={{
+                    fontSize: FontSizes.body,
+                    color: Colors.lightPurple,
+                  }}
+                >
+                  Manual
+                </Text>
+              </View>
+              <View style={styles.icon}>
+                <Icon
+                  name="plus-circle"
+                  size={100}
+                  onPress={() =>
+                    navigation.navigate(
+                      "SaveItemGooleAi",
+                      {
+                        closetOwerId: closet.closetOwerUid,
+                        closetId: closet.id,
+                        goingTo: "clothing",
+                      },
+                      setShow(false)
+                    )
+                  }
+                  color={Colors.lightGray}
+                />
+                <Text style={{ fontSize: FontSizes.body, color: Colors.gray }}>
+                  Google Ai
+                </Text>
               </View>
             </View>
           </View>
-        ) : null}
-      </KeyboardAwareScrollView>
+        </View>
+      ) : null}
     </View>
   );
 };
@@ -169,7 +169,6 @@ const styles = StyleSheet.create({
     width: "115%",
     justifyContent: "center",
     alignItems: "center",
-    marginRight: -20,
     padding: 0,
     zIndex: 100,
   },

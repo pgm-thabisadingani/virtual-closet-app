@@ -48,8 +48,11 @@ export const ChallengesScreen = ({ navigation }) => {
   ) : isError || !challenges.length ? (
     <>
       <Error />
-      <View style={{ marginTop: 200 }}>
-        <EmptyView title="Challenges" />
+      <View style={{ marginTop: 310 }}>
+        <EmptyView
+          message="You don't have any challenges to view."
+          marginSize={-100}
+        />
       </View>
       <View style={styles.createIconWrapper}>
         <Icon

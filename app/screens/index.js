@@ -10,8 +10,9 @@ import { CreateChallengeScreen } from "./CreateChallengeScreen";
 import { ResponseScreen } from "./ResponseScreen";
 
 import { CreateResponseScreen } from "./CreateResponseScreen";
+import { EditProfileScreen } from "./EditProfileScreen";
 
-import { EditClothingItemScreen } from "./EditClothingItemScreen";
+import { EditChallengeScreen } from "./EditChallengeScreen";
 import { ForgotPasswordScreen } from "./ForgotPasswordScreen";
 import { SaveItemImageScreen } from "./SaveItemImageScreen";
 import { SaveImageGoogleVisionScreen } from "./SaveImageGoogleVisionScreen ";
@@ -27,9 +28,10 @@ export {
   ChallengesScreen,
   CreateChallengeScreen,
   ChallengeDetailsScreen,
-  EditClothingItemScreen,
+  EditChallengeScreen,
   SaveItemImageScreen,
   SaveImageGoogleVisionScreen,
   CreateResponseScreen,
   ResponseScreen,
+  EditProfileScreen,
 };

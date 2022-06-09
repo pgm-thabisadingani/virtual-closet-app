@@ -9,6 +9,8 @@ import { Colors, FontSizes } from "../config";
 import { AppButton, AppCloseWindow, Icon } from "../components";
 import { AddClothingItem } from "../components/closet";
 import { ImageStorage } from "../hooks";
+import { ProfileScreen } from "./ProfileScreen";
+import { EditProfileScreen } from "./EditProfileScreen";
 
 export const SaveItemImageScreen = ({ navigation, route }) => {
   const [hasGalleryPermission, setHasGalleryPermission] = useState(null);
@@ -20,8 +22,9 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
   // Closet and User id
   const closetOwerUid = route.params.closetOwerId;
   const closetUid = route.params.closetId;
+  const goingTo = route.params.goingTo;
 
-  console.log(closetOwerUid);
+  console.log(goingTo);
 
   // grant permissions
   useEffect(() => {
@@ -46,7 +49,11 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
         // set a loading status here
         try {
           console.log(data.uri);
-          const result = await ImageStorage(data.uri);
+          let uri = data.uri;
+          const result = await ImageStorage({
+            uri: data.uri,
+            path: goingTo,
+          });
           console.log(result);
           setImage(result);
           console.log("WE ARE GOOD TO GO");
@@ -68,7 +75,10 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
     console.log(result);
     if (!result.cancelled) {
       try {
-        const resultImage = await ImageStorage(result.uri);
+        const resultImage = await ImageStorage({
+          uri: result.uri,
+          path: goingTo,
+        });
         setImage(resultImage);
       } catch (error) {
         console.log("Error reading an image", error);
@@ -96,6 +106,7 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
               ratio={"1:1"}
             />
           </View>
+
           <AppButton
             title="Flip Image"
             onPress={() => {
@@ -114,10 +125,18 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
         </>
       ) : (
         <KeyboardAwareScrollView enableOnAndroid={true}>
-          <View style={styles.containerPreview}>
-            {image && <Image source={{ uri: image }} style={styles.image} />}
-          </View>
-          <AddClothingItem closetUid={closetUid} imageUri={image} />
+          {goingTo == "clothing" ? (
+            <>
+              <View style={styles.containerPreview}>
+                {image && (
+                  <Image source={{ uri: image }} style={styles.image} />
+                )}
+              </View>
+              <AddClothingItem closetUid={closetUid} imageUri={image} />
+            </>
+          ) : (
+            <EditProfileScreen photoURL={image} />
+          )}
         </KeyboardAwareScrollView>
       )}
     </View>

@@ -8,6 +8,7 @@ import { ClosetNavigation } from "./ClosetNavigation";
 import { FeedsNavigation } from "./FeedsNavigation";
 import { ChallengeNavigation } from "./ChallengeNavigation";
 import { NewChallengeButton } from "./NewChallengeButton";
+import { ProfileNavigation } from "./ProfileNavigation";
 
 const Tab = createBottomTabNavigator();
 
@@ -74,7 +75,7 @@ export const AppStack = () => {
         })}
       />
       <Tab.Screen name="Challenges" component={ChallengeNavigation} />
-      <Tab.Screen name="Profile" component={ProfileScreen} />
+      <Tab.Screen name="Profile" component={ProfileNavigation} />
     </Tab.Navigator>
   );
 };

@@ -1,7 +1,5 @@
-import React, { useRef } from "react";
+import React from "react";
 import { View, StyleSheet, Pressable, ImageBackground } from "react-native";
-import { Formik, Field } from "formik";
-import ImageInput from "./ImageInput";
 import { Card, Checkbox, Title, Paragraph, Avatar } from "react-native-paper";
 
 function ImageInputList(props) {

@@ -35,6 +35,7 @@ export const AddClothingItem = ({ closetUid, imageUri }) => {
 
   /*creating a clothing Item */
   const handleAddItem = async (values) => {
+    console.log(` HERERERERRR ${imageUri}`);
     addDoc(collection(db, "clothing"), {
       closetOwerUid: values.closetOwerUid,
       closetUid: values.closetUid,

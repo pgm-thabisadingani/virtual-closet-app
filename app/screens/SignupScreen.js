@@ -42,7 +42,7 @@ export const SignupScreen = ({ navigation }) => {
         });
         await addDoc(collection(db, "users"), {
           username: username,
-          picture: userCredential.user.photoURL,
+          photoURL: userCredential.user.photoURL,
           email: userCredential.user.email,
           uid: userCredential.user.uid,
           firstName: "",
@@ -54,7 +54,6 @@ export const SignupScreen = ({ navigation }) => {
           zipCode: null,
           online: true,
           displayName: username,
-          photoURL: "https://api.lorem.space/image/fashion?w=100&h=100",
         });
         await addDoc(collection(db, "closets"), {
           closetOwerUid: userCredential.user.uid,

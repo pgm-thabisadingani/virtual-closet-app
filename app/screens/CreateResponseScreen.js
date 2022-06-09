@@ -28,10 +28,8 @@ import {
 import { OutfitItems } from "../components/responses";
 
 export const CreateResponseScreen = ({ route }) => {
-  const [response, setResponse] = useState("");
+  const [user, setUser] = useState("");
   const userUid = auth.currentUser.uid;
-  const userName = auth.currentUser.displayName;
-  const userAvatar = auth.currentUser.photoURL;
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const navigation = useNavigation();
@@ -54,6 +52,31 @@ export const CreateResponseScreen = ({ route }) => {
       .then(navigation.popToTop(), setIsLoading(true))
       .catch((err) => setIsError(err.message));
   };
+
+  /*getting user where === userUid*/
+  const getUserAsync = async () => {
+    setIsLoading(true);
+    try {
+      const q = query(collection(db, "users"), where("uid", "==", userUid));
+      onSnapshot(q, (snapshot) => {
+        snapshot.forEach((doc) => {
+          setUser({ ...doc.data(), id: doc.id });
+        });
+        setIsLoading(false);
+      });
+    } catch (error) {
+      setIsError(error.message);
+    }
+  };
+
+  /*Keep track with changes in data add or delete. Clean up!*/
+  useEffect(() => {
+    const unsubscribe = getUserAsync();
+    return () => unsubscribe;
+  }, []);
+
+  const userName = user.displayName;
+  const userAvatar = user.photoURL;
 
   return isError ? (
     <Error>{isError}</Error>

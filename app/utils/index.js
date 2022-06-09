@@ -30,5 +30,8 @@ export const challengeSchema = Yup.object().shape({
   Description: Yup.string().max(50, "Too Long!").label("Description"),
 });
 export const responseSchema = Yup.object().shape({
-  Description: Yup.string().max(50, "Too Long!").label("Description"),
+  Description: Yup.string().min(0).max(50, "Too Long!").label("Description"),
+});
+export const userUpdateSchema = Yup.object().shape({
+  username: Yup.string().label("Username"),
 });

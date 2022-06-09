@@ -8,6 +8,7 @@ import {
   Pressable,
   ImageBackground,
 } from "react-native";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useFormikContext, Field } from "formik";
 import { FormErrorMessage } from "../FormErrorMessage";
 import ImageInputList from "./ImageInputList";
@@ -17,6 +18,7 @@ import { AppCloseWindow } from "../AppCloseWindow";
 import { LoadingIndicator } from "../LoadingIndicator";
 import { Error } from "../Error";
 import { Icon } from "../Icon";
+import { EmptyView } from "../EmptyView";
 
 export const OutfitItems = ({ name, closetUid }) => {
   const [items, setItems] = useState([]);
@@ -102,16 +104,22 @@ export const OutfitItems = ({ name, closetUid }) => {
         />
       </View>
       <Modal visible={modalVisible} animationType="slide">
-        <View>
-          <AppCloseWindow
-            onPress={() => setModalVisible(false)}
-            paddingSize={30}
-          />
+        <AppCloseWindow
+          onPress={() => setModalVisible(false)}
+          paddingSize={30}
+        />
+        <KeyboardAwareScrollView enableOnAndroid={true}>
           <View role="group" aria-labelledby="checkbox-group">
-            {isError ? (
-              <Error>{isError}</Error>
-            ) : isLoading || !items ? (
+            {isLoading ? (
               <LoadingIndicator />
+            ) : isError || !items.length ? (
+              <>
+                <Error />
+                <EmptyView
+                  message="The closet of this users is currently empty."
+                  marginSize={150}
+                />
+              </>
             ) : (
               <FlatList
                 data={items}
@@ -128,7 +136,7 @@ export const OutfitItems = ({ name, closetUid }) => {
               />
             )}
           </View>
-        </View>
+        </KeyboardAwareScrollView>
       </Modal>
       <FormErrorMessage error={errors[name]} visible={touched[name]} />
     </>

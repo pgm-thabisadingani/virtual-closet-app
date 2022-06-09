@@ -68,7 +68,11 @@ export const ResponseScreen = ({ navigation, route }) => {
   ) : isError || !items.length ? (
     <>
       <Error />
-      <EmptyView title="responses" back />
+      <EmptyView
+        message="There is currently no responses to this challenge."
+        back
+        marginSize={-20}
+      />
     </>
   ) : (
     <View isSafe style={styles.container}>
