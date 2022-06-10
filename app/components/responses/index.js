@@ -1,3 +1,4 @@
 import { OutfitItems } from "./OutfitItems";
+import { ResponcesCouter } from "./ResponcesCouter";
 
-export { OutfitItems };
+export { OutfitItems, ResponcesCouter };

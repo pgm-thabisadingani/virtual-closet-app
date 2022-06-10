@@ -13,6 +13,7 @@ import {
 import { ChallengeDetails } from "../components/challenges";
 import { auth, Colors, db, FontSizes } from "../config";
 import { useNavigation } from "@react-navigation/native";
+import { ResponcesCouter } from "../components/responses";
 
 export const ChallengeDetailsScreen = ({ route }) => {
   const [challenge, setChallenge] = useState([]);
@@ -72,7 +73,6 @@ export const ChallengeDetailsScreen = ({ route }) => {
             paddingSize={10}
           />
         </View>
-        {/* <Text style={styles.titleText}> {challenge.eventTitle}</Text> */}
         {challenge.creatorUid === userUid ? (
           <View style={styles.deleteOptions}>
             {/* <Icon
@@ -131,6 +131,9 @@ export const ChallengeDetailsScreen = ({ route }) => {
         </View>
       ) : (
         <View style={styles.buttonWrapper}>
+          <View style={styles.responseCounter}>
+            <ResponcesCouter challengeUid={challengeUid} />
+          </View>
           <AppButton
             size={20}
             buttonWidth={250}
@@ -187,19 +190,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 50,
   },
-  card: {
-    // borderRadius: 15,
-    // height: 400,
-    // backgroundColor: Colors.white,
-    // shadowColor: Colors.dark,
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 4,
-    // },
-    // shadowOpacity: 0.3,
-    // shadowRadius: 4.65,
-    // elevation: 4,
-    // padding: 20,
+  responseCounter: {
+    position: "absolute",
+    bottom: 35,
+    right: 50,
+    zIndex: 100,
   },
   cardHeader: {
     flexDirection: "row",

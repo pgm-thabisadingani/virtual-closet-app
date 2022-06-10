@@ -100,7 +100,7 @@ export const EditChallengeScreen = () => {
         }}
         validationSchema={challengeSchema}
         onSubmit={(values, { resetForm }) => {
-          handleAddChallenge(values);
+          handleEditChallenge(values);
           resetForm({ values: " " });
         }}
       >
