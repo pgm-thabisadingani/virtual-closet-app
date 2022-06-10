@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, Image, ScrollView } from "react-native";
+import { StyleSheet, Text, Image } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
 
@@ -36,7 +36,6 @@ export const CreateResponseScreen = ({ route }) => {
 
   const handleCreateResponse = async (values) => {
     setIsLoading(true);
-    console.log(values);
     await addDoc(collection(db, "responses"), {
       responderUid: userUid,
       responderUserName: userName,
@@ -84,55 +83,52 @@ export const CreateResponseScreen = ({ route }) => {
     <LoadingIndicator />
   ) : (
     <View isSafe style={styles.container}>
-      <KeyboardAwareScrollView enableOnAndroid={true}>
-        <AppCloseWindow onPress={() => navigation.popToTop()} paddingSize={0} />
-        {/* Formik Wrapper */}
-        <Formik
-          initialValues={{
-            discription: "",
-            chothingItems: [],
-          }}
-          validationSchema={responseSchema}
-          onSubmit={(values, { resetForm }) => {
-            handleCreateResponse(values);
-          }}
-        >
-          {({
-            values,
-            touched,
-            errors,
-            handleChange,
-            handleSubmit,
-            handleBlur,
-          }) => (
-            <>
-              <Text style={{ marginTop: 50 }}>Add and items</Text>
-              <OutfitItems
-                name="chothingItems"
-                closetUid={route.params.closetUid}
-              />
-              <Text style={{ marginTop: 20 }}>Tips and Trick</Text>
-              <TextAreaFormField
-                multiline
-                numberOfLines={10}
-                name="discription"
-                placeholder="Start writing ..."
-                value={values.discription}
-                onChangeText={handleChange("discription")}
-                onBlur={handleBlur("discription")}
-              />
-              <AppButton
-                buttonWidth={150}
-                size={20}
-                textColor={Colors.white}
-                title="Submit"
-                onPress={handleSubmit}
-                color={Colors.purple}
-              />
-            </>
-          )}
-        </Formik>
-      </KeyboardAwareScrollView>
+      {/* Formik Wrapper */}
+      <Formik
+        initialValues={{
+          discription: "",
+          chothingItems: [],
+        }}
+        validationSchema={responseSchema}
+        onSubmit={(values, { resetForm }) => {
+          handleCreateResponse(values);
+        }}
+      >
+        {({
+          values,
+          touched,
+          errors,
+          handleChange,
+          handleSubmit,
+          handleBlur,
+        }) => (
+          <>
+            <Text style={{ marginTop: 10 }}>Add and items</Text>
+            <OutfitItems
+              name="chothingItems"
+              closetUid={route.params.closetUid}
+            />
+            <Text style={{ marginTop: 20 }}>Tips and Trick</Text>
+            <TextAreaFormField
+              multiline
+              numberOfLines={10}
+              name="discription"
+              placeholder="Start writing ..."
+              value={values.discription}
+              onChangeText={handleChange("discription")}
+              onBlur={handleBlur("discription")}
+            />
+            <AppButton
+              buttonWidth={150}
+              size={20}
+              textColor={Colors.white}
+              title="Submit"
+              onPress={handleSubmit}
+              color={Colors.purple}
+            />
+          </>
+        )}
+      </Formik>
     </View>
   );
 };

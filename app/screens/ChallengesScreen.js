@@ -41,7 +41,6 @@ export const ChallengesScreen = ({ navigation }) => {
     const unsubscribe = getChallengesAsync();
     return () => unsubscribe;
   }, []);
-  console.log(challenges);
 
   return isLoading ? (
     <LoadingIndicator />
@@ -100,7 +99,7 @@ export const ChallengesScreen = ({ navigation }) => {
                 creator={item.creatorUserName}
                 onPress={() =>
                   navigation.navigate(
-                    "ChallengeDetails",
+                    "Challenge Details",
                     item.id,
                     item.eventTitle
                   )
@@ -115,7 +114,10 @@ export const ChallengesScreen = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
+  container: {
+    flex: 1,
+    marginTop: 0,
+  },
   latestChallenge: {
     marginBottom: 20,
     flexDirection: "row",

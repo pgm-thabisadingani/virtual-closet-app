@@ -4,12 +4,9 @@ import {
   Text,
   FlatList,
   ImageBackground,
-  ScrollView,
+  Modal,
   View as RNView,
 } from "react-native";
-import { v4 as uuid } from "uuid";
-import "react-native-get-random-values";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import {
   collection,
@@ -37,6 +34,7 @@ export const ClosetScreen = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [show, setShow] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
   const userUid = auth.currentUser.uid;
 
   /*getting closet where the the closet*/
@@ -66,40 +64,44 @@ export const ClosetScreen = ({ navigation }) => {
     return () => unsubscribe;
   }, []);
 
-  console.log(closet);
   return isLoading ? (
     <LoadingIndicator />
   ) : isError ? (
     <Error />
   ) : (
-    <View isSafe style={styles.container}>
+    <View style={styles.container}>
       <View style={styles.categories}>
         {closet.closetOwerUid === userUid && (
-          <View style={{ alignItems: "center", width: 100 }}>
+          <View
+            style={{ alignItems: "center", justifyContent: "space-between" }}
+          >
             <Icon
               name="plus-circle"
               size={80}
-              onPress={() => setShow(true)}
-              color={Colors.lightGray}
+              onPress={() => setModalVisible(true)}
+              color={Colors.midLight}
             />
-            <Text>Add Item</Text>
+            <Text style={{ color: Colors.lightGray }}>Add Item</Text>
           </View>
         )}
         <CategoryListItem userUid={userUid} />
       </View>
-      <KeyboardAwareScrollView enableOnAndroid={true}>
-        <RNView style={styles.clothigList}>
-          <ClothingListItems />
-        </RNView>
-      </KeyboardAwareScrollView>
-      {show ? (
+
+      <View isSafe style={styles.clothigList}>
+        <ClothingListItems />
+      </View>
+
+      <Modal visible={modalVisible} animationType="slide">
         <View style={styles.addImageContainer}>
           <View style={styles.addButtonWrapper}>
-            <AppCloseWindow onPress={() => setShow(false)} paddingSize={20} />
+            <AppCloseWindow
+              onPress={() => setModalVisible(false)}
+              paddingSize={20}
+            />
             <View style={styles.options}>
               <View style={styles.icon}>
                 <Icon
-                  name="plus-circle"
+                  name="camera"
                   size={100}
                   onPress={() =>
                     navigation.navigate(
@@ -109,7 +111,7 @@ export const ClosetScreen = ({ navigation }) => {
                         closetId: closet.id,
                         goingTo: "clothing",
                       },
-                      setShow(false)
+                      setModalVisible(false)
                     )
                   }
                   color={Colors.lightPurple}
@@ -120,61 +122,59 @@ export const ClosetScreen = ({ navigation }) => {
                     color: Colors.lightPurple,
                   }}
                 >
-                  Manual
+                  Add manually
                 </Text>
               </View>
               <View style={styles.icon}>
                 <Icon
-                  name="plus-circle"
+                  name="snail"
                   size={100}
                   onPress={() =>
                     navigation.navigate(
-                      "SaveItemGooleAi",
+                      "SaveItemGoogleAi",
                       {
                         closetOwerId: closet.closetOwerUid,
                         closetId: closet.id,
                         goingTo: "clothing",
                       },
-                      setShow(false)
+                      setModalVisible(false)
                     )
                   }
-                  color={Colors.lightGray}
+                  color={Colors.midLight}
                 />
-                <Text style={{ fontSize: FontSizes.body, color: Colors.gray }}>
-                  Google Ai
+                <Text
+                  style={{ fontSize: FontSizes.body, color: Colors.midLight }}
+                >
+                  Use Google Ai
                 </Text>
               </View>
             </View>
           </View>
         </View>
-      ) : null}
+      </Modal>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  listContainer: {
-    flex: 1,
-  },
+  container: { flex: 1, padding: 20 },
+  listContainer: {},
   clothigList: {
-    marginRight: -20,
+    flex: 1,
+
+    padding: 0,
   },
   addImageContainer: {
-    position: "absolute",
+    flex: 1,
     backgroundColor: " rgba(0, 0, 0, 0.8)",
-    height: "110%",
-    width: "115%",
+
     justifyContent: "center",
     alignItems: "center",
     padding: 0,
-    zIndex: 100,
   },
   addButtonWrapper: {
-    height: 320,
-    width: 320,
+    height: 420,
+    width: 350,
     backgroundColor: Colors.white,
     borderRadius: 15,
   },
@@ -185,9 +185,11 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   icon: {
-    marginTop: 50,
     padding: 20,
     alignItems: "center",
     fontSize: 18,
+  },
+  categories: {
+    flexDirection: "row",
   },
 });

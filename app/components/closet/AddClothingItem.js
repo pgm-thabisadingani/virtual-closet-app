@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, Image } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
-// import { v4 as uuid } from "uuid";
-// import "react-native-get-random-values";
 import { useNavigation } from "@react-navigation/native";
 import { collection, query, addDoc, onSnapshot } from "firebase/firestore";
 
@@ -35,7 +32,6 @@ export const AddClothingItem = ({ closetUid, imageUri }) => {
 
   /*creating a clothing Item */
   const handleAddItem = async (values) => {
-    console.log(` HERERERERRR ${imageUri}`);
     addDoc(collection(db, "clothing"), {
       closetOwerUid: values.closetOwerUid,
       closetUid: values.closetUid,
@@ -45,8 +41,6 @@ export const AddClothingItem = ({ closetUid, imageUri }) => {
       .then(navigation.popToTop())
       .catch((err) => console.error(err));
   };
-
-  console.log(imageUri);
 
   // navigation.PopToTop takes to back to the first screen
 
@@ -74,14 +68,15 @@ export const AddClothingItem = ({ closetUid, imageUri }) => {
               width="100%"
               numberOfColumns={3}
             />
-            <AppButton
-              buttonWidth={150}
-              size={20}
-              textColor={Colors.white}
-              title="Add To Closet"
-              onPress={handleSubmit}
-              color={Colors.purple}
-            />
+            <View style={{ marginTop: 20 }}>
+              <AppButton
+                size={20}
+                textColor={Colors.white}
+                title="Add To Closet"
+                onPress={handleSubmit}
+                color={Colors.purple}
+              />
+            </View>
           </>
         )}
       </Formik>
@@ -91,8 +86,8 @@ export const AddClothingItem = ({ closetUid, imageUri }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     padding: 20,
+    backgroundColor: Colors.dark,
   },
 
   Icon: {

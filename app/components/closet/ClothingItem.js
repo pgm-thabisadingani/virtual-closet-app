@@ -14,7 +14,7 @@ import { auth, Colors, db } from "../../config";
 
 export const ClothingItem = ({ items }) => {
   const navigation = useNavigation();
-  // console.log(items);
+
   const imageUri = items.imageUri;
 
   const closetOwerUid = items.closetOwerUid;
@@ -36,19 +36,12 @@ export const ClothingItem = ({ items }) => {
   //remove from the list
 
   const asyncDeleteItem = async (id) => {
-    console.log(id);
     try {
       const request = await deleteDoc(doc(db, "clothing", id));
-      console.log(request);
       navigation.popToTop();
     } catch (error) {
       console.log(error);
     }
-  };
-
-  // handle Select
-  const handleSelect = () => {
-    navigation.navigate("CreateResponse");
   };
 
   // handle Delete
@@ -76,7 +69,6 @@ export const ClothingItem = ({ items }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     alignItems: "center",
     borderColor: Colors.lightGray,
@@ -84,8 +76,8 @@ const styles = StyleSheet.create({
     overflow: "hidden",
     borderWidth: 1,
     height: 200,
-    width: 160,
-    marginBottom: 20,
+    width: 152,
+    margin: 5,
 
     shadowColor: Colors.dark,
     shadowOffset: {

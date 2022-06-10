@@ -43,8 +43,5 @@ export const callGoogleVisionAsync = async (image) => {
 
   const result = await response.json();
 
-  console.log("GOOGLE VISION I AM HERE");
-
-  console.log(result);
   return result.responses[0].labelAnnotations[0].description;
 };

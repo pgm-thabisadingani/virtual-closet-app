@@ -13,7 +13,6 @@ export const useFetch = ({ city = "Ghent" }) => {
     )
       .then((response) => response.json())
       .then((json) => {
-        console.log(json);
         setDataUri(json);
       })
       .catch((error) => {
@@ -26,8 +25,6 @@ export const useFetch = ({ city = "Ghent" }) => {
     setIsLoading(false);
     return () => unsubscribe;
   }, []);
-
-  // console.log(dataUri);
 
   return [dataUri, isLoading, error];
 };

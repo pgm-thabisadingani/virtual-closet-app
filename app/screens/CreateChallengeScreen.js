@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, Image, ScrollView } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
 import {
   collection,
@@ -67,7 +66,6 @@ export const CreateChallengeScreen = () => {
     let newDate = values.eventDate.toLocaleDateString();
     let endDate = Date.parse(newDate);
     // let endlocation = await values.eventLocation.replace(" ", "%20");
-    console.log(endDate);
     setIsLoading(true);
     await addDoc(collection(db, "challenges"), {
       closetUid: closet.id,
@@ -89,7 +87,7 @@ export const CreateChallengeScreen = () => {
   ) : isLoading || !closet ? (
     <LoadingIndicator />
   ) : (
-    <View isSafe style={styles.container} listMode="SCROLLVIEW">
+    <View isSafe style={styles.container}>
       {/* Formik Wrapper */}
       <Formik
         initialValues={{
@@ -127,7 +125,7 @@ export const CreateChallengeScreen = () => {
             </View>
             <ScrollView
               listMode="SCROLLVIEW"
-              style={{ flex: 1, marginTop: 115 }}
+              style={{ flex: 1, marginTop: 125 }}
             >
               <Text>Pick a date</Text>
               <AppDatePicker name="eventDate" />
@@ -175,9 +173,8 @@ export const CreateChallengeScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: Colors.white,
-    paddingTop: 40,
+    paddingTop: 15,
   },
 
   Icon: {

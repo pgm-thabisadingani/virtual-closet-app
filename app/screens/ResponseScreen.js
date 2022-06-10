@@ -63,7 +63,6 @@ export const ResponseScreen = ({ navigation, route }) => {
     </>
   ) : (
     <View isSafe style={styles.container}>
-      <AppCloseWindow onPress={() => navigation.goBack()} paddingSize={0} />
       <View style={styles.header}>
         <Text style={styles.title}>{items && items[0].eventTitle}</Text>
         <Text style={styles.title}>
@@ -174,7 +173,7 @@ export const ResponseScreen = ({ navigation, route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: -15,
+    backgroundColor: Colors.white,
   },
   header: {
     flexDirection: "row",

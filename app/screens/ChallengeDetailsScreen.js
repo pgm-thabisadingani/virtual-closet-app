@@ -44,15 +44,11 @@ export const ChallengeDetailsScreen = ({ route }) => {
     return () => unsubscribe;
   }, []);
 
-  console.log(challenge);
-
   //remove from the list
   const asyncDeleteItem = async () => {
-    console.log(challengeUid);
     setIsLoading(true);
     try {
       const request = await deleteDoc(doc(db, "challenges", challengeUid));
-      console.log(request);
       navigation.popToTop();
       setIsLoading(false);
     } catch (error) {
@@ -67,12 +63,6 @@ export const ChallengeDetailsScreen = ({ route }) => {
   ) : (
     <View isSafe style={styles.container}>
       <View style={styles.header}>
-        <View>
-          <AppCloseWindow
-            onPress={() => navigation.popToTop()}
-            paddingSize={10}
-          />
-        </View>
         {challenge.creatorUid === userUid ? (
           <View style={styles.deleteOptions}>
             {/* <Icon
@@ -85,7 +75,7 @@ export const ChallengeDetailsScreen = ({ route }) => {
             <Icon
               name="trash-can-outline"
               size={30}
-              color={Colors.lightGray}
+              color={Colors.dark}
               onPress={asyncDeleteItem}
             />
           </View>
@@ -106,8 +96,20 @@ export const ChallengeDetailsScreen = ({ route }) => {
           city={challenge.eventLocation}
           date={challenge.eventDate}
         />
-        <View style={styles.discriptionWrapper}>
-          <Text style={styles.description}>{challenge.discription}</Text>
+        <View>
+          <Text
+            style={{
+              marginTop: 40,
+              marginBottom: 10,
+              fontSize: FontSizes.labels,
+              color: Colors.mediumGray,
+            }}
+          >
+            Event Discription
+          </Text>
+          <View style={styles.discriptionWrapper}>
+            <Text style={styles.description}>{challenge.discription}</Text>
+          </View>
         </View>
       </View>
       {/* <Text>{challengeUid}</Text> */}
@@ -119,7 +121,7 @@ export const ChallengeDetailsScreen = ({ route }) => {
             textColor={Colors.white}
             title="Accept"
             onPress={() =>
-              navigation.navigate("CreateResponse", {
+              navigation.navigate("Create Response", {
                 creatorUid: challenge.creatorUid,
                 closetUid: challenge.closetUid,
                 eventTitle: challenge.eventTitle,
@@ -150,20 +152,21 @@ export const ChallengeDetailsScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: Colors.white,
   },
   header: {
-    marginBottom: 20,
-
+    marginBottom: 40,
+    marginTop: -20,
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
+    justifyContent: "flex-end",
   },
   titleText: {
     fontSize: FontSizes.title,
     color: Colors.dark,
     fontWeight: "bold",
+    textTransform: "capitalize",
+    paddingBottom: 6,
   },
   deleteOptions: {
     flexDirection: "row",
@@ -178,13 +181,12 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.light,
     padding: 20,
     height: 160,
-    marginTop: 50,
   },
   description: {
     fontSize: FontSizes.body,
 
     marginBottom: 30,
-    color: Colors.gray,
+    color: Colors.dark,
   },
   buttonWrapper: {
     alignItems: "center",

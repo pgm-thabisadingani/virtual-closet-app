@@ -42,7 +42,6 @@ export const FeedsScreen = ({ navigation }) => {
     return () => unsubscribe;
   }, []);
 
-  console.log(user);
   return isError ? (
     <Error>{isError}</Error>
   ) : isLoading || !user ? (

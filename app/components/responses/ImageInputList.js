@@ -30,9 +30,7 @@ function ImageInputList(props) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: "row",
-  },
+  container: {},
   image: {
     marginRight: 10,
   },

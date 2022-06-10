@@ -38,7 +38,6 @@ export const AddImageManualy = () => {
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync();
-      console.log(data);
       setImage(data.uri);
     }
   };
@@ -53,8 +52,6 @@ export const AddImageManualy = () => {
         quality: 0.5,
       });
 
-      console.log(result);
-
       if (!result.cancelled) setImage(result.uri);
     } catch (error) {
       console.log("Error reading an image", error);
@@ -67,7 +64,7 @@ export const AddImageManualy = () => {
   if (hasCameraPermission === false || hasGalleryPermission === false) {
     return <Text>No access to camera</Text>;
   }
-  console.log(image);
+
   return (
     <View style={{ flex: 1 }}>
       {!image ? (

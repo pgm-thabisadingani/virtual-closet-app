@@ -1,11 +1,12 @@
 import React from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Colors, FontSizes } from "../config";
 
 export const CategoryPickerItem = ({ item, onPress }) => {
   return (
     <View style={styles.category}>
       <TouchableOpacity onPress={onPress}>
-        <Text>{item.title}</Text>
+        <Text style={styles.titleText}>{item.title}</Text>
       </TouchableOpacity>
     </View>
   );
@@ -13,13 +14,19 @@ export const CategoryPickerItem = ({ item, onPress }) => {
 
 const styles = StyleSheet.create({
   category: {
-    paddingHorizontal: 25,
-    paddingVertical: 15,
+    paddingHorizontal: 15,
+    paddingVertical: 10,
     alignItems: "center",
-    width: "33%",
+    width: "26%",
+    borderColor: Colors.purple,
+    borderWidth: 1,
+    margin: 10,
   },
   label: {
     marginTop: 5,
     textAlign: "center",
+  },
+  titleText: {
+    fontSize: FontSizes.body,
   },
 });

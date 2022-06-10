@@ -59,8 +59,6 @@ export const OutfitItems = ({ name, closetUid }) => {
     return () => unsubscribe;
   }, []);
 
-  console.log(items);
-
   return (
     <>
       <Modal visible={modalVisible} animationType="slide">

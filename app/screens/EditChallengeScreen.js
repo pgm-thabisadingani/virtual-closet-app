@@ -67,7 +67,6 @@ export const EditChallengeScreen = () => {
     let newDate = values.eventDate.toLocaleDateString();
     let endDate = Date.parse(newDate);
     // let endlocation = await values.eventLocation.replace(" ", "%20");
-    console.log(endDate);
     setIsLoading(true);
     await addDoc(collection(db, "challenges"), {
       closetUid: closet.id,

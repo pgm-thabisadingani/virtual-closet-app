@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  View,
   StyleSheet,
   FlatList,
   Modal,
@@ -8,7 +7,6 @@ import {
   Pressable,
   ImageBackground,
 } from "react-native";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useFormikContext, Field } from "formik";
 import { FormErrorMessage } from "../FormErrorMessage";
 import ImageInputList from "./ImageInputList";
@@ -19,6 +17,7 @@ import { LoadingIndicator } from "../LoadingIndicator";
 import { Error } from "../Error";
 import { Icon } from "../Icon";
 import { EmptyView } from "../EmptyView";
+import { View } from "../View";
 
 export const OutfitItems = ({ name, closetUid }) => {
   const [items, setItems] = useState([]);
@@ -41,8 +40,6 @@ export const OutfitItems = ({ name, closetUid }) => {
       setFieldValue(name, [...checkedItems, imageUri]);
     }
   };
-
-  console.log(checkedItems);
 
   //getting items where closetceator Uid == userUid
   const getClosetAsync = async () => {
@@ -71,10 +68,8 @@ export const OutfitItems = ({ name, closetUid }) => {
     return () => unsubscribe;
   }, []);
 
-  console.log(items);
-
   return (
-    <>
+    <View>
       <View style={styles.container}>
         <FlatList
           data={checkedItems}
@@ -100,7 +95,7 @@ export const OutfitItems = ({ name, closetUid }) => {
           name="plus-circle"
           size={80}
           onPress={() => setModalVisible(true)}
-          color={Colors.lightGray}
+          color={Colors.midLight}
         />
       </View>
       <Modal visible={modalVisible} animationType="slide">
@@ -108,8 +103,12 @@ export const OutfitItems = ({ name, closetUid }) => {
           onPress={() => setModalVisible(false)}
           paddingSize={30}
         />
-        <KeyboardAwareScrollView enableOnAndroid={true}>
-          <View role="group" aria-labelledby="checkbox-group">
+        <View isSafe style={styles.containerCheckbox}>
+          <View
+            style={styles.containerCheck}
+            role="group"
+            aria-labelledby="checkbox-group"
+          >
             {isLoading ? (
               <LoadingIndicator />
             ) : isError || !items.length ? (
@@ -136,10 +135,11 @@ export const OutfitItems = ({ name, closetUid }) => {
               />
             )}
           </View>
-        </KeyboardAwareScrollView>
+        </View>
       </Modal>
+
       <FormErrorMessage error={errors[name]} visible={touched[name]} />
-    </>
+    </View>
   );
 };
 
@@ -149,7 +149,12 @@ const styles = StyleSheet.create({
     borderColor: Colors.light,
     padding: 2,
     borderWidth: 1,
-    marginTop: 15,
+    marginTop: 10,
     marginBottom: 20,
+  },
+  containerCheckbox: {
+    marginTop: -20,
+    marginHorizontal: -2,
+    padding: 0,
   },
 });

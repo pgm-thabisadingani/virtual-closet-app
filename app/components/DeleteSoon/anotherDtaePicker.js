@@ -18,7 +18,6 @@ export const DatePickerField = ({ name }) => {
     setDate(value);
     setDatePicker(false);
   }
-  console.log(date);
 
   return (
     <SafeAreaView style={{ flex: 1 }}>

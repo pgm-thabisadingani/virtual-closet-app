@@ -31,7 +31,6 @@ export const AddImageItemAutomatic = (props) => {
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync();
-      console.log(data);
       setImage(data.uri);
 
       //convert image to base64 in expo to be read by the google cloud vision Api
@@ -43,9 +42,7 @@ export const AddImageItemAutomatic = (props) => {
         setStatus("Loading...");
         try {
           const result = await callGoogleVisionAsync(base64);
-          console.log(result);
           setStatus(result);
-          console.log("WE ARE GOOD TO GO");
         } catch (error) {
           setStatus(`Error: ${error.message}`);
         }
@@ -66,17 +63,12 @@ export const AddImageItemAutomatic = (props) => {
       base64: true,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
-      console.log("I AM HERE NOW");
       setStatus("Loading...");
       try {
         const resultImage = await callGoogleVisionAsync(result.base64);
-        console.log("LOOK WHO'S BACK FROM GOOGLE VISION");
         setStatus(resultImage);
-        console.log("WE ARE GOOD TO GO");
       } catch (e) {
         console.log(e);
       }
@@ -89,7 +81,6 @@ export const AddImageItemAutomatic = (props) => {
   if (hasCameraPermission === false || hasGalleryPermission === false) {
     return <Text>No access to camera</Text>;
   }
-  console.log(image);
   return (
     <View style={{ flex: 1 }}>
       {!image ? (

@@ -12,7 +12,6 @@ export const EmptyView = ({ message, back, marginSize = 0 }) => {
     <>
       {back ? (
         <View isSafe style={styles.containerBack}>
-          <AppCloseWindow onPress={() => navigation.goBack()} paddingSize={0} />
           <View style={[styles.emptyWrapper, { marginTop: marginSize }]}>
             <Text style={styles.emptyTextBack}>{message}</Text>
             <Icon
@@ -39,8 +38,8 @@ export const EmptyView = ({ message, back, marginSize = 0 }) => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
-  containerBack: { flex: 1 },
+  container: { backgroundColor: Colors.white },
+  containerBack: { flex: 1, backgroundColor: Colors.white },
   emptyWrapper: {
     justifyContent: "center",
     alignItems: "center",

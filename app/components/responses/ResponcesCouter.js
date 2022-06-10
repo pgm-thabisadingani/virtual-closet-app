@@ -11,7 +11,6 @@ export const ResponcesCouter = ({ challengeUid }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
-  console.log(challengeUid);
   const getResponsesAsync = async () => {
     setIsLoading(true);
     try {
@@ -27,8 +26,6 @@ export const ResponcesCouter = ({ challengeUid }) => {
       setIsError(error.message);
     }
   };
-
-  console.log(items);
 
   // Keep track with changes in data add or delete. Clean up!
   useEffect(() => {
@@ -51,19 +48,19 @@ export const ResponcesCouter = ({ challengeUid }) => {
 
 const styles = StyleSheet.create({
   container: {
-    width: 40,
-    height: 40,
-    borderRadius: 40,
+    width: 50,
+    height: 50,
+    borderRadius: 50,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: Colors.light,
+    backgroundColor: Colors.mediumGray,
     overflow: "hidden",
-    borderBottomColor: Colors.darkGray,
-    borderBottomWidth: 1,
+    borderColor: Colors.darkGray,
+    borderWidth: 5,
   },
   counterText: {
     fontSize: FontSizes.body,
     fontWeight: "700",
-    color: Colors.dark,
+    color: Colors.white,
   },
 });

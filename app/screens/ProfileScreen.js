@@ -24,7 +24,7 @@ import {
 import { Formik } from "formik";
 import { userUpdateSchema } from "../utils";
 
-export const ProfileScreen = ({ photoURL }) => {
+export const ProfileScreen = () => {
   const userUid = auth.currentUser.uid;
   const [user, setUser] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -80,7 +80,6 @@ export const ProfileScreen = ({ photoURL }) => {
     return () => unsubscribe;
   }, []);
 
-  console.log(user);
   return (
     <View isSafe style={styles.container}>
       {isError ? (
@@ -128,13 +127,29 @@ export const ProfileScreen = ({ photoURL }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: -10,
   },
   headerContainer: {
     alignItems: "center",
-    backgroundColor: Colors.midLight,
+    backgroundColor: Colors.white,
     padding: 20,
     borderRadius: 15,
     marginBottom: 20,
+    shadowColor: Colors.dark,
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
+
+    backgroundColor: Colors.white,
+    marginVertical: 20,
+    borderRadius: 10,
+    padding: 15,
+
+    overflow: "hidden",
   },
   editItemContainer: {
     flex: 1,
@@ -165,5 +180,4 @@ const styles = StyleSheet.create({
     top: 10,
     right: 10,
   },
-  avatar: {},
 });

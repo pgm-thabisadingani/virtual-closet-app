@@ -24,8 +24,6 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
   const closetUid = route.params.closetId;
   const goingTo = route.params.goingTo;
 
-  console.log(goingTo);
-
   // grant permissions
   useEffect(() => {
     (async () => {
@@ -42,21 +40,17 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync();
-      console.log(data);
 
       // setImage(data.uri);
       if (data) {
         // set a loading status here
         try {
-          console.log(data.uri);
           let uri = data.uri;
           const result = await ImageStorage({
             uri: data.uri,
             path: goingTo,
           });
-          console.log(result);
           setImage(result);
-          console.log("WE ARE GOOD TO GO");
         } catch (error) {
           console.log(error);
         }
@@ -72,7 +66,6 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
       aspect: [1, 1],
       quality: 0.5,
     });
-    console.log(result);
     if (!result.cancelled) {
       try {
         const resultImage = await ImageStorage({
@@ -92,10 +85,14 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
   if (hasCameraPermission === false || hasGalleryPermission === false) {
     return <Text>No access to camera</Text>;
   }
-  console.log(image);
   return (
     <View style={{ flex: 1 }}>
-      <AppCloseWindow onPress={() => navigation.popToTop()} paddingSize={10} />
+      <View style={{ backgroundColor: Colors.black, marginTop: 50 }}>
+        <AppCloseWindow
+          onPress={() => navigation.popToTop()}
+          paddingSize={10}
+        />
+      </View>
       {!image ? (
         <>
           <View style={styles.cameraContainer}>
@@ -106,22 +103,35 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
               ratio={"1:1"}
             />
           </View>
-
-          <AppButton
-            title="Flip Image"
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}
-          ></AppButton>
-          <AppButton title="Take Picture" onPress={() => takePicture()} />
-          <AppButton
-            title="Pick Image From Gallery"
-            onPress={() => pickImage()}
-          />
+          <View isSafe style={styles.buttonContainer}>
+            <Icon
+              name="camera-image"
+              size={50}
+              color={Colors.white}
+              style={styles.flip}
+              onPress={() => pickImage()}
+            />
+            <Icon
+              name="checkbox-blank-circle"
+              size={80}
+              color={Colors.white}
+              style={styles.flip}
+              onPress={() => takePicture()}
+            />
+            <Icon
+              name="camera-flip-outline"
+              size={50}
+              color={Colors.white}
+              style={styles.flip}
+              onPress={() => {
+                setType(
+                  type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
+              }}
+            />
+          </View>
         </>
       ) : (
         <KeyboardAwareScrollView enableOnAndroid={true}>
@@ -147,17 +157,25 @@ const styles = StyleSheet.create({
   cameraContainer: {
     flex: 1,
     flexDirection: "row",
-    padding: 1,
+    width: 580,
   },
   fixedRatio: {
     flex: 1,
     aspectRatio: 1,
   },
   containerPreview: {
-    height: 400,
+    height: 450,
   },
   image: {
     height: "100%",
     width: "100%",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    height: 150,
+    backgroundColor: Colors.darkBlack,
+
+    alignItems: "center",
   },
 });

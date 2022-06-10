@@ -70,7 +70,7 @@ export const ChallengesListFeeds = () => {
             source={item.creatorAvator}
             creator={item.creatorUserName}
             onPress={() =>
-              navigation.navigate("ChallengeDetails", item.id, item.eventTitle)
+              navigation.navigate("Challenge Details", item.id, item.eventTitle)
             }
             feeds
           />
@@ -80,7 +80,7 @@ export const ChallengesListFeeds = () => {
             source={challenges[0].creatorAvator}
             creator={challenges[0].creatorUserName}
             onPress={() =>
-              navigation.navigate("ChallengeDetails", challenges[0].id)
+              navigation.navigate("Challenge Details", challenges[0].id)
             }
             feeds
           />
@@ -95,16 +95,27 @@ export const ChallengesListFeeds = () => {
             onPress={() => randomListItem(challenges)}
             color={Colors.red}
           />
-          <AppButton
-            buttonWidth={150}
-            size={20}
-            textColor={Colors.white}
-            title="YAY"
-            onPress={() =>
-              navigation.navigate("ChallengeDetails", challenges[0].id)
-            }
-            color={Colors.green}
-          />
+          {item ? (
+            <AppButton
+              buttonWidth={150}
+              size={20}
+              textColor={Colors.white}
+              title="YAY"
+              onPress={() => navigation.navigate("Challenge Details", item.id)}
+              color={Colors.green}
+            />
+          ) : (
+            <AppButton
+              buttonWidth={150}
+              size={20}
+              textColor={Colors.white}
+              title="YAY"
+              onPress={() =>
+                navigation.navigate("Challenge Details", challenges[0].id)
+              }
+              color={Colors.green}
+            />
+          )}
         </View>
       </View>
     </View>

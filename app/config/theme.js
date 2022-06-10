@@ -13,6 +13,7 @@ export const Colors = {
   darkGray: "#ACACAC26",
   dark: "#252525",
   black: "#222222",
+  darkBlack: "#000000",
 };
 
 export const FontSizes = {
@@ -20,6 +21,6 @@ export const FontSizes = {
   labels: 15,
   title: 22,
   subTitle: 20,
-  body: 18,
+  body: 17,
   smallText: 15,
 };

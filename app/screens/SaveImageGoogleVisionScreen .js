@@ -32,7 +32,6 @@ export const SaveImageGoogleVisionScreen = ({ navigation }) => {
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync();
-      console.log(data);
       setImage(data.uri);
 
       //convert image to base64 in expo to be read by the google cloud vision Api
@@ -44,9 +43,7 @@ export const SaveImageGoogleVisionScreen = ({ navigation }) => {
         setStatus("Loading...");
         try {
           const result = await callGoogleVisionAsync(base64);
-          console.log(result);
           setStatus(result);
-          console.log("WE ARE GOOD TO GO");
         } catch (error) {
           setStatus(`Error: ${error.message}`);
         }
@@ -67,17 +64,12 @@ export const SaveImageGoogleVisionScreen = ({ navigation }) => {
       base64: true,
     });
 
-    console.log(result);
-
     if (!result.cancelled) {
       setImage(result.uri);
-      console.log("I AM HERE NOW");
       setStatus("Loading...");
       try {
         const resultImage = await callGoogleVisionAsync(result.base64);
-        console.log("LOOK WHO'S BACK FROM GOOGLE VISION");
         setStatus(resultImage);
-        console.log("YES, WE ARE GOOD TO GO");
       } catch (e) {
         console.log(e);
       }
@@ -90,10 +82,14 @@ export const SaveImageGoogleVisionScreen = ({ navigation }) => {
   if (hasCameraPermission === false || hasGalleryPermission === false) {
     return <Text>No access to camera</Text>;
   }
-  console.log(image);
   return (
     <View style={{ flex: 1 }}>
-      <AppCloseWindow onPress={() => navigation.popToTop()} paddingSize={10} />
+      <View style={{ backgroundColor: Colors.black, marginTop: 50 }}>
+        <AppCloseWindow
+          onPress={() => navigation.popToTop()}
+          paddingSize={10}
+        />
+      </View>
       {!image ? (
         <>
           <View style={styles.cameraContainer}>
@@ -104,25 +100,44 @@ export const SaveImageGoogleVisionScreen = ({ navigation }) => {
               ratio={"1:1"}
             />
           </View>
-          <Button
-            title="Flip Image"
-            onPress={() => {
-              setType(
-                type === Camera.Constants.Type.back
-                  ? Camera.Constants.Type.front
-                  : Camera.Constants.Type.back
-              );
-            }}
-          ></Button>
-          <Button title="Take Picture" onPress={() => takePicture()} />
-          <Button title="Pick Image From Gallery" onPress={() => pickImage()} />
+          <View isSafe style={styles.buttonContainer}>
+            <Icon
+              name="camera-image"
+              size={50}
+              color={Colors.white}
+              style={styles.flip}
+              onPress={() => pickImage()}
+            />
+            <Icon
+              name="checkbox-blank-circle"
+              size={80}
+              color={Colors.white}
+              style={styles.flip}
+              onPress={() => takePicture()}
+            />
+            <Icon
+              name="camera-flip-outline"
+              size={50}
+              color={Colors.white}
+              style={styles.flip}
+              onPress={() => {
+                setType(
+                  type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back
+                );
+              }}
+            />
+          </View>
         </>
       ) : (
         <View style={styles.imageArea}>
-          {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
-          {status && (
-            <Text style={{ fontSize: FontSizes.mainTitle }}>{status} </Text>
-          )}
+          <View style={styles.imageContainer}>
+            {image && <Image source={{ uri: image }} style={{ flex: 1 }} />}
+          </View>
+          <View isSafe style={styles.textContainer}>
+            {status && <Text style={styles.mainTitle}>{status}</Text>}
+          </View>
         </View>
       )}
     </View>
@@ -133,7 +148,7 @@ const styles = StyleSheet.create({
   cameraContainer: {
     flex: 1,
     flexDirection: "row",
-    padding: 1,
+    width: 660,
   },
   fixedRatio: {
     flex: 1,
@@ -141,5 +156,25 @@ const styles = StyleSheet.create({
   },
   imageArea: {
     flex: 1,
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    height: 150,
+    backgroundColor: Colors.darkBlack,
+
+    alignItems: "center",
+  },
+  imageContainer: {
+    height: 520,
+  },
+  textContainer: {
+    padding: 20,
+    alignItems: "center",
+    backgroundColor: Colors.dark,
+  },
+  mainTitle: {
+    color: Colors.white,
+    fontSize: FontSizes.mainTitle,
   },
 });

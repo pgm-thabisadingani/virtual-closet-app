@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, FlatList, View, ScrollView } from "react-native";
+import { StyleSheet, Text, FlatList, View } from "react-native";
 import "react-native-get-random-values";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
-import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 import { auth, Colors, database, db } from "../../config";
 
@@ -67,11 +66,7 @@ export const ClothingListItems = () => {
           data={items}
           keyExtractor={(item) => item.id} // returns a number which you have to conver to string
           numColumns={2}
-          renderItem={({ item }) => (
-            <View style={styles.itemContainer}>
-              <ClothingItem items={item} />
-            </View>
-          )}
+          renderItem={({ item }) => <ClothingItem items={item} />}
         />
       </>
     </View>
@@ -79,11 +74,12 @@ export const ClothingListItems = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {},
+  container: {
+    marginTop: -30,
+    marginHorizontal: -10,
+  },
   itemContainer: {
-    flex: 1,
-
-    justifyContent: "center",
+    justifyContent: "space-between",
   },
   containerEmpty: {
     flex: 1,

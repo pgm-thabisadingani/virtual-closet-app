@@ -68,7 +68,6 @@ export const EditProfileScreen = ({ photoURL }) => {
 
   return (
     <View isSafe style={styles.container}>
-      <AppCloseWindow onPress={() => navigation.popToTop()} paddingSize={20} />
       <Formik
         initialValues={{
           username: "" || user.username,
