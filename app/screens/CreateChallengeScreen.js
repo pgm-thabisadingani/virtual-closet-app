@@ -5,7 +5,6 @@ import {
   collection,
   query,
   addDoc,
-  getDocs,
   where,
   onSnapshot,
   serverTimestamp,

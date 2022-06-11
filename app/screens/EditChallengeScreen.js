@@ -5,16 +5,17 @@ import { useNavigation } from "@react-navigation/native";
 import {
   collection,
   query,
-  addDoc,
-  getDocs,
   where,
   onSnapshot,
   serverTimestamp,
+  updateDoc,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 
-import { Formik, useFormikContext } from "formik";
+import { Formik } from "formik";
 import { auth, Colors, db } from "../config";
-import { challengeSchema } from "../utils";
+import { challengeUpdateSchema } from "../utils";
 
 import {
   AppButton,
@@ -28,27 +29,23 @@ import {
   View,
 } from "../components";
 
-export const EditChallengeScreen = () => {
-  const [closet, setCloset] = useState("");
+export const EditChallengeScreen = ({ route }) => {
+  const [challenge, setChallenge] = useState([]);
+  const [user, setUser] = useState([]);
   const userUid = auth.currentUser.uid;
-  const userName = auth.currentUser.displayName;
-  const userAvatar = auth.currentUser.photoURL;
+  const challengeUid = route.params;
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const navigation = useNavigation();
 
-  /*getting closet where the the closet*/
-  const getClosetAsync = async () => {
+  /*getting user where === userUid*/
+  const getUserAsync = async () => {
     setIsLoading(true);
     try {
-      const q = query(
-        collection(db, "closets"),
-        where("closetOwerUid", "==", userUid)
-      );
-
+      const q = query(collection(db, "users"), where("uid", "==", userUid));
       onSnapshot(q, (snapshot) => {
         snapshot.forEach((doc) => {
-          setCloset({ ...doc.data(), id: doc.id });
+          setUser({ ...doc.data(), id: doc.id });
         });
         setIsLoading(false);
       });
@@ -57,49 +54,81 @@ export const EditChallengeScreen = () => {
     }
   };
 
+  /*Keep track with changes in data add or delete. Clean up!*/
   useEffect(() => {
-    const unsubscribe = getClosetAsync();
+    const unsubscribe = getUserAsync();
     return () => unsubscribe;
   }, []);
 
-  /*creating a challenge */
-  const handleEditChallenge = async (values) => {
-    let newDate = values.eventDate.toLocaleDateString();
-    let endDate = Date.parse(newDate);
-    // let endlocation = await values.eventLocation.replace(" ", "%20");
+  /*getting challenges by doc id */
+  const getChallengeAsync = async () => {
     setIsLoading(true);
-    await addDoc(collection(db, "challenges"), {
-      closetUid: closet.id,
-      creatorUid: userUid,
-      creatorUserName: userName,
-      creatorAvator: userAvatar,
+    const q = await getDoc(doc(db, "challenges", challengeUid));
+    if (q.exists()) {
+      setChallenge(q.data());
+      setIsLoading(false);
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+      setIsError(true);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = getChallengeAsync();
+    return () => unsubscribe;
+  }, []);
+
+  const getEnddate = (value) => {
+    if (!value === null) {
+      let newDate = value.eventDate.toLocaleDateString();
+      let endDate = Date.parse(newDate);
+      return endDate;
+    } else {
+      let endDate = challenge.eventDate;
+      return endDate;
+    }
+  };
+
+  /* function to update profile in firestore */
+  const handleUpdate = async (values) => {
+    console.log(values);
+
+    let endDate = getEnddate(values.eventDate);
+
+    updateDoc(doc(db, "challenges", challengeUid), {
+      creatorUserName: user.username,
+      creatorAvator: user.photoURL,
       eventTitle: values.eventTitle,
       eventLocation: values.eventLocation,
       eventDate: endDate,
       discription: values.discription,
       createdAt: serverTimestamp(),
     })
-      .then(navigation.navigate("Challenges"), setIsLoading(true))
-      .catch((err) => setIsError(err.message));
+      .then(
+        console.log("Challenge is updated"),
+        navigation.navigate("Challenge Details", challengeUid)
+      )
+      .catch((err) => console.error(err));
   };
 
   return isError ? (
     <Error>{isError}</Error>
-  ) : isLoading || !closet ? (
+  ) : isLoading || !challenge ? (
     <LoadingIndicator />
   ) : (
     <View isSafe style={styles.container} listMode="SCROLLVIEW">
       {/* Formik Wrapper */}
       <Formik
         initialValues={{
-          eventTitle: "",
-          discription: "",
+          eventTitle: "" || challenge.eventTitle,
+          discription: "" || challenge.discription,
           eventDate: null,
-          eventLocation: null,
+          eventLocation: null || challenge.eventLocation,
         }}
-        validationSchema={challengeSchema}
+        validationSchema={challengeUpdateSchema}
         onSubmit={(values, { resetForm }) => {
-          handleEditChallenge(values);
+          handleUpdate(values);
           resetForm({ values: " " });
         }}
       >

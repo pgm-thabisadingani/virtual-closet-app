@@ -65,7 +65,7 @@ export const ChallengesListItem = ({
             onPress={onPress}
             style={[
               styles.container,
-              { height: 100, padding: 10, margin: 10, marginBottom: 2 },
+              { height: 110, padding: 10, marginBottom: 2 },
             ]}
           >
             <View style={styles.swipeableTextWrapper}>

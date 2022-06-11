@@ -18,14 +18,7 @@ import { Formik } from "formik";
 import { auth, Colors, db } from "../config";
 import { userUpdateSchema } from "../utils";
 
-import {
-  AppButton,
-  TextInput,
-  View,
-  AppCloseWindow,
-  Avatar,
-  Icon,
-} from "../components";
+import { AppButton, TextInput, View, Avatar, Icon } from "../components";
 
 export const EditProfileScreen = ({ photoURL }) => {
   const userUid = auth.currentUser.uid;

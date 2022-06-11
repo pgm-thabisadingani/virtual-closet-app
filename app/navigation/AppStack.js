@@ -8,6 +8,7 @@ import {
   SaveItemImageScreen,
   EditProfileScreen,
   SaveImageGoogleVisionScreen,
+  EditChallengeScreen,
 } from "../screens";
 
 import { HomeTabs } from "./HomeTabs";
@@ -37,6 +38,18 @@ export const AppStack = () => {
           headerStyle: { backgroundColor: Colors.light },
           headerTitleAlign: "center",
           title: "Challenge detail",
+        }}
+      />
+      <Stack.Screen
+        name="Edit Challenge"
+        component={EditChallengeScreen}
+        options={{
+          headerShown: true,
+          cardStyleInterpolator: forFade,
+          headerTintColor: Colors.dark,
+          headerStyle: { backgroundColor: Colors.light },
+          headerTitleAlign: "center",
+          title: "Edit Challenge",
         }}
       />
       <Stack.Screen

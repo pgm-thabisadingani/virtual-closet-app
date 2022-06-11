@@ -17,20 +17,21 @@ import { EmptyView } from "../EmptyView";
 //     console.log(doc.id, ' => ', doc.data());
 // });
 
-export const ClothingListItems = () => {
+export const ClothingListItems = ({ category }) => {
   const [items, setItems] = useState([]);
   const userUid = auth.currentUser.uid;
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
   //getting items where closetceator Uid == userUid
-  const getClosetAsync = async () => {
+  const getClosetAsync = async (category) => {
     setIsLoading(true);
     try {
       const q = query(
         collection(db, "clothing"),
         where("closetOwerUid", "==", userUid)
       );
+
       onSnapshot(q, (snapshot) => {
         let results = [];
         snapshot.forEach((doc) => {
@@ -49,8 +50,6 @@ export const ClothingListItems = () => {
     const unsubscribe = getClosetAsync();
     return () => unsubscribe;
   }, []);
-
-  console.log(items);
 
   return isLoading ? (
     <LoadingIndicator />

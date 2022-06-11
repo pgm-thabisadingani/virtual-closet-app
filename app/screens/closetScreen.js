@@ -6,6 +6,9 @@ import {
   ImageBackground,
   Modal,
   View as RNView,
+  TouchableOpacity,
+  ScrollView,
+  Dimensions,
 } from "react-native";
 
 import {
@@ -31,11 +34,36 @@ import { ClothingListItems } from "../components/closet";
 export const ClosetScreen = ({ navigation }) => {
   const [closet, setCloset] = useState("");
   const [category, setCategory] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState(" ");
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
-  const [show, setShow] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const userUid = auth.currentUser.uid;
+
+  // get all the Categories from database
+  const setChallengesAsync = async () => {
+    setIsLoading(true);
+    try {
+      const q = query(collection(db, "categories"));
+      onSnapshot(q, (snapshot) => {
+        setCategory(
+          snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+        );
+        setIsLoading(false);
+      });
+    } catch (error) {
+      setIsError(error.message);
+    }
+  };
+
+  useEffect(() => {
+    const unsubscribe = setChallengesAsync();
+    return () => unsubscribe;
+  }, []);
+
+  console.log(categoryFilter);
+
+  let screenWidth = Dimensions.get("window").width;
 
   /*getting closet where the the closet*/
   const getClosetAsync = async () => {
@@ -71,24 +99,47 @@ export const ClosetScreen = ({ navigation }) => {
   ) : (
     <View style={styles.container}>
       <View style={styles.categories}>
-        {closet.closetOwerUid === userUid && (
-          <View
-            style={{ alignItems: "center", justifyContent: "space-between" }}
-          >
-            <Icon
-              name="plus-circle"
-              size={80}
-              onPress={() => setModalVisible(true)}
-              color={Colors.midLight}
+        <ScrollView
+          style={styles.categoryWrapper}
+          horizontal={true}
+          pagingEnabled={true}
+          showsHorizontalScrollIndicator={false}
+        >
+          <View style={[styles.wrapperSt, { width: screenWidth }]}>
+            <View style={styles.filter}>
+              <TouchableOpacity onPress={() => setCategoryFilter(" ")}>
+                <Text style={styles.categoryTitle}>All</Text>
+              </TouchableOpacity>
+            </View>
+            <FlatList
+              data={category}
+              keyExtractor={(item) => item.id} // returns a number which you have to conver to string
+              numColumns={5}
+              renderItem={({ item }) => (
+                <View style={styles.filter}>
+                  <TouchableOpacity
+                    onPress={() => setCategoryFilter(item.title)}
+                  >
+                    <Text style={styles.categoryTitle}>{item.title}</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
             />
-            <Text style={{ color: Colors.lightGray }}>Add Item</Text>
           </View>
-        )}
-        <CategoryListItem userUid={userUid} />
+        </ScrollView>
+      </View>
+      <View style={styles.createIconWrapper}>
+        <Icon
+          name="plus-circle"
+          size={100}
+          onPress={() => setModalVisible(true)}
+          color={Colors.purple}
+          style={styles.createIcon}
+        />
       </View>
 
       <View isSafe style={styles.clothigList}>
-        <ClothingListItems />
+        <ClothingListItems category={categoryFilter} />
       </View>
 
       <Modal visible={modalVisible} animationType="slide">
@@ -178,6 +229,13 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
     borderRadius: 15,
   },
+  createIconWrapper: {
+    alignItems: "center",
+    position: "absolute",
+    bottom: 20,
+    right: 0,
+    zIndex: 100,
+  },
   options: {
     flexDirection: "row",
     flex: 1,
@@ -189,7 +247,28 @@ const styles = StyleSheet.create({
     alignItems: "center",
     fontSize: 18,
   },
-  categories: {
+  categories: {},
+  categoryWrapper: {
+    marginVertical: 10,
+  },
+  wrapperSt: {
     flexDirection: "row",
+  },
+  filter: {
+    backgroundColor: Colors.purple,
+
+    paddingHorizontal: 20,
+    paddingVertical: 5,
+    marginHorizontal: 5,
+    borderRadius: 15,
+    overflow: "hidden",
+    alignItems: "center",
+  },
+  categoryTitle: {
+    textTransform: "capitalize",
+    backgroundColor: Colors.purple,
+    fontSize: FontSizes.body,
+    fontWeight: "700",
+    color: Colors.white,
   },
 });

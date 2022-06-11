@@ -1,4 +1,10 @@
-import { deleteDoc, doc, getDoc, serverTimestamp } from "firebase/firestore";
+import {
+  deleteDoc,
+  doc,
+  getDoc,
+  onSnapshot,
+  serverTimestamp,
+} from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
 import {
@@ -23,19 +29,15 @@ export const ChallengeDetailsScreen = ({ route }) => {
   const challengeUid = route.params;
   const userUid = auth.currentUser.uid;
 
-  // const date = challenge.eventDate.seconds;
-
   /*getting challenges by doc id */
   const getChallengeAsync = async () => {
     setIsLoading(true);
-    const q = await getDoc(doc(db, "challenges", challengeUid));
-    if (q.exists()) {
-      setChallenge(q.data());
-      setIsLoading(false);
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-      setIsError(true);
+    try {
+      onSnapshot(doc(db, "challenges", challengeUid), (doc) => {
+        setChallenge({ ...doc.data(), id: doc.id });
+      });
+    } catch (error) {
+      setIsError(error.message);
     }
   };
 
@@ -56,22 +58,20 @@ export const ChallengeDetailsScreen = ({ route }) => {
     }
   };
 
-  return isError ? (
-    <Error>{isError}</Error>
-  ) : isLoading || !challenge ? (
-    <LoadingIndicator />
-  ) : (
+  return (
     <View isSafe style={styles.container}>
       <View style={styles.header}>
         {challenge.creatorUid === userUid ? (
           <View style={styles.deleteOptions}>
-            {/* <Icon
+            <Icon
               name="pencil-circle"
               size={30}
               color={Colors.lightPurple}
-              onPress={() => console.log("I am update")}
+              onPress={() =>
+                navigation.navigate("Edit Challenge", challengeUid)
+              }
               style={{ marginRight: 10 }}
-            /> */}
+            />
             <Icon
               name="trash-can-outline"
               size={30}
@@ -89,7 +89,10 @@ export const ChallengeDetailsScreen = ({ route }) => {
             <Text style={styles.titleText}>{challenge.eventTitle}</Text>
             <Text style={styles.smallText}>{challenge.eventLocation}</Text>
           </View>
-          <Avatar size={80} source={challenge.creatorAvator} />
+          <View style={styles.avatarWrapper}>
+            <Avatar size={80} source={challenge.creatorAvator} />
+            <Text style={styles.creator}>{challenge.creatorUserName}</Text>
+          </View>
         </View>
 
         <ChallengeDetails
@@ -100,16 +103,13 @@ export const ChallengeDetailsScreen = ({ route }) => {
           <Text
             style={{
               marginTop: 40,
-              marginBottom: 10,
+              marginBottom: 40,
               fontSize: FontSizes.labels,
               color: Colors.mediumGray,
             }}
           >
-            Event Discription
+            {challenge.discription}
           </Text>
-          <View style={styles.discriptionWrapper}>
-            <Text style={styles.description}>{challenge.discription}</Text>
-          </View>
         </View>
       </View>
       {/* <Text>{challengeUid}</Text> */}
@@ -202,5 +202,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+  },
+  avatarWrapper: { alignItems: "center" },
+  creator: {
+    fontSize: FontSizes.body,
+    color: Colors.lightGray,
+    textTransform: "capitalize",
+    paddingTop: 5,
   },
 });

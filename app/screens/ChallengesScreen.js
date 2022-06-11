@@ -84,7 +84,7 @@ export const ChallengesScreen = ({ navigation }) => {
             name="plus-circle"
             size={100}
             onPress={() => navigation.navigate("Create")}
-            color={Colors.lightPurple}
+            color={Colors.purple}
             style={styles.createIcon}
           />
         </View>

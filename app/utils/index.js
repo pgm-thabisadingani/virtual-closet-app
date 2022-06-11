@@ -35,3 +35,6 @@ export const responseSchema = Yup.object().shape({
 export const userUpdateSchema = Yup.object().shape({
   username: Yup.string().label("Username"),
 });
+export const challengeUpdateSchema = Yup.object().shape({
+  eventTitle: Yup.string().label("Event title"),
+});
