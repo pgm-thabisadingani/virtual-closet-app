@@ -94,7 +94,7 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
   }
   console.log(image);
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, marginTop: 40 }}>
       <View style={{ backgroundColor: Colors.dark }}>
         <AppCloseWindow
           onPress={() => navigation.popToTop()}
@@ -166,7 +166,7 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: "row",
 
-    width: 500,
+    width: 580,
   },
   fixedRatio: {
     flex: 1,
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: "row",
     justifyContent: "space-around",
-    height: 150,
+    height: 180,
     backgroundColor: Colors.darkBlack,
 
     alignItems: "center",
