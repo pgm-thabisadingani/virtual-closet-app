@@ -2,8 +2,6 @@ import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   FlatList,
-  Modal,
-  Image,
   Pressable,
   ImageBackground,
   Text,
@@ -11,7 +9,6 @@ import {
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import {
   AppButton,
-  AppCloseWindow,
   Avatar,
   EmptyView,
   Error,

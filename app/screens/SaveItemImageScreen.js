@@ -164,7 +164,8 @@ const styles = StyleSheet.create({
     aspectRatio: 1,
   },
   containerPreview: {
-    height: 450,
+    height: 500,
+    backgroundColor: Colors.dark,
   },
   image: {
     height: "100%",

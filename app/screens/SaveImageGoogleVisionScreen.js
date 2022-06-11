@@ -166,12 +166,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   imageContainer: {
-    height: 520,
+    height: 620,
   },
   textContainer: {
     padding: 20,
     alignItems: "center",
     backgroundColor: Colors.dark,
+    height: 200,
   },
   mainTitle: {
     color: Colors.white,

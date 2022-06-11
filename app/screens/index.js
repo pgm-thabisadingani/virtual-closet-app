@@ -15,7 +15,7 @@ import { EditProfileScreen } from "./EditProfileScreen";
 import { EditChallengeScreen } from "./EditChallengeScreen";
 import { ForgotPasswordScreen } from "./ForgotPasswordScreen";
 import { SaveItemImageScreen } from "./SaveItemImageScreen";
-import { SaveImageGoogleVisionScreen } from "./SaveImageGoogleVisionScreen ";
+import { SaveImageGoogleVisionScreen } from "./SaveImageGoogleVisionScreen";
 
 export {
   ClosetScreen,

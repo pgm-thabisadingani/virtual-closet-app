@@ -29,12 +29,36 @@ import {
 
 export const CreateChallengeScreen = () => {
   const [closet, setCloset] = useState("");
+  const [user, setUser] = useState("");
   const userUid = auth.currentUser.uid;
-  const userName = auth.currentUser.displayName;
-  const userAvatar = auth.currentUser.photoURL;
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const navigation = useNavigation();
+
+  /*getting user where === userUid*/
+  const getUserAsync = async () => {
+    setIsLoading(true);
+    try {
+      const q = query(collection(db, "users"), where("uid", "==", userUid));
+      onSnapshot(q, (snapshot) => {
+        snapshot.forEach((doc) => {
+          setUser({ ...doc.data(), id: doc.id });
+        });
+        setIsLoading(false);
+      });
+    } catch (error) {
+      setIsError(error.message);
+    }
+  };
+
+  /*Keep track with changes in data add or delete. Clean up!*/
+  useEffect(() => {
+    const unsubscribe = getUserAsync();
+    return () => unsubscribe;
+  }, []);
+
+  const userName = user.displayName;
+  const userAvatar = user.photoURL;
 
   /*getting closet where the the closet*/
   const getClosetAsync = async () => {

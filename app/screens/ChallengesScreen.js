@@ -97,6 +97,8 @@ export const ChallengesScreen = ({ navigation }) => {
                 title={item.eventTitle}
                 source={item.creatorAvator}
                 creator={item.creatorUserName}
+                eventDate={item.eventDate}
+                eventLocation={item.eventLocation}
                 onPress={() =>
                   navigation.navigate(
                     "Challenge Details",

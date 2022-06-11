@@ -24,6 +24,7 @@ import {
   View,
   AppCloseWindow,
   Avatar,
+  Icon,
 } from "../components";
 
 export const EditProfileScreen = ({ photoURL }) => {
@@ -76,35 +77,54 @@ export const EditProfileScreen = ({ photoURL }) => {
         validationSchema={userUpdateSchema}
         onSubmit={(values) => handleUpdate(values)}
       >
-        {({
-          values,
-          touched,
-          errors,
-          handleChange,
-          handleSubmit,
-          handleBlur,
-        }) => (
+        {({ values, handleChange, handleSubmit, handleBlur }) => (
           <View style={styles.avatarWrapper}>
             {photoURL ? (
-              <Avatar
-                size={150}
-                source={photoURL}
-                onPress={() =>
-                  navigation.navigate("SaveItemImage", {
-                    goingTo: "avatar",
-                  })
-                }
-              />
+              <View>
+                <Avatar
+                  size={150}
+                  source={photoURL}
+                  onPress={() =>
+                    navigation.navigate("SaveItemImage", {
+                      goingTo: "avatar",
+                    })
+                  }
+                />
+                <Icon
+                  name="camera"
+                  size={30}
+                  color={Colors.gray}
+                  style={styles.avatarIcon}
+                  onPress={() =>
+                    navigation.navigate("SaveItemImage", {
+                      goingTo: "avatar",
+                    })
+                  }
+                />
+              </View>
             ) : (
-              <Avatar
-                size={150}
-                source={user.photoURL}
-                onPress={() =>
-                  navigation.navigate("SaveItemImage", {
-                    goingTo: "avatar",
-                  })
-                }
-              />
+              <View>
+                <Avatar
+                  size={150}
+                  source={user.photoURL}
+                  onPress={() =>
+                    navigation.navigate("SaveItemImage", {
+                      goingTo: "avatar",
+                    })
+                  }
+                />
+                <Icon
+                  name="camera"
+                  size={30}
+                  color={Colors.gray}
+                  style={styles.avatarIcon}
+                  onPress={() =>
+                    navigation.navigate("SaveItemImage", {
+                      goingTo: "avatar",
+                    })
+                  }
+                />
+              </View>
             )}
             <TextInput
               name="username"
@@ -112,6 +132,7 @@ export const EditProfileScreen = ({ photoURL }) => {
               value={values.username}
               onChangeText={handleChange("username")}
               onBlur={handleBlur("username")}
+              rightIcon="pencil-outline"
             />
             <AppButton
               size={20}
@@ -136,5 +157,9 @@ const styles = StyleSheet.create({
   avatarWrapper: {
     justifyContent: "center",
     alignItems: "center",
+  },
+  avatarIcon: {
+    position: "absolute",
+    right: 13,
   },
 });

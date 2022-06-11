@@ -1,28 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, Alert, Modal } from "react-native";
-import { auth, Colors, db, FontSizes, Images } from "../config";
+import { StyleSheet, Text, Alert } from "react-native";
+import { auth, Colors, db, FontSizes } from "../config";
 import { useNavigation } from "@react-navigation/native";
 import { deleteUser, signOut } from "firebase/auth";
 import {
   AppButton,
   Avatar,
-  Button,
   Error,
   Icon,
   LoadingIndicator,
-  TextInput,
   View,
 } from "../components";
-import {
-  collection,
-  doc,
-  onSnapshot,
-  query,
-  updateDoc,
-  where,
-} from "firebase/firestore";
-import { Formik } from "formik";
-import { userUpdateSchema } from "../utils";
+import { collection, onSnapshot, query, where } from "firebase/firestore";
 
 export const ProfileScreen = () => {
   const userUid = auth.currentUser.uid;
@@ -90,8 +79,8 @@ export const ProfileScreen = () => {
         <View style={styles.headerContainer}>
           <View style={styles.iconContainer}>
             <Icon
-              name="pencil-circle-outline"
-              size={40}
+              name="pencil-outline"
+              size={30}
               onPress={() =>
                 navigation.navigate("UpdateProfile", {
                   userUid: user.id,

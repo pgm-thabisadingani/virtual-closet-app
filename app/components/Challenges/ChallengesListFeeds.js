@@ -8,6 +8,7 @@ import { AppButton } from "../AppButton";
 import { collection, onSnapshot, query } from "firebase/firestore";
 import { LoadingIndicator } from "../LoadingIndicator";
 import { Error } from "../Error";
+import { MaterialIcons } from "@expo/vector-icons";
 
 export const ChallengesListFeeds = () => {
   const [item, setItem] = useState(0);
@@ -69,6 +70,9 @@ export const ChallengesListFeeds = () => {
             title={item.eventTitle}
             source={item.creatorAvator}
             creator={item.creatorUserName}
+            eventDate={item.eventDate}
+            eventLocation={item.eventLocation}
+            discription={item.discription}
             onPress={() =>
               navigation.navigate("Challenge Details", item.id, item.eventTitle)
             }
@@ -79,6 +83,9 @@ export const ChallengesListFeeds = () => {
             title={challenges[0].eventTitle}
             source={challenges[0].creatorAvator}
             creator={challenges[0].creatorUserName}
+            eventDate={challenges[0].eventDate}
+            eventLocation={challenges[0].eventLocation}
+            discription={challenges[0].discription}
             onPress={() =>
               navigation.navigate("Challenge Details", challenges[0].id)
             }
