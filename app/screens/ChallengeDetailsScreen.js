@@ -104,8 +104,8 @@ export const ChallengeDetailsScreen = ({ route }) => {
             style={{
               marginTop: 40,
               marginBottom: 40,
-              fontSize: FontSizes.labels,
-              color: Colors.mediumGray,
+              fontSize: FontSizes.body,
+              color: Colors.lightGray,
             }}
           >
             {challenge.discription}

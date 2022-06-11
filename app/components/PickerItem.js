@@ -2,12 +2,8 @@ import React from "react";
 import { TouchableOpacity, Text, StyleSheet } from "react-native";
 import { Colors } from "../config";
 
-export const PickerItem = ({ item, onPress, closet }) => {
-  return !closet ? (
-    <TouchableOpacity onPress={onPress}>
-      <Text style={styles.text}>{item.title}</Text>
-    </TouchableOpacity>
-  ) : (
+export const PickerItem = ({ item, onPress }) => {
+  return (
     <TouchableOpacity onPress={onPress}>
       <Text style={styles.text}>{item.title}</Text>
     </TouchableOpacity>

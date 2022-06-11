@@ -24,6 +24,8 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
   const closetUid = route.params.closetId;
   const goingTo = route.params.goingTo;
 
+  console.log(goingTo);
+
   // grant permissions
   useEffect(() => {
     (async () => {
@@ -40,17 +42,21 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync();
+      console.log(data);
 
       // setImage(data.uri);
       if (data) {
         // set a loading status here
         try {
+          console.log(data.uri);
           let uri = data.uri;
           const result = await ImageStorage({
             uri: data.uri,
             path: goingTo,
           });
+          console.log(result);
           setImage(result);
+          console.log("WE ARE GOOD TO GO");
         } catch (error) {
           console.log(error);
         }
@@ -66,6 +72,7 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
       aspect: [1, 1],
       quality: 0.5,
     });
+    console.log(result);
     if (!result.cancelled) {
       try {
         const resultImage = await ImageStorage({
@@ -85,9 +92,10 @@ export const SaveItemImageScreen = ({ navigation, route }) => {
   if (hasCameraPermission === false || hasGalleryPermission === false) {
     return <Text>No access to camera</Text>;
   }
+  console.log(image);
   return (
     <View style={{ flex: 1 }}>
-      <View style={{ backgroundColor: Colors.black, marginTop: 50 }}>
+      <View style={{ backgroundColor: Colors.dark }}>
         <AppCloseWindow
           onPress={() => navigation.popToTop()}
           paddingSize={10}
@@ -157,15 +165,15 @@ const styles = StyleSheet.create({
   cameraContainer: {
     flex: 1,
     flexDirection: "row",
-    width: 580,
+
+    width: 500,
   },
   fixedRatio: {
     flex: 1,
     aspectRatio: 1,
   },
   containerPreview: {
-    height: 500,
-    backgroundColor: Colors.dark,
+    height: 550,
   },
   image: {
     height: "100%",

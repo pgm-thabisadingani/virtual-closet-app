@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 20,
     backgroundColor: Colors.dark,
-    height: 230,
+    height: 430,
   },
 
   Icon: {

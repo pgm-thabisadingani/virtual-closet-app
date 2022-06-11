@@ -14,7 +14,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { Colors, FontSizes } from "../config";
 import { View } from "./View";
 import { PickerItem } from "./PickerItem";
-import { AppCloseWindow } from "./AppCloseWindow";
+import { Icon } from "./Icon";
 
 export const AppPicker = ({
   title,
@@ -46,10 +46,15 @@ export const AppPicker = ({
       </Pressable>
       <Modal visible={modalVisible} animationType="slide">
         <View>
-          <AppCloseWindow
-            onPress={() => setModalVisible(false)}
-            paddingSize={20}
-          />
+          <View style={{ alignItems: "flex-end", paddingVertical: 20 }}>
+            <Icon
+              name="window-close"
+              size={30}
+              style={{ marginRight: 10 }}
+              color={Colors.mediumGray}
+              onPress={() => setModalVisible(false)}
+            />
+          </View>
           <FlatList
             data={items}
             keyExtractor={(item) => item.id.toString()} // returns a number which you have to conver to string
@@ -79,7 +84,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     padding: 15,
     marginVertical: 5,
-    flex: 1,
+    borderRadius: 5,
   },
   icon: {
     marginRight: 10,
@@ -91,7 +96,7 @@ const styles = StyleSheet.create({
   },
   text: {
     flex: 1,
-    color: Colors.purple,
+    color: Colors.dark,
     fontSize: 20,
   },
 });
