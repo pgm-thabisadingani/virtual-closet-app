@@ -79,9 +79,7 @@ export const ChallengeDetailsScreen = ({ route }) => {
               onPress={asyncDeleteItem}
             />
           </View>
-        ) : (
-          <View></View>
-        )}
+        ) : null}
       </View>
       <View style={styles.card}>
         <View style={styles.cardHeader}>
@@ -155,8 +153,6 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.white,
   },
   header: {
-    marginBottom: 40,
-    marginTop: -20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
@@ -169,6 +165,8 @@ const styles = StyleSheet.create({
     paddingBottom: 6,
   },
   deleteOptions: {
+    marginBottom: 30,
+    marginTop: -20,
     flexDirection: "row",
     justifyContent: "space-between",
   },

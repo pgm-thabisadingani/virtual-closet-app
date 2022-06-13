@@ -89,6 +89,7 @@ export const EditChallengeScreen = ({ route }) => {
       return endDate;
     }
   };
+  console.log(challenge);
 
   /* function to update profile in firestore */
   const handleUpdate = async (values) => {
@@ -99,10 +100,10 @@ export const EditChallengeScreen = ({ route }) => {
     updateDoc(doc(db, "challenges", challengeUid), {
       creatorUserName: user.username,
       creatorAvator: user.photoURL,
-      eventTitle: values.eventTitle,
-      eventLocation: values.eventLocation,
-      eventDate: endDate,
-      discription: values.discription,
+      eventTitle: values.eventTitle || challenge.eventTitle,
+      eventLocation: values.eventLocation || challenge.eventLocation,
+      eventDate: endDate || challenge.eventDate,
+      discription: values.discription || challenge.discription,
       createdAt: serverTimestamp(),
     })
       .then(
@@ -112,19 +113,15 @@ export const EditChallengeScreen = ({ route }) => {
       .catch((err) => console.error(err));
   };
 
-  return isError ? (
-    <Error>{isError}</Error>
-  ) : isLoading || !challenge ? (
-    <LoadingIndicator />
-  ) : (
+  return (
     <View isSafe style={styles.container} listMode="SCROLLVIEW">
       {/* Formik Wrapper */}
       <Formik
         initialValues={{
-          eventTitle: "" || challenge.eventTitle,
-          discription: "" || challenge.discription,
+          eventTitle: "",
+          discription: "",
           eventDate: null,
-          eventLocation: null || challenge.eventLocation,
+          eventLocation: null,
         }}
         validationSchema={challengeUpdateSchema}
         onSubmit={(values, { resetForm }) => {
@@ -162,7 +159,7 @@ export const EditChallengeScreen = ({ route }) => {
               <Text>Event Title</Text>
               <TextInput
                 name="eventTitle"
-                placeholder="Funeral"
+                placeholder={challenge.eventTitle}
                 value={values.eventTitle}
                 onChangeText={handleChange("eventTitle")}
                 onBlur={handleBlur("eventTitle")}
@@ -171,12 +168,12 @@ export const EditChallengeScreen = ({ route }) => {
                 error={errors.eventTitle}
                 visible={touched.eventTitle}
               />
-              <Text style={{ marginTop: 20 }}>Event Discription</Text>
+              <Text style={{ marginTop: 20 }}>Look and event discription</Text>
               <TextAreaFormField
                 multiline
                 numberOfLines={10}
                 name="discription"
-                placeholder="Start writing ..."
+                placeholder={challenge.discription}
                 value={values.discription}
                 onChangeText={handleChange("discription")}
                 onBlur={handleBlur("discription")}

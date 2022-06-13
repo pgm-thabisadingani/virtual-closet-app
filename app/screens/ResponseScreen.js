@@ -5,6 +5,7 @@ import {
   Pressable,
   ImageBackground,
   Text,
+  ScrollView,
 } from "react-native";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import {
@@ -59,112 +60,114 @@ export const ResponseScreen = ({ navigation, route }) => {
       />
     </>
   ) : (
-    <View isSafe style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>{items && items[0].eventTitle}</Text>
-        <Text style={styles.title}>
-          ({counter + 1} / {items && items.length})
-        </Text>
-      </View>
-      {!counter ? (
-        <View style={styles.card}>
-          <FlatList
-            data={items && items[0].chothingItems}
-            keyExtractor={(item) => item.toString()} // returns a number which you have to conver to string
-            numColumns={2}
-            renderItem={({ item }) => (
-              <Pressable onPress={() => console.log("should delete")}>
-                <ImageBackground
-                  source={{ uri: item }}
-                  resizeMode="cover"
-                  style={{
-                    height: 150,
-                    width: 150,
-                    margin: 6,
-                    borderRadius: 15,
-                    overflow: "hidden",
-                  }}
-                ></ImageBackground>
-              </Pressable>
-            )}
-          />
-          <View style={styles.responder}>
-            <View style={styles.avatarWrapper}>
-              <Avatar source={items && items[0].responderAvatar} size={50} />
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={styles.responderName}>
-                  {items && items[0].responderUserName}
-                </Text>
-                <Text style={styles.respondeceDate}>Date</Text>
-                <Text style={styles.discription}>
-                  {items && items[0].discription}
-                </Text>
+    <ScrollView>
+      <View isSafe style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>{items && items[0].eventTitle}</Text>
+          <Text style={styles.title}>
+            ({counter + 1} / {items && items.length})
+          </Text>
+        </View>
+        {!counter ? (
+          <View style={styles.card}>
+            <FlatList
+              data={items && items[0].chothingItems}
+              keyExtractor={(item) => item.toString()} // returns a number which you have to conver to string
+              numColumns={2}
+              renderItem={({ item }) => (
+                <Pressable onPress={() => console.log("should delete")}>
+                  <ImageBackground
+                    source={{ uri: item }}
+                    resizeMode="cover"
+                    style={{
+                      height: 150,
+                      width: 150,
+                      margin: 6,
+                      borderRadius: 15,
+                      overflow: "hidden",
+                    }}
+                  ></ImageBackground>
+                </Pressable>
+              )}
+            />
+            <View style={styles.responder}>
+              <View style={styles.avatarWrapper}>
+                <Avatar source={items && items[0].responderAvatar} size={50} />
+                <View style={{ paddingLeft: 10 }}>
+                  <Text style={styles.responderName}>
+                    {items && items[0].responderUserName}
+                  </Text>
+                  <Text style={styles.respondeceDate}>Date</Text>
+                  <Text style={styles.discription}>
+                    {items && items[0].discription}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
-        </View>
-      ) : (
-        <View style={styles.card}>
-          <FlatList
-            data={items && items[counter].chothingItems}
-            keyExtractor={(item) => item.toString()} // returns a number which you have to conver to string
-            numColumns={2}
-            renderItem={({ item }) => (
-              <Pressable onPress={() => setModalVisible(true)}>
-                <ImageBackground
-                  source={{ uri: item }}
-                  resizeMode="cover"
-                  style={{
-                    height: 150,
-                    width: 150,
-                    margin: 6,
-                    borderRadius: 15,
-                    overflow: "hidden",
-                  }}
-                ></ImageBackground>
-              </Pressable>
-            )}
-          />
-          <View style={styles.responder}>
-            <View style={styles.avatarWrapper}>
-              <Avatar
-                source={items && items[counter].responderAvatar}
-                size={50}
-              />
-              <View style={{ paddingLeft: 10 }}>
-                <Text style={styles.responderName}>
-                  {items && items[counter].responderUserName}
-                </Text>
-                <Text style={styles.respondeceDate}>Date</Text>
-                <Text style={styles.discription}>
-                  {items && items[counter].discription}
-                </Text>
+        ) : (
+          <View isSafe style={styles.card}>
+            <FlatList
+              data={items && items[counter].chothingItems}
+              keyExtractor={(item) => item.toString()} // returns a number which you have to conver to string
+              numColumns={2}
+              renderItem={({ item }) => (
+                <Pressable onPress={() => setModalVisible(true)}>
+                  <ImageBackground
+                    source={{ uri: item }}
+                    resizeMode="cover"
+                    style={{
+                      height: 150,
+                      width: 150,
+                      margin: 6,
+                      borderRadius: 15,
+                      overflow: "hidden",
+                    }}
+                  ></ImageBackground>
+                </Pressable>
+              )}
+            />
+            <View style={styles.responder}>
+              <View style={styles.avatarWrapper}>
+                <Avatar
+                  source={items && items[counter].responderAvatar}
+                  size={50}
+                />
+                <View style={{ paddingLeft: 10 }}>
+                  <Text style={styles.responderName}>
+                    {items && items[counter].responderUserName}
+                  </Text>
+                  <Text style={styles.respondeceDate}>Date</Text>
+                  <Text style={styles.discription}>
+                    {items && items[counter].discription}
+                  </Text>
+                </View>
               </View>
             </View>
           </View>
+        )}
+        <View style={styles.buttons}>
+          <AppButton
+            buttonWidth={150}
+            size={20}
+            textColor={Colors.white}
+            title="NAH"
+            onPress={() => (counter > 0 ? setCounter(counter - 1) : " ")}
+            color={Colors.red}
+          />
+          <AppButton
+            buttonWidth={150}
+            size={20}
+            textColor={Colors.white}
+            title="YAY"
+            onPress={() =>
+              counter < items.length - 1 ? setCounter(counter + 1) : " "
+            }
+            color={Colors.green}
+          />
         </View>
-      )}
-      <View style={styles.buttons}>
-        <AppButton
-          buttonWidth={150}
-          size={20}
-          textColor={Colors.white}
-          title="NAH"
-          onPress={() => (counter > 0 ? setCounter(counter - 1) : " ")}
-          color={Colors.red}
-        />
-        <AppButton
-          buttonWidth={150}
-          size={20}
-          textColor={Colors.white}
-          title="YAY"
-          onPress={() =>
-            counter < items.length - 1 ? setCounter(counter + 1) : " "
-          }
-          color={Colors.green}
-        />
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

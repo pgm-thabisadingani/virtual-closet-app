@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { StyleSheet, Text, Image } from "react-native";
+import { StyleSheet, Text, ScrollView } from "react-native";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { useNavigation } from "@react-navigation/native";
 
@@ -82,7 +82,7 @@ export const CreateResponseScreen = ({ route }) => {
   ) : isLoading ? (
     <LoadingIndicator />
   ) : (
-    <View isSafe style={styles.container}>
+    <View style={styles.container}>
       {/* Formik Wrapper */}
       <Formik
         initialValues={{
@@ -102,7 +102,7 @@ export const CreateResponseScreen = ({ route }) => {
           handleSubmit,
           handleBlur,
         }) => (
-          <>
+          <ScrollView>
             <Text style={{ marginTop: 10 }}>Add and items</Text>
             <OutfitItems
               name="chothingItems"
@@ -126,7 +126,7 @@ export const CreateResponseScreen = ({ route }) => {
               onPress={handleSubmit}
               color={Colors.purple}
             />
-          </>
+          </ScrollView>
         )}
       </Formik>
     </View>
@@ -137,6 +137,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: Colors.white,
+    padding: 30,
   },
 
   Icon: {

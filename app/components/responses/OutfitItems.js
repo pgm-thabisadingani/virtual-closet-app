@@ -153,8 +153,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   containerCheckbox: {
-    marginTop: -20,
-    marginHorizontal: -2,
+    marginTop: -40,
+    marginHorizontal: -5,
     padding: 0,
   },
 });
