@@ -4,6 +4,7 @@ import { getStorage } from "firebase/storage";
 import { initializeFirestore } from "firebase/firestore";
 import Constants from "expo-constants";
 
+
 // add firebase config
 const firebaseConfig = {
   apiKey: Constants.manifest.extra.apiKey,

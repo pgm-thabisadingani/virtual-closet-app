@@ -7,7 +7,7 @@ export default {
     slug: "Virtual-closet",
     privacy: "public",
     platforms: ["ios", "android"],
-    version: "0.15.0",
+    version: "1.0.0",
     orientation: "portrait",
     icon: "./app/assets/Logo.png",
     userInterfaceStyle: "automatic",
@@ -22,6 +22,12 @@ export default {
     assetBundlePatterns: ["**/*"],
     ios: {
       supportsTablet: true,
+    },
+    android: {
+      adaptiveIcon: {
+        foregroundImage: "./app/assets/icon.png",
+        backgroundColor: "#333333",
+      },
     },
 
     extra: {

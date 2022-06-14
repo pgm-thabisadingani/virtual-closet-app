@@ -35,6 +35,7 @@ export const ChallengeDetailsScreen = ({ route }) => {
     try {
       onSnapshot(doc(db, "challenges", challengeUid), (doc) => {
         setChallenge({ ...doc.data(), id: doc.id });
+        setIsLoading(false);
       });
     } catch (error) {
       setIsError(error.message);
@@ -58,7 +59,13 @@ export const ChallengeDetailsScreen = ({ route }) => {
     }
   };
 
-  return (
+  return isLoading ? (
+    <LoadingIndicator />
+  ) : isError || !challenge ? (
+    <>
+      <Error />
+    </>
+  ) : (
     <View isSafe style={styles.container}>
       <View style={styles.header}>
         {challenge.creatorUid === userUid ? (

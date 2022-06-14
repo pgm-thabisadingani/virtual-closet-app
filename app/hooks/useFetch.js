@@ -5,7 +5,7 @@ const API_KEY = Constants.manifest.extra.apiKeyOpenWeather;
 
 // Constants.manifest.extra.apiKeyOpenWeather;
 
-export const useFetch = ({ city = "Ghent" }) => {
+export const useFetch = ({ city }) => {
   const [dataUri, setDataUri] = useState([]);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -17,6 +17,7 @@ export const useFetch = ({ city = "Ghent" }) => {
       .then((response) => response.json())
       .then((json) => {
         setDataUri(json);
+        console.log(json);
       })
       .catch((error) => {
         setError(error);

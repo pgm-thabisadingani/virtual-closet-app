@@ -28,7 +28,7 @@ export const SaveImageGoogleVisionScreen = ({ navigation }) => {
     })();
   }, []);
 
-  // take a pic please work
+  // take a pic
   const takePicture = async () => {
     if (camera) {
       const data = await camera.takePictureAsync();
