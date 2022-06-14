@@ -1,6 +1,7 @@
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import React, { useState, useEffect } from "react";
 import { StyleSheet, Text, TouchableHighlight } from "react-native";
+
 import {
   AppButton,
   Avatar,

@@ -32,6 +32,7 @@ export default {
       messagingSenderId: process.env.MESSAGING_SENDER_ID,
       appId: process.env.APP_ID,
       apiKeyGoogleVision: process.env.API_KEY_GOOGLE_VISION,
+      apiKeyOpenWeather: process.env.API_KEY_OPEN_WEATHER,
     },
   },
 };

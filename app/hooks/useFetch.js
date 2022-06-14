@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
+import Constants from "expo-constants";
 
-const API_KEY = "c11311e70f8d694d127988d90ea01fe0";
+const API_KEY = Constants.manifest.extra.apiKeyOpenWeather;
+
+// Constants.manifest.extra.apiKeyOpenWeather;
 
 export const useFetch = ({ city = "Ghent" }) => {
   const [dataUri, setDataUri] = useState([]);

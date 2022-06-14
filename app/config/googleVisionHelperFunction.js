@@ -1,7 +1,6 @@
 import Constants from "expo-constants";
-//const API_KEY = Constants.manifest.extra.apiKeyGoogleVision;
-const API_KEY = "AIzaSyBfDVZqQznKVm8cHWCGleVgArkkt-_JU4o"; //put your key here.
 
+const API_KEY = Constants.manifest.extra.apiKeyGoogleVision; //put your key here.
 //this endpoint will tell Google to use the Vision API. Also, we are passing in our key.
 
 const API_URL = `https://vision.googleapis.com/v1/images:annotate?key=${API_KEY}`;

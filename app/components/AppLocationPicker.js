@@ -5,7 +5,6 @@ import { useFormikContext } from "formik";
 import { FormErrorMessage } from "./FormErrorMessage";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { Colors } from "../config";
-const GOOGLE_PLACES_API_KEY = "AIzaSyBfDVZqQznKVm8cHWCGleVgArkkt - _JU4o";
 
 export const AppLocationPicker = ({ name }) => {
   const { errors, setFieldValue, touched } = useFormikContext();
@@ -19,7 +18,7 @@ export const AppLocationPicker = ({ name }) => {
           setFieldValue(name, data.structured_formatting.main_text);
         }}
         query={{
-          key: GOOGLE_PLACES_API_KEY,
+          key: Constants.manifest.extra.apiKeyGoogleVision,
           language: "en",
         }}
       />

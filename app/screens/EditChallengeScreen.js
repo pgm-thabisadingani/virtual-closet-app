@@ -113,7 +113,13 @@ export const EditChallengeScreen = ({ route }) => {
       .catch((err) => console.error(err));
   };
 
-  return (
+  return isLoading ? (
+    <LoadingIndicator />
+  ) : isError ? (
+    <>
+      <Error />
+    </>
+  ) : (
     <View isSafe style={styles.container} listMode="SCROLLVIEW">
       {/* Formik Wrapper */}
       <Formik
