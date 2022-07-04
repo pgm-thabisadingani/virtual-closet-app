@@ -1,4 +1,4 @@
-<img src="./app/assets/Logo.png" alt="Logo" style="width: 400px"/>
+<img src="./app/assets/Logo.png" alt="Logo" style="width: 200px"/>
 
 # Closet - The Ultimate Outfit Assistant App
 
