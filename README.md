@@ -73,14 +73,14 @@ APP_ID="XXXX"
 Open Weather
 
 ```bash
-# Replace XXXX's with your own Open Weather key keys
+# Replace XXXX's with your own Open Weather key.
 API_KEY_OPEN_WEATHER="XXXXX"
 ```
 
 Google vision
 
 ```bash
-# Replace XXXX's with your own google vision keys
+# Replace XXXX's with your own google vision key.
 API_KEY_OPEN_WEATHER="XXXXX"
 
 ```
