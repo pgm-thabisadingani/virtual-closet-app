@@ -8,7 +8,7 @@ Closet relieves the stress of deciding what to wear to any occasion
 
 - [Thabisa Dingani](https://www.github.com/pgm-thabisadingani)
 
-## Screenshots
+## Poster
 
 <div style="display: flex">
     <img src="./app/assets/poster.png" alt="Poster screenshot" style="width: 400px"/>
